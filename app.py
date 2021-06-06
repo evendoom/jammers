@@ -17,5 +17,4 @@ if __name__ == '__main__':
 
 @app.route('/')
 def main():
-    user = mongo.db.users.find_one({'username': 'test_user'})
-    return user['about']
+    return render_template('base.html')
