@@ -5,6 +5,7 @@ body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
+    color: #ffffff;
 }
 
 /* Navigation */
@@ -24,12 +25,17 @@ nav .fa-music {
     margin-top: 25px;
 }
 
+nav ul a {
+    text-transform: uppercase;
+}
+
 nav ul a:hover {
     background-color: #47126F;
 }
 
 .dropdown-content li > a {
     color: black;
+    text-transform: uppercase;
 }
 
 /* MAIN BODY */
@@ -54,10 +60,74 @@ footer a:hover {
     transition: 0.3s ease;
 }
 
+.page-footer {
+    padding-top: 0;
+}
+
+/* INTRO PAGE */
+
+.intro-headers > h1 {
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.intro-headers > h2 {
+    font-weight: 100;
+    font-size: 1.7rem;
+    line-height: 1.2;
+}
+
+.intro-headers > h1, .intro-headers > h2 {
+    letter-spacing: 2px;
+}
+
+.intro-form {
+    margin-top: 12%;
+}
+
+.intro-form .input-field > label {
+    color: #ffffff;
+}
+
+.intro-form .input-field .prefix.active {
+    color: #7E7E7E;
+}
+
+.intro-form input[type="text"]:not(.browser-default):focus:not([readonly]) {
+    border-bottom: 1px solid #7E7E7E;
+    box-shadow: 0 1px 0 0 #7E7E7E;
+}
+
+.intro-form input[type="text"]:not(.browser-default):focus:not([readonly]) + label {
+    color: #7E7E7E;
+}
+
+.intro-form input[type="text"] {
+    color: #ffffff;
+    border-bottom: 1px solid #ffffff;
+}
+
+.intro-form input.valid[type="text"]:not(.browser-default) {
+    border-bottom: 1px solid #ffffff;
+    box-shadow: 0 1px 0 0 #ffffff;
+}
+
+.intro-form button {
+    background-color: black;
+}
+
+.intro-form .btn-large:hover {
+    background-color: #47126F;
+}
+
 /* MEDIA QUERIES */
 @media screen and (min-width: 768px) {
     nav .fa-music {
         margin-top: 8px;
+    }
+
+    .intro-headers > h2 {
+        font-size: 2rem;
     }
 }
 

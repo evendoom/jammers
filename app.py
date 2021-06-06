@@ -17,4 +17,4 @@ if __name__ == '__main__':
 
 @app.route('/')
 def main():
-    return render_template('base.html')
+    return render_template('intro.html')
