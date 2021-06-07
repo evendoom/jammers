@@ -20,7 +20,7 @@
     <header>
 
         <ul id="dropdown1" class="dropdown-content">
-            <li><a href="#!">Login</a></li>
+            <li><a href="{{ url_for('login') }}">Login</a></li>
             <li><a href="{{ url_for('register') }}">Register</a></li>
         </ul>
 
@@ -30,7 +30,7 @@
 
                 <!-- Laptop / Desktop Navigation -->
                 <ul class="right hide-on-med-and-down">
-                    <li><a href="#" class="desktop-links">Login</a></li>
+                    <li><a href="{{ url_for('login') }}" class="desktop-links">Login</a></li>
                     <li><a href="{{ url_for('register') }}">Register</a></li>
                 </ul>
 

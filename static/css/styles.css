@@ -175,6 +175,46 @@ footer a:hover {
     margin-top: 0;
 }
 
+/* LOGIN FORM */
+
+.login-form .input-field > label {
+    color: #ffffff;
+}
+
+.login-form .input-field .prefix.active {
+    color: #7E7E7E;
+}
+
+.login-form input[type="text"]:not(.browser-default):focus:not([readonly]),
+.login-form input[type="password"]:not(.browser-default):focus:not([readonly]) {
+    border-bottom: 1px solid #7E7E7E;
+    box-shadow: 0 1px 0 0 #7E7E7E;
+}
+
+.login-form input[type="text"]:not(.browser-default):focus:not([readonly]) + label,
+.login-form input[type="password"]:not(.browser-default):focus:not([readonly]) + label {
+    color: #7E7E7E;
+}
+
+.login-form input[type="text"], .login-form input[type="password"] {
+    color: #ffffff;
+    border-bottom: 1px solid #ffffff;
+}
+
+.login-form input.valid[type="text"]:not(.browser-default),
+.login-form input.valid[type="password"]:not(.browser-default) {
+    border-bottom: 1px solid #ffffff;
+    box-shadow: 0 1px 0 0 #ffffff;
+}
+
+.login-form .btn {
+    background-color: black;
+}
+
+.login-form .btn:hover {
+    background-color: #47126F;
+}
+
 /* MEDIA QUERIES */
 @media screen and (min-width: 768px) {
     nav .fa-music {
