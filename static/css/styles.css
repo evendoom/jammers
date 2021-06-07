@@ -1,11 +1,24 @@
 /* GENERIC SETTINGS */
 body {
-    background-color: #22262C;
+    background-color: #0c0c0c;
     font-family: 'Noto Sans JP', sans-serif;
     display: flex;
     min-height: 100vh;
     flex-direction: column;
     color: #ffffff;
+}
+
+body::after {
+    content: "";
+    background-image: url(../images/background-main.jpg);
+    filter: grayscale(100%);
+    opacity: 0.1;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1; 
 }
 
 /* Navigation */
@@ -44,6 +57,7 @@ main {
 }
 
 /* FOOTER */
+
 footer .container {
     font-weight: 100;
     width: 90%;
