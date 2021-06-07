@@ -120,6 +120,61 @@ footer a:hover {
     background-color: #47126F;
 }
 
+/* REGISTER FORM */
+
+.register-form h5 {
+    font-weight: 300;
+    text-decoration: underline;
+}
+
+.register-form .input-field > label {
+    color: #ffffff;
+}
+
+.register-form .input-field .prefix.active {
+    color: #7E7E7E;
+}
+
+.register-form input[type="text"]:not(.browser-default):focus:not([readonly]) {
+    border-bottom: 1px solid #7E7E7E;
+    box-shadow: 0 1px 0 0 #7E7E7E;
+}
+
+.register-form input[type="text"]:not(.browser-default):focus:not([readonly]) + label {
+    color: #7E7E7E;
+}
+
+.register-form input[type="text"] {
+    color: #ffffff;
+    border-bottom: 1px solid #ffffff;
+}
+
+.register-form input.valid[type="text"]:not(.browser-default) {
+    border-bottom: 1px solid #ffffff;
+    box-shadow: 0 1px 0 0 #ffffff;
+}
+
+.form-checkbox-text {
+    color: #ffffff;
+}
+
+.register-form [type="checkbox"]:checked + span:not(.lever)::before {
+    border-right: 2px solid #47126F;
+    border-bottom: 2px solid #47126F;
+}
+
+.register-form .btn {
+    background-color: black;
+}
+
+.register-form .btn:hover {
+    background-color: #47126F;
+}
+
+.other_inst {
+    margin-top: 0;
+}
+
 /* MEDIA QUERIES */
 @media screen and (min-width: 768px) {
     nav .fa-music {
