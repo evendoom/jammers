@@ -4,7 +4,7 @@
     <h3 class="center-align">Register</h3>
 
     <div class="row register-form">
-        <form class="col s12">
+        <form class="col s12" method="POST" action="{{ url_for('register') }}" enctype="multipart/form-data">
             <!-- Personal Details -->
             <div class="row">
                 <h5 class="col s12">Personal Details</h5>
@@ -45,36 +45,36 @@
                 <h5 class="col s12">Instruments</h5>
                 <p class="col s4">
                     <label>
-                        <input name="instrument-voice" type="checkbox" />
+                        <input name="instrument" value="voice" type="checkbox" />
                         <span class="form-checkbox-text">Voice</span>
                     </label>
                 </p>
                 <p class="col s4">
                     <label>
-                        <input name="instrument-guitar" type="checkbox" />
+                        <input name="instrument" value="guitar" type="checkbox" />
                         <span class="form-checkbox-text">Guitar</span>
                     </label>
                 </p>
                 <p class="col s4">
                     <label>
-                        <input name="instrument-bass" type="checkbox" />
+                        <input name="instrument" value="bass" type="checkbox" />
                         <span class="form-checkbox-text">Bass</span>
                     </label>
                 </p>
                 <p class="col s4">
                     <label>
-                        <input name="instrument-drums" type="checkbox" />
+                        <input name="instrument" value="drums" type="checkbox" />
                         <span class="form-checkbox-text">Drums</span>
                     </label>
                 </p>
                 <p class="col s8 m4">
                     <label>
-                        <input name="instrument-keyboard" type="checkbox" />
+                        <input name="instrument" value="keyboard" type="checkbox" />
                         <span class="form-checkbox-text">Keyboard</span>
                     </label>
                 </p>
                 <div class="input-field col s12 m4 other_inst">
-                    <input id="other_instrument" name="other_instrument" placeholder="Other instrument" type="text" class="validate">
+                    <input name="other_instrument" placeholder="Other instrument" type="text" class="validate">
                 </div>
             </div>
             <!-- About -->

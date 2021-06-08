@@ -145,14 +145,24 @@ footer a:hover {
     color: #ffffff;
 }
 
-.register-form .input-field .prefix.active {
-    color: #7E7E7E;
-}
-
 .register-form input[type="text"]:not(.browser-default):focus:not([readonly]) {
     border-bottom: 1px solid #7E7E7E;
     box-shadow: 0 1px 0 0 #7E7E7E;
 }
+
+.register-form textarea.materialize-textarea {
+    color: #ffffff;
+}
+
+.register-form textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #7E7E7E;
+    box-shadow: 0 1px 0 0 #7E7E7E;
+}
+
+.register-form textarea.materialize-textarea:focus:not([readonly]) + label {
+    color: #7E7E7E;
+}
+
 
 .register-form input[type="text"]:not(.browser-default):focus:not([readonly]) + label {
     color: #7E7E7E;
