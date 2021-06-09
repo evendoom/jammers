@@ -19,12 +19,12 @@ if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
             port=os.environ.get('PORT'))
 
-
+# Intro Page
 @app.route('/')
 def main():
     return render_template('intro.html')
 
-
+# Register Page
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -35,17 +35,24 @@ def register():
         if (request.form.get('other_instrument')):
             instruments.append(request.form.get('other_instrument'))
         
+        # Check if user uploaded a picture
+        profile_pic = None
+        if 'profile_pic' in request.files:
+            profile_pic = request.files['profile_pic']
+            mongo.save_file(profile_pic.filename, profile_pic)
+        
         register = {
             'first_name': request.form.get('first_name').lower(),
             'last_name': request.form.get('last_name').lower(),
             'username': request.form.get('username'),
             'password': generate_password_hash(request.form.get('password'), method='pbkdf2:sha256', salt_length=16),
+            'profile_pic': f"{request.form.get('username')}{profile_pic.filename}",
             'instruments': instruments,
             'about': request.form.get('about_yourself')
         }
 
-        print(register)
-        
+        mongo.db.users.insert_one(register)
+
     return render_template('register.html')
 
 
