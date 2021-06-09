@@ -13,6 +13,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <!-- Local CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    
+    {% if session.user %}
+    <style>
+        header, main, footer {
+            padding-left: 300px;
+        }
+
+        @media only screen and (max-width : 992px) {
+        header, main, footer {
+            padding-left: 0;
+            }
+        }
+    </style>
+    {% endif %}
+
     <title>Jammers</title>
 </head>
 <body>
@@ -40,6 +55,24 @@
                 </ul>
             </div>
         </nav>
+
+        {% if session.user %}
+        <ul id="slide-out" class="sidenav sidenav-fixed black">
+            <li>
+                <div class="user-view">
+                    <img class="circle" src="{{ url_for('static', filename='images/test_pic.jpg') }}">
+                    <p class="white-text">John Doe</p>
+                </div>
+            </li>
+            <li>
+                <div class="divider"></div>
+            </li>
+            <li><a href="#!" class="white-text">Messages</a></li>
+            <li><a href="#!" class="white-text">Collaborators</a></li>
+            <li><a href="#!" class="white-text">Profile</a></li>
+            <li><a href="#!" class="white-text">Log Out</a></li>
+        </ul>
+        {% endif %} 
 
     </header>
 

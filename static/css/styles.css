@@ -21,7 +21,7 @@ body::after {
     z-index: -1; 
 }
 
-/* Navigation */
+/* NAVBAR */
 nav {
     height: 75px;
     line-height: 75px;
@@ -49,6 +49,28 @@ nav ul a:hover {
 .dropdown-content li > a {
     color: black;
     text-transform: uppercase;
+}
+
+/* SIDENAV */
+
+.sidenav .user-view .circle {
+    height: 120px;
+    width: 120px;
+    object-fit: cover;
+}
+
+.sidenav p {
+    font-size: 1.2rem;
+}
+
+.sidenav li a {
+    text-transform: uppercase;
+    font-weight: 300;
+    transition: 0.3s ease;
+}
+
+.sidenav li a:hover {
+    background-color: #47126F;
 }
 
 /* MAIN BODY */
@@ -255,3 +277,4 @@ footer a:hover {
         margin-left: 10px;
     }
 }
+
