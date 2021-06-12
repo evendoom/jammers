@@ -91,6 +91,13 @@ def login():
     return render_template('login.html')
 
 
+# Terminate user session
+@app.route('/logout')
+def logout():
+    session.pop('user')
+    return redirect(url_for('main'))
+
+
 # Get profile pic
 @app.route('/file/<filename>')
 def get_profile_pic(filename):

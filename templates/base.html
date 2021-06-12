@@ -34,9 +34,16 @@
 
     <header>
 
-        <ul id="dropdown1" class="dropdown-content">
-            <li><a href="{{ url_for('login') }}">Login</a></li>
-            <li><a href="{{ url_for('register') }}">Register</a></li>
+        <ul id="mobile-dropdown" class="dropdown-content">
+            {% if not session.user %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('register') }}">Register</a></li>
+            {% else %}
+                <li><a href="#">Messages</a></li>
+                <li><a href="#">Collaborators</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+            {% endif %}
         </ul>
 
         <nav class="black">
@@ -45,22 +52,26 @@
 
                 <!-- Laptop / Desktop Navigation -->
                 <ul class="right hide-on-med-and-down">
-                    <li><a href="{{ url_for('login') }}" class="desktop-links">Login</a></li>
-                    <li><a href="{{ url_for('register') }}">Register</a></li>
+                    {% if not session.user %}
+                        <li><a href="{{ url_for('login') }}" class="desktop-links">Login</a></li>
+                        <li><a href="{{ url_for('register') }}">Register</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('logout') }}" class="desktop-links">Logout</a></li>
+                    {% endif %}
                 </ul>
 
                 <!-- Mobile / Tablet Navigation -->
                 <ul class="right hide-on-large-only">
-                    <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"><i class="fas fa-music"></i></a></li>
+                    <li><a class="dropdown-trigger" href="#!" data-target="mobile-dropdown"><i class="fas fa-music"></i></a></li>
                 </ul>
             </div>
         </nav>
 
         {% if session.user %}
-        <ul id="slide-out" class="sidenav sidenav-fixed black">
+        <ul id="slide-out" class="sidenav sidenav-fixed black hide-on-large-only">
             <li>
                 <div class="user-view">
-                    <img class="circle" src="{{ url_for('get_profile_pic', filename=user.profile_pic) }}">
+                    <img class="circle" src="{{ url_for('get_profile_pic', filename=user.profile_pic) }}" alt="User profile picture">
                     <p class="white-text"> {{ user.username }} </p>
                 </div>
             </li>
@@ -70,7 +81,7 @@
             <li><a href="#!" class="white-text">Messages</a></li>
             <li><a href="#!" class="white-text">Collaborators</a></li>
             <li><a href="#!" class="white-text">Profile</a></li>
-            <li><a href="#!" class="white-text">Log Out</a></li>
+            <li><a href="{{ url_for('logout') }}" class="white-text">Log Out</a></li>
         </ul>
         {% endif %} 
 
