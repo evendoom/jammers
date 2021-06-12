@@ -1,7 +1,7 @@
 import os
 from flask import (
     Flask, render_template, request, redirect,
-    url_for, session)
+    url_for, session, flash)
 from flask_pymongo import PyMongo
 from werkzeug.security import (
     generate_password_hash,
@@ -42,14 +42,15 @@ def register():
         profile_pic = None
         if 'profile_pic' in request.files:
             profile_pic = request.files['profile_pic']
-            mongo.save_file(profile_pic.filename, profile_pic)
+            profile_pic_name = f"{request.form.get('username')}{profile_pic.filename}"
+            mongo.save_file(profile_pic_name, profile_pic)
         
         register = {
             'first_name': request.form.get('first_name'),
             'last_name': request.form.get('last_name'),
             'username': request.form.get('username'),
             'password': generate_password_hash(request.form.get('password'), method='pbkdf2:sha256', salt_length=16),
-            'profile_pic': f"{request.form.get('username')}{profile_pic.filename}",
+            'profile_pic': profile_pic_name,
             'instruments': instruments,
             'about': request.form.get('about_yourself')
         }
@@ -72,10 +73,16 @@ def login():
                 user_exists['password'], request.form.get('password')):
                 # Create session user 
                 session['user'] = request.form.get('username')
-                return redirect(url_for('main', session_user=session['user'], user=user_exists))
+                return render_template('intro.html', user=user_exists)
             else:
                 print('Wrong password')
         else:
             print('username does not exist')
             
     return render_template('login.html')
+
+
+# Get profile pic
+@app.route('/file/<filename>')
+def get_profile_pic(filename):
+    return mongo.send_file(filename)

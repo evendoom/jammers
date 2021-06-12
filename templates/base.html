@@ -60,8 +60,8 @@
         <ul id="slide-out" class="sidenav sidenav-fixed black">
             <li>
                 <div class="user-view">
-                    <img class="circle" src="{{ url_for('static', filename='images/test_pic.jpg') }}">
-                    <p class="white-text">John Doe</p>
+                    <img class="circle" src="{{ url_for('get_profile_pic', filename=user.profile_pic) }}">
+                    <p class="white-text"> {{ user.username }} </p>
                 </div>
             </li>
             <li>
