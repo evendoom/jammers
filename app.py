@@ -80,7 +80,7 @@ def login():
                 user_exists['password'], request.form.get('password')):
                 # Create session user 
                 session['user'] = request.form.get('username')
-                return render_template('intro.html', user=user_exists)
+                return redirect(url_for('user', username=session['user']))
             else:
                 flash('Invalid username / password')
                 return redirect(url_for('login'))
@@ -95,3 +95,11 @@ def login():
 @app.route('/file/<filename>')
 def get_profile_pic(filename):
     return mongo.send_file(filename)
+
+
+# User logged in main page
+@app.route('/<username>')
+def user(username):
+    user = mongo.db.users.find_one({'username': username})
+    if session['user'] == user['username']:
+        return render_template('profile_main.html', user=user)
