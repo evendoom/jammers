@@ -110,3 +110,11 @@ def user(username):
     user = mongo.db.users.find_one({'username': username})
     if session['user'] == user['username']:
         return render_template('profile_main.html', user=user)
+
+
+# Get user messages
+@app.route('/<username>/messages')
+def get_messages(username):
+    user = mongo.db.users.find_one({'username': username})
+    messages = mongo.db.messages.find({'to_user': username})
+    return render_template('messages.html', user=user, messages=messages)

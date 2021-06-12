@@ -269,6 +269,37 @@ footer a:hover {
     background-color: #47126F;
 }
 
+/* MESSAGES PAGE */
+
+.card {
+    background-color: #5a5a5a;
+}
+
+.card-message .message-image {
+    display: flex;
+    width: 13%;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.card-message .circle {
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+}
+
+.card-message .btn {
+    background-color: black;
+}
+
+.card-message .btn:hover {
+    background-color: #47126F;    
+}
+
+.card-message .view-button {
+    margin-right: 10px;
+}
+
 /* MEDIA QUERIES */
 @media screen and (min-width: 768px) {
     nav .fa-music {

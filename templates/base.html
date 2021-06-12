@@ -68,7 +68,7 @@
         </nav>
 
         {% if session.user %}
-        <ul id="slide-out" class="sidenav sidenav-fixed black hide-on-large-only">
+        <ul id="slide-out" class="sidenav sidenav-fixed black">
             <li>
                 <div class="user-view">
                     <img class="circle" src="{{ url_for('get_profile_pic', filename=user.profile_pic) }}" alt="User profile picture">
@@ -78,7 +78,7 @@
             <li>
                 <div class="divider"></div>
             </li>
-            <li><a href="#!" class="white-text">Messages</a></li>
+            <li><a href="{{ url_for('get_messages', username=session['user']) }}" class="white-text">Messages</a></li>
             <li><a href="#!" class="white-text">Collaborators</a></li>
             <li><a href="#!" class="white-text">Profile</a></li>
             <li><a href="{{ url_for('logout') }}" class="white-text">Log Out</a></li>
