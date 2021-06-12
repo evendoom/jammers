@@ -3,6 +3,7 @@ from flask import (
     Flask, render_template, request, redirect,
     url_for, session, flash)
 from flask_pymongo import PyMongo
+from bson.objectid import ObjectId
 from werkzeug.security import (
     generate_password_hash,
     check_password_hash)
@@ -118,3 +119,11 @@ def get_messages(username):
     user = mongo.db.users.find_one({'username': username})
     messages = mongo.db.messages.find({'to_user': username})
     return render_template('messages.html', user=user, messages=messages)
+
+
+# View message
+@app.route('/<username>/messages/<message_id>')
+def view_message(username, message_id):
+    user = mongo.db.users.find_one({'username': username})
+    message = mongo.db.messages.find_one({'_id': ObjectId(message_id)})
+    return render_template('view_message.html', user=user, message=message)

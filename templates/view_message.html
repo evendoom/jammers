@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <form class="col s12 reply-form">
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="fas fa-pen prefix"></i>
+                <textarea id="icon_prefix2" class="materialize-textarea"></textarea>
+                <label for="icon_prefix2">Reply</label>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="row card-message">
+        <div class="col s12">
+            <div class="card horizontal">
+                <div class="message-image">
+                    <img src="{{ url_for('get_profile_pic', filename=message.from_user_image) }}" class="circle">
+                </div>
+                <div class="card-stacked">
+                    <div class="card-content">
+                        <p>From: {{ message.from_user }}</p>
+                        <br>
+                        <p class="user-message">{{ message.message }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+{% endblock %}

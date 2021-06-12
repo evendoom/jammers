@@ -193,7 +193,6 @@ footer a:hover {
     color: #7E7E7E;
 }
 
-
 .register-form input[type="text"]:not(.browser-default):focus:not([readonly]) + label {
     color: #7E7E7E;
 }
@@ -273,6 +272,7 @@ footer a:hover {
 
 .card {
     background-color: #5a5a5a;
+    letter-spacing: 1px;
 }
 
 .card-message .message-image {
@@ -298,6 +298,30 @@ footer a:hover {
 
 .card-message .view-button {
     margin-right: 10px;
+}
+
+/* VIEW MESSAGES PAGE */
+/* Inherits some styles from Messages page  */
+
+.card-message .user-message {
+    font-weight: 100;
+}
+
+.reply-form textarea.materialize-textarea {
+    color: #ffffff;
+}
+
+.reply-form textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #7E7E7E;
+    box-shadow: 0 1px 0 0 #7E7E7E;
+}
+
+.reply-form textarea.materialize-textarea:focus:not([readonly]) + label {
+    color: #7E7E7E;
+}
+
+.reply-form .input-field .prefix.active {
+    color: #47126F;
 }
 
 /* MEDIA QUERIES */
