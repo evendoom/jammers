@@ -21,6 +21,14 @@ body::after {
     z-index: -1; 
 }
 
+.flashed-messages {
+    color: red;
+}
+
+.flashed-messages h4 {
+    font-weight: 300;
+}
+
 /* NAVBAR */
 nav {
     height: 75px;

@@ -31,10 +31,17 @@ def main():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
+        # Check if username already exists
+        username_exists = mongo.db.users.find_one({'username': request.form.get('username')})
+
+        if username_exists:
+            flash('Username already exists')
+            return redirect(url_for('register'))
+
         # Create list with instruments that have been selected 
         instruments = request.form.getlist('instrument')
 
-        # Check if other instruments are available and add them to check_inst
+        # Check if other instruments are available and add them to instruments
         if (request.form.get('other_instrument')):
             instruments.append(request.form.get('other_instrument'))
         
@@ -75,9 +82,11 @@ def login():
                 session['user'] = request.form.get('username')
                 return render_template('intro.html', user=user_exists)
             else:
-                print('Wrong password')
+                flash('Invalid username / password')
+                return redirect(url_for('login'))
         else:
-            print('username does not exist')
+            flash('Invalid username')
+            return redirect(url_for('login'))
             
     return render_template('login.html')
 
