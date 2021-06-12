@@ -17,10 +17,6 @@ app.config['MONGO_URI'] = os.environ.get('MONGO_URI')
 app.secret_key = os.environ.get('SECRET_KEY')
 mongo = PyMongo(app)
 
-if __name__ == '__main__':
-    app.run(host=os.environ.get('IP'),
-            port=os.environ.get('PORT'))
-
 
 # Intro Page
 @app.route('/')
@@ -127,3 +123,8 @@ def view_message(username, message_id):
     user = mongo.db.users.find_one({'username': username})
     message = mongo.db.messages.find_one({'_id': ObjectId(message_id)})
     return render_template('view_message.html', user=user, message=message)
+
+
+if __name__ == '__main__':
+    app.run(host=os.environ.get('IP'),
+            port=int(os.environ.get('PORT')))
