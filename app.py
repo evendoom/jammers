@@ -7,6 +7,7 @@ from bson.objectid import ObjectId
 from werkzeug.security import (
     generate_password_hash,
     check_password_hash)
+from datetime import datetime
 
 if os.path.exists('env.py'):
     import env
@@ -118,11 +119,27 @@ def get_messages(username):
 
 
 # View message
-@app.route('/<username>/messages/<message_id>')
+@app.route('/<username>/messages/<message_id>', methods=['GET', 'POST'])
 def view_message(username, message_id):
+    if request.method == 'POST':
+        # Get message date
+        now = datetime.now()
+
+        # Create dictionary to store on DB
+        submit = {
+            'date': now.strftime('%d/%m/%Y %H:%M'),
+            'user': username,
+            'message': request.form.get('send_message')
+        }
+
+        # Push to Mongo DB
+        mongo.db.messages.update({'_id': ObjectId(message_id)}, { '$push': {'message_list': submit}})
+
+        return redirect(url_for('get_messages', username=username))
+
     user = mongo.db.users.find_one({'username': username})
-    message = mongo.db.messages.find_one({'_id': ObjectId(message_id)})
-    return render_template('view_message.html', user=user, message=message)
+    messages = mongo.db.messages.find_one({'_id': ObjectId(message_id)})
+    return render_template('view_message.html', user=user, messages=messages)
 
 
 if __name__ == '__main__':

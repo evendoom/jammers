@@ -282,6 +282,10 @@ footer a:hover {
     justify-content: space-around;
 }
 
+.card-message .message-image.unread {
+    background-color: #47126F;
+}
+
 .card-message .circle {
     height: 100px;
     width: 100px;
@@ -322,6 +326,18 @@ footer a:hover {
 
 .reply-form .input-field .prefix.active {
     color: #47126F;
+}
+
+.reply-form .input-field {
+    margin-bottom: 0;
+}
+
+.reply-form .btn {
+    background-color: rgb(0, 151, 13);
+}
+
+.reply-form .btn:hover {
+    background-color: #47126F;
 }
 
 /* MEDIA QUERIES */

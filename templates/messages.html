@@ -4,12 +4,18 @@
     {% for message in messages %}
         <div class="col s12">
             <div class="card horizontal">
-                <div class="message-image">
-                    <img src="{{ url_for('get_profile_pic', filename=message.from_user_image) }}" class="circle">
-                </div>
+                {% if message.is_new %}
+                    <div class="message-image unread">
+                        <img src="{{ url_for('get_profile_pic', filename=message.from_user_image) }}" class="circle">
+                    </div>
+                {% else %}
+                    <div class="message-image">
+                        <img src="{{ url_for('get_profile_pic', filename=message.from_user_image) }}" class="circle">
+                    </div>
+                {% endif %}
                 <div class="card-stacked">
                     <div class="card-content">
-                        <p>{{ message.message }}</p>
+                        <p>{{ message.message_list[0]['message'] }}</p>
                     </div>
                     <div class="card-action right-align">
                         <a href="{{ url_for('view_message', username=session['user'], message_id=message._id) }}" class="btn view-button">Reply</a>
