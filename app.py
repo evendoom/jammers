@@ -50,17 +50,26 @@ def register():
             profile_pic_name = f"{request.form.get('username')}{profile_pic.filename}"
             mongo.save_file(profile_pic_name, profile_pic)
         
+        # Create dictionary to send to Mongo DB
         register = {
             'first_name': request.form.get('first_name'),
             'last_name': request.form.get('last_name'),
             'username': request.form.get('username'),
             'password': generate_password_hash(request.form.get('password'), method='pbkdf2:sha256', salt_length=16),
+            'city': request.form.get('city').lower(),
+            'country': request.form.get('country').lower(),
             'profile_pic': profile_pic_name,
             'instruments': instruments,
             'about': request.form.get('about_yourself')
         }
 
+        # Insert record on Mongo DB
         mongo.db.users.insert_one(register)
+
+        # Direct user to dashboard:
+        session['user'] = request.form.get('username')
+        flash(f"Welcome to Jammers {register['first_name']}!")
+        return redirect(url_for('user', username=session['user']))
 
     return render_template('register.html')
 
@@ -102,7 +111,7 @@ def get_profile_pic(filename):
     return mongo.send_file(filename)
 
 
-# User logged in main page
+# User dashboard
 @app.route('/<username>')
 def user(username):
     user = mongo.db.users.find_one({'username': username})

@@ -16,12 +16,12 @@
     
     {% if session.user %}
     <style>
-        header, main, footer {
+        header, main, footer, .flash_messages {
             padding-left: 300px;
         }
 
         @media only screen and (max-width : 992px) {
-        header, main, footer {
+        header, main, footer, .flash_messages {
             padding-left: 0;
             }
         }
@@ -95,7 +95,7 @@
 
     <!-- Flash Messages -->
 
-    <section>
+    <section class="flash_messages">
         {% with flash_messages = get_flashed_messages() %}
             {% if flash_messages %}
                 {% for message in flash_messages %}
