@@ -6,11 +6,15 @@ body {
     min-height: 100vh;
     flex-direction: column;
     color: #ffffff;
+    position: relative;
 }
 
 body::after {
     content: "";
     background-image: url(../images/background-main.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     filter: grayscale(100%);
     opacity: 0.1;
     top: 0;
