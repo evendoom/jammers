@@ -96,11 +96,11 @@
     <!-- Flash Messages -->
 
     <section class="flash_messages">
-        {% with flash_messages = get_flashed_messages() %}
+        {% with flash_messages = get_flashed_messages(with_categories=True) %}
             {% if flash_messages %}
-                {% for message in flash_messages %}
-                <div class="row center-align flashed-messages">
-                    <h4>{{ message }}</h4>
+                {% for category, message in flash_messages %}
+                <div class="row center-align">
+                    <h4 class="alert-{{ category }}">{{ message }}</h4>
                 </div>
                 {% endfor %}
             {% endif %}

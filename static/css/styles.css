@@ -25,11 +25,14 @@ body::after {
     z-index: -1; 
 }
 
-.flashed-messages {
+/* FLASH MESSAGES */
+.alert-error {
     color: red;
+    font-weight: 300;
 }
 
-.flashed-messages h4 {
+.alert-welcome {
+    color: rgb(78, 78, 245);
     font-weight: 300;
 }
 

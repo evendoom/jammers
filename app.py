@@ -33,7 +33,7 @@ def register():
         username_exists = mongo.db.users.find_one({'username': request.form.get('username')})
 
         if username_exists:
-            flash('Username already exists')
+            flash('Username already exists', 'error')
             return redirect(url_for('register'))
 
         # Create list with instruments that have been selected 
@@ -68,7 +68,7 @@ def register():
 
         # Direct user to dashboard:
         session['user'] = request.form.get('username')
-        flash(f"Welcome to Jammers {register['first_name']}!")
+        flash(f"Welcome to Jammers {register['first_name']}!", 'welcome')
         return redirect(url_for('user', username=session['user']))
 
     return render_template('register.html')
@@ -89,10 +89,10 @@ def login():
                 session['user'] = request.form.get('username')
                 return redirect(url_for('user', username=session['user']))
             else:
-                flash('Invalid username / password')
+                flash('Invalid username / password', 'error')
                 return redirect(url_for('login'))
         else:
-            flash('Invalid username')
+            flash('Invalid username / password', 'error')
             return redirect(url_for('login'))
             
     return render_template('login.html')
