@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row user_profile">
+    <div class="col m6">
+        <img src="{{ url_for('get_profile_pic', filename=user.profile_pic) }}" alt="{{ user.username }} Profile Picture" class="m6">
+    </div>
+    <div class="col m6">
+        <h5>{{ user.username }}</h5>
+        <p><strong>Name:</strong> <span class="p_contents">{{user.first_name}} {{ user.last_name }}</span></p>
+        <p><strong>City:</strong> <span class="p_contents">{{ user.city|capitalize() }}</span></p>
+        <p><strong>Country:</strong> <span class="p_contents">{{ user.country|capitalize() }}</span></p>
+        <p>
+            <strong>Instruments: </strong>
+            {% for instrument in user.instruments %}
+                {% if loop.index != loop.length %}
+                    <span class="p_contents">{{ instrument|capitalize() }}, </span>
+                {% else %}
+                    <span class="p_contents">{{ instrument|capitalize() }}</span>
+                {% endif %}
+            {% endfor %}
+        </p>
+        <p><strong>About:</strong> <span class="p_contents">{{ user.about }}</span></p>
+    </div>
+</div>
+
+{% endblock %}

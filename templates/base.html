@@ -73,6 +73,7 @@
             </div>
         </nav>
 
+        <!-- User Dashboard -->
         {% if session.user %}
         <ul id="slide-out" class="sidenav sidenav-fixed black">
             <li>
@@ -86,7 +87,7 @@
             </li>
             <li><a href="{{ url_for('get_messages', username=session['user']) }}" class="white-text">Messages</a></li>
             <li><a href="#!" class="white-text">Collaborators</a></li>
-            <li><a href="#!" class="white-text">Profile</a></li>
+            <li><a href="{{ url_for('user_profile', username=session['user']) }}" class="white-text">Profile</a></li>
             <li><a href="{{ url_for('logout') }}" class="white-text">Log Out</a></li>
         </ul>
         {% endif %} 

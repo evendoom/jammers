@@ -151,6 +151,12 @@ def view_message(username, message_id):
     return render_template('view_message.html', user=user, messages=messages)
 
 
+@app.route('/<username>/profile')
+def user_profile(username):
+    user = mongo.db.users.find_one({'username': username})
+    return render_template('view_user_profile.html', user=user)
+
+
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
             port=int(os.environ.get('PORT')))

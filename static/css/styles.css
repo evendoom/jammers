@@ -28,11 +28,13 @@ body::after {
 /* FLASH MESSAGES */
 .alert-error {
     color: red;
-    font-weight: 300;
 }
 
 .alert-welcome {
     color: rgb(78, 78, 245);
+}
+
+.alert-error, .alert-welcome {
     font-weight: 300;
 }
 
@@ -345,6 +347,26 @@ footer a:hover {
 
 .reply-form .btn:hover {
     background-color: #47126F;
+}
+
+/* USER PROFILE */
+
+.user_profile img {
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+}
+
+.user_profile h5 {
+    font-weight: 500;
+}
+
+.user_profile p {
+    letter-spacing: 1px;
+}
+
+.p_contents {
+    font-weight: 100;
 }
 
 /* MEDIA QUERIES */
