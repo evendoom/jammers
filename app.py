@@ -25,6 +25,12 @@ def main():
     return render_template('intro.html')
 
 
+@app.route('/search', methods=['GET', 'POST'])
+def intro_search():
+    search_result = mongo.db.users.find_one({'username': request.form.get('search_query')})
+    return render_template('intro_search.html', search_result=search_result)
+
+
 # Register Page
 @app.route('/register', methods=['GET', 'POST'])
 def register():
