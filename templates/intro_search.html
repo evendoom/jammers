@@ -2,27 +2,28 @@
 {% block content %}
 
 
-<div class="row">
+<div class="row search_users">
   {% for result in search_result %}
 
     <div class="col s12 m3">
+      <a href="#">
       <div class="card">
         <div class="card-image">
-          <img src="{{ result.profile_pic }}">
-          <span class="card-title">Card Title</span>
+          <img src="{{ url_for('get_profile_pic', filename=result.profile_pic) }}">
         </div>
         <div class="card-content">
-          <p>{{ result.username }}</p>
+          <h4>{{ result.username }}</h4>
+          <h5>{{ result.city|capitalize() }}</h5>
           {% for instrument in result.instruments %}
-
-            <p>{{ instrument }}</p>
-
+            {% if loop.index != loop.length %}
+              <p>{{ instrument|capitalize() }}, </p>
+            {% else %}
+              <p>{{ instrument|capitalize() }}</p>
+            {% endif %}
           {% endfor %}
         </div>
-        <div class="card-action">
-          <a href="#">VIEW</a>
-        </div>
       </div>
+      </a>
     </div>
 
   {% endfor %}

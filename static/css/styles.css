@@ -369,6 +369,34 @@ footer a:hover {
     font-weight: 100;
 }
 
+/* SEARCH USERS */
+
+.search_users .card .card-content {
+    padding: 0 0 25px 10px;
+}
+
+.search_users .card .card-image img {
+    height: 200px;
+    object-fit: cover;
+}
+
+.search_users p {
+    display: inline;
+}
+
+.search_users h5, .search_users h4, .search_users p {
+    letter-spacing: 1px;
+}
+
+.search_users h5, .search_users p {
+    font-weight: 100;
+}
+
+.search_users a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
 /* MEDIA QUERIES */
 @media screen and (min-width: 768px) {
     nav .fa-music {
