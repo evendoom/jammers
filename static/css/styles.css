@@ -351,6 +351,10 @@ footer a:hover {
 
 /* USER PROFILE */
 
+.user_profile {
+    margin-top: 30px;
+}
+
 .user_profile img {
     width: 400px;
     height: 400px;
@@ -367,6 +371,26 @@ footer a:hover {
 
 .p_contents {
     font-weight: 100;
+}
+
+.user_profile .fas {
+    margin-right: 10px;
+}
+
+.user_profile .btn {
+    background-color: black;
+}
+
+.user_profile .btn:hover {
+    background-color: #47126F;
+}
+
+.btn-message {
+    margin-right: 20px;
+}
+
+.button-container {
+    margin-top: 50px;
 }
 
 /* SEARCH USERS */

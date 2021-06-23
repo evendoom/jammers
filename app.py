@@ -31,6 +31,12 @@ def intro_search():
     return render_template('intro_search.html', search_result=search_result)
 
 
+@app.route('/search/<user_id>')
+def view_profile(user_id):
+    profile = mongo.db.users.find_one({'_id': ObjectId(user_id)})
+    return render_template('view_profile.html', profile=profile)
+
+
 # Register Page
 @app.route('/register', methods=['GET', 'POST'])
 def register():
