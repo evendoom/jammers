@@ -393,6 +393,10 @@ footer a:hover {
     margin-top: 50px;
 }
 
+.add-button {
+    margin-top: 15px;
+}
+
 /* SEARCH USERS */
 
 .search_users .card .card-content {

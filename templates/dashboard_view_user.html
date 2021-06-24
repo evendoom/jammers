@@ -4,6 +4,7 @@
 <div class="row user_profile">
     <div class="col m6">
         <img src="{{ url_for('get_profile_pic', filename=profile.profile_pic) }}" alt="{{ profile.username }} Profile Picture" class="m6">
+        <a class="btn add-button"><i class="fas fa-plus"></i>Add to Collaborators</a>
     </div>
     <div class="col m6">
         <h5>{{ profile.username }}</h5>
@@ -21,6 +22,10 @@
             {% endfor %}
         </p>
         <p><strong>About:</strong> <span class="p_contents">{{ profile.about }}</span></p>
+        <div class="button-container">
+            <a class="btn btn-message"><i class="fas fa-envelope"></i>Message</a>
+            <a class="btn"><i class="fas fa-star"></i>Feedback</a>
+        </div>
     </div>
 </div>
 

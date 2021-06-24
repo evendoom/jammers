@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row search_users">
+    {% for result in search_results %}
+  
+      <div class="col s12 m3">
+        <a href="{{ url_for('dashboard_view_user', username=user.username, profile_id=result._id) }}">
+          <div class="card">
+            <div class="card-image">
+              <img src="{{ url_for('get_profile_pic', filename=result.profile_pic) }}" alt="User Profile Picture">
+            </div>
+            <div class="card-content">
+              <h4>{{ result.username }}</h4>
+              <h5>{{ result.city|capitalize() }}</h5>
+              {% for instrument in result.instruments %}
+                {% if loop.index != loop.length %}
+                  <p>{{ instrument|capitalize() }}, </p>
+                {% else %}
+                  <p>{{ instrument|capitalize() }}</p>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </a>
+      </div>
+  
+    {% endfor %}
+
+{% endblock %}

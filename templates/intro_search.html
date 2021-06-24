@@ -3,7 +3,7 @@
 
 
 <div class="row search_users">
-  {% for result in search_result %}
+  {% for result in search_results %}
 
     <div class="col s12 m3">
       <a href="{{ url_for('view_profile', user_id=result._id) }}">

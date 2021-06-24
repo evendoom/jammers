@@ -12,6 +12,7 @@ from datetime import datetime
 if os.path.exists('env.py'):
     import env
 
+
 app = Flask(__name__)
 app.config['MONGO_DBNAME'] = os.environ.get('MONGO_DBNAME')
 app.config['MONGO_URI'] = os.environ.get('MONGO_URI')
@@ -25,12 +26,14 @@ def main():
     return render_template('intro.html')
 
 
+# Intro Page Search function
 @app.route('/search', methods=['GET', 'POST'])
 def intro_search():
-    search_result = mongo.db.users.find({'username': request.form.get('search_query')})
-    return render_template('intro_search.html', search_result=search_result)
+    search_results = mongo.db.users.find({'username': request.form.get('search_query')})
+    return render_template('intro_search.html', search_results=search_results)
 
 
+# View Profile
 @app.route('/search/<user_id>')
 def view_profile(user_id):
     profile = mongo.db.users.find_one({'_id': ObjectId(user_id)})
@@ -131,6 +134,23 @@ def user(username):
         return render_template('profile_main.html', user=user)
 
 
+# Dashboard Search
+@app.route('/<username>/search', methods=['GET', 'POST'])
+def dashboard_search(username):
+    user = mongo.db.users.find_one({'username': username})
+    search_results = mongo.db.users.find({'username': request.form.get('search_query')})
+    return render_template('dashboard_search.html', user=user, search_results=search_results)
+
+
+# Dashboard Search View Profile
+@app.route('/<username>/search/<profile_id>')
+def dashboard_view_user(username, profile_id):
+    user = mongo.db.users.find_one({'username': username})
+    profile = mongo.db.users.find_one({'_id': ObjectId(profile_id)})
+    print('triggered')
+    return render_template('dashboard_view_user.html', user=user, profile=profile)
+
+
 # Get user messages
 @app.route('/<username>/messages')
 def get_messages(username):
@@ -163,6 +183,7 @@ def view_message(username, message_id):
     return render_template('view_message.html', user=user, messages=messages)
 
 
+# View logged user's profile
 @app.route('/<username>/profile')
 def user_profile(username):
     user = mongo.db.users.find_one({'username': username})
