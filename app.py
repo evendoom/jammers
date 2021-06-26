@@ -75,7 +75,8 @@ def register():
             'country': request.form.get('country').lower(),
             'profile_pic': profile_pic_name,
             'instruments': instruments,
-            'about': request.form.get('about_yourself')
+            'about': request.form.get('about_yourself'),
+            'feedback': []
         }
 
         # Insert record on Mongo DB
