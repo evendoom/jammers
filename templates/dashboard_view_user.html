@@ -23,9 +23,22 @@
         </p>
         <p><strong>About:</strong> <span class="p_contents">{{ profile.about }}</span></p>
         <div class="button-container">
-            <a class="btn btn-message"><i class="fas fa-envelope"></i>Message</a>
+            <a class="btn btn-message modal-trigger" href="#modalMessage"><i class="fas fa-envelope"></i>Message</a>
             <a class="btn"><i class="fas fa-star"></i>Feedback</a>
         </div>
+    </div>
+
+    <!-- Modal Structure For Message Button-->
+    <div id="modalMessage" class="modal">
+        <form method="POST" action="{{ url_for('send_message', username=session['user'], profile_id=profile._id) }}">
+        <div class="modal-content">
+            <label for="sendMessage"></label>
+            <textarea name="sendMessage" id="sendMessage" class="modal-box" cols="30" rows="10" contenteditable></textarea>
+        </div>
+        <div class="modal-footer">
+            <button class="btn modal-close" type="submit">Send Message</button>
+        </div>
+        </form>
     </div>
 </div>
 

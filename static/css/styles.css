@@ -397,6 +397,15 @@ footer a:hover {
     margin-top: 15px;
 }
 
+.modal .modal-box {
+    color: black;
+    outline: none;
+    overflow: hidden;
+    border: 1px solid black;
+    resize: none;
+    min-height: 100px;
+}
+
 /* SEARCH USERS */
 
 .search_users .card .card-content {

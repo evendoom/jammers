@@ -147,8 +147,36 @@ def dashboard_search(username):
 def dashboard_view_user(username, profile_id):
     user = mongo.db.users.find_one({'username': username})
     profile = mongo.db.users.find_one({'_id': ObjectId(profile_id)})
-    print('triggered')
     return render_template('dashboard_view_user.html', user=user, profile=profile)
+
+
+# Send message to user
+@app.route('/<username>/search/<profile_id>/sendMessage', methods=['GET', 'POST'])
+def send_message(username, profile_id):
+    from_user = mongo.db.users.find_one({'username': username})
+    to_user = mongo.db.users.find_one({'_id': ObjectId(profile_id)})
+
+    # Create dictionary to store on DB
+    now = datetime.now()
+    send_message = {
+        'to_user': to_user['username'],
+        'from_user': from_user['username'],
+        'to_user_image': to_user['profile_pic'],
+        'from_user_image': from_user['profile_pic'],
+        'message_list': [{
+            'date': now.strftime('%d/%m/%Y %H:%M'),
+            'user': from_user['username'],
+            'message': request.form.get('sendMessage')
+        }],
+        'is_new': True
+    }
+
+    # Insert record on Mongo DB
+    mongo.db.messages.insert_one(send_message)
+
+    # Redirect to user profile
+    flash('Message sent!', 'welcome')
+    return render_template('dashboard_view_user.html', user=from_user, profile=to_user)
 
 
 # Get user messages
