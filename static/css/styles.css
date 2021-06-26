@@ -406,6 +406,25 @@ footer a:hover {
     min-height: 100px;
 }
 
+.feedback-card .card.horizontal {
+    height: 150px;
+}
+
+.feedback-card .card-image {
+    width: 150px;
+}
+
+.feedback-card .card.horizontal .card-image img {
+    max-width: 100%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.feedback-card p, .feedback-card h5 {
+    font-weight: 100;
+}
+
 /* SEARCH USERS */
 
 .search_users .card .card-content {

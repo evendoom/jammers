@@ -55,4 +55,25 @@
     </div>
 </div>
 
+{% if profile.feedback %}
+<div class="row feedback-card">
+    <h4 class="col s12">Feedback</h4>
+    {% for feedback in profile.feedback %}
+        <div class="col s12">
+            <h5>{{ feedback.from_user }} ({{ feedback.date }})</h5>
+            <div class="card horizontal">
+                <div class="card-image">
+                    <img src="{{ url_for('get_profile_pic', filename=feedback.from_user_img) }}">
+                </div>
+                <div class="card-stacked">
+                    <div class="card-content">
+                        <p>{{ feedback.feedback_msg }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+
 {% endblock %}
