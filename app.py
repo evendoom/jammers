@@ -83,7 +83,7 @@ def register():
 
         # Direct user to dashboard:
         session['user'] = request.form.get('username')
-        flash(f"Welcome to Jammers {register['first_name']}!", 'welcome')
+        flash(f"Welcome to Jammers {register['first_name']}!", 'info')
         return redirect(url_for('user', username=session['user']))
 
     return render_template('register.html')
@@ -175,7 +175,7 @@ def send_message(username, profile_id):
     mongo.db.messages.insert_one(send_message)
 
     # Redirect to user profile
-    flash('Message sent!', 'welcome')
+    flash('Message sent!', 'info')
     return render_template('dashboard_view_user.html', user=from_user, profile=to_user)
 
 
