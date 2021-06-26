@@ -179,6 +179,29 @@ def send_message(username, profile_id):
     return render_template('dashboard_view_user.html', user=from_user, profile=to_user)
 
 
+# Post feedback on user profile page
+@app.route('/<username>/search/<profile_id>/postFeedback', methods=['GET', 'POST'])
+def post_feedback(username, profile_id):
+    from_user = mongo.db.users.find_one({'username': username})
+    to_user = mongo.db.users.find_one({'_id': ObjectId(profile_id)})
+
+    # Create dictionary to store on Mongo DB
+    now = datetime.now()
+
+    feedback = {
+        'from_user': from_user['username'],
+        'date': now.strftime('%d/%m/%Y'),
+        'feedback_msg': request.form.get('postFeedback')
+    }
+
+    # Push dictionary to Mongo DB
+    mongo.db.users.update({'_id': ObjectId(profile_id)}, { '$push': {'feedback': feedback} })
+
+    # Redirect to user profile
+    flash('Feedback posted!', 'info')
+    return render_template('dashboard_view_user.html', user=from_user, profile=to_user)
+
+
 # Get user messages
 @app.route('/<username>/messages')
 def get_messages(username):
@@ -194,7 +217,7 @@ def view_message(username, message_id):
         # Get message date
         now = datetime.now()
 
-        # Create dictionary to store on DB
+        # Create dictionary to store on Mongo DB
         submit = {
             'date': now.strftime('%d/%m/%Y %H:%M'),
             'user': username,
