@@ -65,7 +65,7 @@ def register():
             profile_pic_name = f"{request.form.get('username')}{profile_pic.filename}"
             mongo.save_file(profile_pic_name, profile_pic)
         
-        # Create dictionary to send to Mongo DB
+        # Create dictionaries to send to Mongo DB
         register = {
             'first_name': request.form.get('first_name'),
             'last_name': request.form.get('last_name'),
@@ -79,8 +79,14 @@ def register():
             'feedback': []
         }
 
-        # Insert record on Mongo DB
+        collaborations = {
+            'user': request.form.get('username'),
+            'collaborations': []
+        }
+
+        # Insert records on Mongo DB
         mongo.db.users.insert_one(register)
+        mongo.db.collaborators.insert_one(collaborations)
 
         # Direct user to dashboard:
         session['user'] = request.form.get('username')
