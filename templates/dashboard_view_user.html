@@ -41,7 +41,7 @@
         <form method="POST" action="{{ url_for('send_message', username=session['user'], profile_id=profile._id) }}">
         <div class="modal-content">
             <label for="sendMessage"></label>
-            <textarea name="sendMessage" id="sendMessage" class="modal-box" cols="30" rows="10" contenteditable></textarea>
+            <textarea name="sendMessage" id="sendMessage" class="modal-box autoResize" cols="30" rows="10" contenteditable></textarea>
         </div>
         <div class="modal-footer">
             <button class="btn modal-close" type="submit">Send Message</button>
@@ -54,7 +54,7 @@
         <form method="POST" action="{{ url_for('post_feedback', username=session['user'], profile_id=profile._id) }}">
         <div class="modal-content">
             <label for="postFeedback"></label>
-            <textarea name="postFeedback" id="postFeedback" class="modal-box" cols="30" rows="10" contenteditable></textarea>
+            <textarea name="postFeedback" id="postFeedback" class="modal-box autoResize" cols="30" rows="10" contenteditable></textarea>
         </div>
         <div class="modal-footer">
             <button class="btn modal-close" type="submit">Post Feedback</button>
