@@ -236,6 +236,26 @@ def remove_collaborator(username, profile_id):
     return redirect(url_for('dashboard_view_user', username=username, profile_id=profile_id))
 
 
+# View collaborations
+@app.route('/<username>/collaborators')
+def view_collaborators(username):
+    user = mongo.db.users.find_one({'username': username})
+
+    # Get all members from user's collaborators collection
+    collabs_db = mongo.db.collaborators.find_one({'user': username})['collaborations']
+
+    # Create an empty list that will store all members' details
+    collabs = []
+
+    # Iterate through all members in collaborators collection and add their details to collabs
+    for collab in collabs_db:
+        details = mongo.db.users.find_one({'username': collab})
+        collabs.append(details)
+    
+    # Render template
+    return render_template('collaborators.html', user=user, collabs=collabs)
+
+
 # Get user messages
 @app.route('/<username>/messages')
 def get_messages(username):

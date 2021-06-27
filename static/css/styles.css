@@ -453,6 +453,31 @@ footer a:hover {
     color: #ffffff;
 }
 
+/* COLLABORATORS */
+
+.collaborators .card .card-content {
+    padding: 0 0 25px 10px;
+}
+
+.collaborators .card .card-image img {
+    height: 200px;
+    object-fit: cover;
+}
+
+
+.collaborators .card .card-action 
+a:not(.btn):not(.btn-large):not(.btn-
+small):not(.btn-large):not(.btn-floating) {
+    color: #ffffff;
+}
+
+.collaborators .card .card-action 
+a:not(.btn):not(.btn-large):not(.btn-
+small):not(.btn-large):not(.btn-floating):hover {
+    color: #47126F;
+}
+
+
 /* MEDIA QUERIES */
 @media screen and (min-width: 768px) {
     nav .fa-music {

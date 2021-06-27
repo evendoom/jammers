@@ -86,7 +86,7 @@
                 <div class="divider"></div>
             </li>
             <li><a href="{{ url_for('get_messages', username=session['user']) }}" class="white-text">Messages</a></li>
-            <li><a href="#!" class="white-text">Collaborators</a></li>
+            <li><a href="{{ url_for('view_collaborators', username=session['user']) }}" class="white-text">Collaborators</a></li>
             <li><a href="{{ url_for('user_profile', username=session['user']) }}" class="white-text">Profile</a></li>
             <li><a href="{{ url_for('logout') }}" class="white-text">Log Out</a></li>
         </ul>
