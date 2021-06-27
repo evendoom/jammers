@@ -148,7 +148,8 @@ def dashboard_search(username):
 def dashboard_view_user(username, profile_id):
     user = mongo.db.users.find_one({'username': username})
     profile = mongo.db.users.find_one({'_id': ObjectId(profile_id)})
-    return render_template('dashboard_view_user.html', user=user, profile=profile)
+    collaborators = mongo.db.collaborators.find_one({'user': username})
+    return render_template('dashboard_view_user.html', user=user, profile=profile, collaborators=collaborators)
 
 
 # Send message to user
@@ -196,10 +197,36 @@ def post_feedback(username, profile_id):
     }
 
     # Push dictionary to Mongo DB
-    mongo.db.users.update({'_id': ObjectId(profile_id)}, { '$push': {'feedback': feedback} })
+    mongo.db.users.update_one({'_id': ObjectId(profile_id)}, { '$push': {'feedback': feedback} })
 
     # Redirect to user profile
     flash('Feedback posted!', 'info')
+    return redirect(url_for('dashboard_view_user', username=username, profile_id=profile_id))
+
+
+# Add collaborator
+@app.route('/<username>/search/<profile_id>/addCollaborator')
+def add_collaborator(username, profile_id):
+    collaborator = mongo.db.users.find_one({'_id': ObjectId(profile_id)})
+
+    # Push collaboration to user's collaborators collection
+    mongo.db.collaborators.update_one({'user': username}, { '$push': { 'collaborations': collaborator['username'] } })
+
+    # Redirect to user profile
+    flash('User added!', 'info')
+    return redirect(url_for('dashboard_view_user', username=username, profile_id=profile_id))
+
+
+# Remove collaborator
+@app.route('/<username>/search/<profile_id>/removeCollaborator')
+def remove_collaborator(username, profile_id):
+    collaborator = mongo.db.users.find_one({'_id': ObjectId(profile_id)})
+
+    # Remove collaboration from user's collaborators collection
+    mongo.db.collaborators.update_one({'user': username}, { '$pull': { 'collaborations': collaborator['username'] } })
+
+    # Redirect to user profile
+    flash('User removed!', 'info')
     return redirect(url_for('dashboard_view_user', username=username, profile_id=profile_id))
 
 
@@ -226,7 +253,7 @@ def view_message(username, message_id):
         }
 
         # Push to Mongo DB
-        mongo.db.messages.update({'_id': ObjectId(message_id)}, { '$push': {'message_list': submit}})
+        mongo.db.messages.update_one({'_id': ObjectId(message_id)}, { '$push': {'message_list': submit}})
 
         return redirect(url_for('get_messages', username=username))
 

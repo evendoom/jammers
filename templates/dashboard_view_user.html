@@ -4,7 +4,15 @@
 <div class="row user_profile">
     <div class="col m6">
         <img src="{{ url_for('get_profile_pic', filename=profile.profile_pic) }}" alt="{{ profile.username }} Profile Picture" class="m6">
-        <a class="btn add-button"><i class="fas fa-plus"></i>Add to Collaborators</a>
+        {% if profile.username in collaborators.collaborations %}
+            <a class="btn add-button" href="{{ url_for('remove_collaborator', username=session['user'], profile_id=profile._id) }}" >
+                <i class="fas fa-minus"></i>Remove from Collaborators
+            </a>
+        {% else %}
+            <a class="btn add-button" href="{{ url_for('add_collaborator', username=session['user'], profile_id=profile._id) }}">
+                <i class="fas fa-plus"></i>Add to Collaborators
+            </a>
+        {% endif %}
     </div>
     <div class="col m6">
         <h5>{{ profile.username }}</h5>
