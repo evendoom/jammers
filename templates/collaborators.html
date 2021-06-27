@@ -5,19 +5,46 @@
     {% for collab in collabs %}
         <div class="col s12 m4">
             <div class="card">
-                <div class="card-image">
-                    <img src="{{ url_for('get_profile_pic', filename=collab.profile_pic) }}">
-                </div>
+                <a href="{{ url_for('dashboard_view_user', username=user.username, profile_id=collab._id) }}">
+                    <div class="card-image">
+                        <img src="{{ url_for('get_profile_pic', filename=collab.profile_pic) }}" alt="{{ collab.username }} Profile Picture">
+                    </div>
+                </a>
                 <div class="card-content">
                     <h4>{{ collab.username }}</h4>
                 </div>
                 <div class="card-action">
-                    <a href="#">MESSAGE</a>
-                    <a href="#" class="links">REMOVE</a>
+                    <a class="modal-trigger" href="#modalMessage{{ collab.username }}">MESSAGE</a>
+                    <a class="modal-trigger" href="#modalRemove{{ collab.username }}">REMOVE</a>
                 </div>
             </div>
         </div>
+
+        <!-- Modal For Message Button-->
+        <div id="modalMessage{{ collab.username }}" class="modal">
+            <form method="POST" action="{{ url_for('send_message', username=session['user'], profile_id=collab._id) }}">
+                <div class="modal-content">
+                    <label for="sendMessage"></label>
+                    <textarea name="sendMessage" id="sendMessage" class="modal-box autoResize" cols="30" rows="10"
+                        contenteditable></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn modal-close" type="submit">Send Message</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Modal For Remove Button-->
+        <div id="modalRemove{{ collab.username }}" class="modal">
+                <div class="modal-content">
+                    <p class="modal-remove-message">Are you sure you want to want to remove '{{ collab.username }}' from your collaborators list?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn modal-close" type="submit">Cancel</button>
+                    <a class="btn modal-close" href="{{ url_for('remove_collaborator', username=user.username, profile_id=collab._id) }}">Delete</a>
+                </div>
+            </form>
+        </div>
     {% endfor %}
-</div>
 
 {% endblock %}

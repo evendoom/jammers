@@ -477,6 +477,18 @@ small):not(.btn-large):not(.btn-floating):hover {
     color: #47126F;
 }
 
+.collaborators .btn {
+    background-color: black;
+}
+
+.collaborators .btn:hover {
+    background-color: #47126F;
+}
+
+.collaborators .modal-remove-message {
+    color: black;
+}
+
 
 /* MEDIA QUERIES */
 @media screen and (min-width: 768px) {
