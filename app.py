@@ -91,7 +91,7 @@ def register():
         # Direct user to dashboard:
         session['user'] = request.form.get('username')
         flash(f"Welcome to Jammers {register['first_name']}!", 'info')
-        return redirect(url_for('user', username=session['user']))
+        return redirect(url_for('user_dashboard'))
 
     return render_template('register.html')
 
@@ -109,7 +109,7 @@ def login():
                 user_exists['password'], request.form.get('password')):
                 # Create session user 
                 session['user'] = request.form.get('username')
-                return redirect(url_for('user', username=session['user']))
+                return redirect(url_for('user_dashboard'))
             else:
                 flash('Invalid username / password', 'error')
                 return redirect(url_for('login'))
@@ -134,34 +134,33 @@ def get_profile_pic(filename):
 
 
 # User dashboard
-@app.route('/<username>')
-def user(username):
-    user = mongo.db.users.find_one({'username': username})
-    if session['user'] == user['username']:
-        return render_template('profile_main.html', user=user)
+@app.route('/dashboard')
+def user_dashboard(): 
+    user = mongo.db.users.find_one({'username': session['user']})
+    return render_template('profile_main.html', user=user)
 
 
 # Dashboard Search
-@app.route('/<username>/search', methods=['GET', 'POST'])
-def dashboard_search(username):
-    user = mongo.db.users.find_one({'username': username})
+@app.route('/dashboard/search', methods=['GET', 'POST'])
+def dashboard_search():
+    user = mongo.db.users.find_one({'username': session['user']})
     search_results = mongo.db.users.find({'username': request.form.get('search_query')})
     return render_template('dashboard_search.html', user=user, search_results=search_results)
 
 
 # Dashboard Search View Profile
-@app.route('/<username>/search/<profile_id>')
-def dashboard_view_user(username, profile_id):
-    user = mongo.db.users.find_one({'username': username})
+@app.route('/dashboard/search/<profile_id>')
+def dashboard_view_user(profile_id):
+    user = mongo.db.users.find_one({'username': session['user']})
     profile = mongo.db.users.find_one({'_id': ObjectId(profile_id)})
-    collaborators = mongo.db.collaborators.find_one({'user': username})
+    collaborators = mongo.db.collaborators.find_one({'user': session['user']})
     return render_template('dashboard_view_user.html', user=user, profile=profile, collaborators=collaborators)
 
 
 # Send message to user
-@app.route('/<username>/search/<profile_id>/sendMessage', methods=['GET', 'POST'])
-def send_message(username, profile_id):
-    from_user = mongo.db.users.find_one({'username': username})
+@app.route('/dashboard/search/<profile_id>/sendMessage', methods=['GET', 'POST'])
+def send_message(profile_id):
+    from_user = mongo.db.users.find_one({'username': session['user']})
     to_user = mongo.db.users.find_one({'_id': ObjectId(profile_id)})
 
     # Create dictionary to store on DB
@@ -184,13 +183,13 @@ def send_message(username, profile_id):
 
     # Redirect to user profile
     flash('Message sent!', 'info')
-    return redirect(url_for('dashboard_view_user', username=username, profile_id=profile_id))
+    return redirect(url_for('dashboard_view_user', profile_id=profile_id))
 
 
 # Post feedback on user profile page
-@app.route('/<username>/search/<profile_id>/postFeedback', methods=['GET', 'POST'])
-def post_feedback(username, profile_id):
-    from_user = mongo.db.users.find_one({'username': username})
+@app.route('/dashboard/search/<profile_id>/postFeedback', methods=['GET', 'POST'])
+def post_feedback(profile_id):
+    from_user = mongo.db.users.find_one({'username': session['user']})
 
     # Create dictionary to store on Mongo DB
     now = datetime.now()
@@ -207,42 +206,42 @@ def post_feedback(username, profile_id):
 
     # Redirect to user profile
     flash('Feedback posted!', 'info')
-    return redirect(url_for('dashboard_view_user', username=username, profile_id=profile_id))
+    return redirect(url_for('dashboard_view_user', profile_id=profile_id))
 
 
 # Add collaborator
-@app.route('/<username>/search/<profile_id>/addCollaborator')
-def add_collaborator(username, profile_id):
+@app.route('/dashboard/search/<profile_id>/addCollaborator')
+def add_collaborator(profile_id):
     collaborator = mongo.db.users.find_one({'_id': ObjectId(profile_id)})
 
     # Push collaboration to user's collaborators collection
-    mongo.db.collaborators.update_one({'user': username}, { '$push': { 'collaborations': collaborator['username'] } })
+    mongo.db.collaborators.update_one({'user': session['user']}, { '$push': { 'collaborations': collaborator['username'] } })
 
     # Redirect to user profile
     flash('User added!', 'info')
-    return redirect(url_for('dashboard_view_user', username=username, profile_id=profile_id))
+    return redirect(url_for('dashboard_view_user', profile_id=profile_id))
 
 
 # Remove collaborator
-@app.route('/<username>/search/<profile_id>/removeCollaborator')
-def remove_collaborator(username, profile_id):
+@app.route('/dashboard/search/<profile_id>/removeCollaborator')
+def remove_collaborator(profile_id):
     collaborator = mongo.db.users.find_one({'_id': ObjectId(profile_id)})
 
     # Remove collaboration from user's collaborators collection
-    mongo.db.collaborators.update_one({'user': username}, { '$pull': { 'collaborations': collaborator['username'] } })
+    mongo.db.collaborators.update_one({'user': session['user']}, { '$pull': { 'collaborations': collaborator['username'] } })
 
     # Redirect to user profile
     flash('User removed!', 'info')
-    return redirect(url_for('dashboard_view_user', username=username, profile_id=profile_id))
+    return redirect(url_for('dashboard_view_user', profile_id=profile_id))
 
 
 # View collaborations
-@app.route('/<username>/collaborators')
-def view_collaborators(username):
-    user = mongo.db.users.find_one({'username': username})
+@app.route('/dashboard/collaborators')
+def view_collaborators():
+    user = mongo.db.users.find_one({'username': session['user']})
 
     # Get all members from user's collaborators collection
-    collabs_db = mongo.db.collaborators.find_one({'user': username})['collaborations']
+    collabs_db = mongo.db.collaborators.find_one({'user': session['user']})['collaborations']
 
     # Create an empty list that will store all members' details
     collabs = []
@@ -257,16 +256,16 @@ def view_collaborators(username):
 
 
 # Get user messages
-@app.route('/<username>/messages')
-def get_messages(username):
-    user = mongo.db.users.find_one({'username': username})
-    messages = mongo.db.messages.find({'to_user': username})
+@app.route('/dashboard/messages')
+def get_messages():
+    user = mongo.db.users.find_one({'username': session['user']})
+    messages = mongo.db.messages.find({'to_user': session['user']})
     return render_template('messages.html', user=user, messages=messages)
 
 
 # View message
-@app.route('/<username>/messages/<message_id>', methods=['GET', 'POST'])
-def view_message(username, message_id):
+@app.route('/dashboard/messages/<message_id>', methods=['GET', 'POST'])
+def view_message(message_id):
     if request.method == 'POST':
         # Get message date
         now = datetime.now()
@@ -274,24 +273,24 @@ def view_message(username, message_id):
         # Create dictionary to store on Mongo DB
         submit = {
             'date': now.strftime('%d/%m/%Y %H:%M'),
-            'user': username,
+            'user': session['user'],
             'message': request.form.get('send_message')
         }
 
         # Push to Mongo DB
         mongo.db.messages.update_one({'_id': ObjectId(message_id)}, { '$push': {'message_list': submit}})
 
-        return redirect(url_for('get_messages', username=username))
+        return redirect(url_for('get_messages'))
 
-    user = mongo.db.users.find_one({'username': username})
+    user = mongo.db.users.find_one({'username': session['user']})
     messages = mongo.db.messages.find_one({'_id': ObjectId(message_id)})
     return render_template('view_message.html', user=user, messages=messages)
 
 
 # View logged user's profile
-@app.route('/<username>/profile')
-def user_profile(username):
-    user = mongo.db.users.find_one({'username': username})
+@app.route('/dashboard/profile')
+def user_profile():
+    user = mongo.db.users.find_one({'username': session['user']})
     return render_template('view_user_profile.html', user=user)
 
 

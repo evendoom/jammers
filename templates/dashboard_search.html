@@ -5,7 +5,7 @@
     {% for result in search_results %}
   
       <div class="col s12 m3">
-        <a href="{{ url_for('dashboard_view_user', username=user.username, profile_id=result._id) }}">
+        <a href="{{ url_for('dashboard_view_user', profile_id=result._id) }}">
           <div class="card">
             <div class="card-image">
               <img src="{{ url_for('get_profile_pic', filename=result.profile_pic) }}" alt="User Profile Picture">

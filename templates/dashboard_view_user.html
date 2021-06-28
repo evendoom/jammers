@@ -5,11 +5,11 @@
     <div class="col m6">
         <img src="{{ url_for('get_profile_pic', filename=profile.profile_pic) }}" alt="{{ profile.username }} Profile Picture" class="m6">
         {% if profile.username in collaborators.collaborations %}
-            <a class="btn add-button" href="{{ url_for('remove_collaborator', username=session['user'], profile_id=profile._id) }}" >
+            <a class="btn add-button" href="{{ url_for('remove_collaborator', profile_id=profile._id) }}" >
                 <i class="fas fa-minus"></i>Remove from Collaborators
             </a>
         {% else %}
-            <a class="btn add-button" href="{{ url_for('add_collaborator', username=session['user'], profile_id=profile._id) }}">
+            <a class="btn add-button" href="{{ url_for('add_collaborator', profile_id=profile._id) }}">
                 <i class="fas fa-plus"></i>Add to Collaborators
             </a>
         {% endif %}
@@ -38,7 +38,7 @@
 
     <!-- Modal For Message Button-->
     <div id="modalMessage" class="modal">
-        <form method="POST" action="{{ url_for('send_message', username=session['user'], profile_id=profile._id) }}">
+        <form method="POST" action="{{ url_for('send_message', profile_id=profile._id) }}">
         <div class="modal-content">
             <label for="sendMessage"></label>
             <textarea name="sendMessage" id="sendMessage" class="modal-box autoResize" cols="30" rows="10" contenteditable></textarea>
@@ -51,7 +51,7 @@
 
     <!-- Modal For Feedback Button -->
     <div id="modalFeedback" class="modal">
-        <form method="POST" action="{{ url_for('post_feedback', username=session['user'], profile_id=profile._id) }}">
+        <form method="POST" action="{{ url_for('post_feedback', profile_id=profile._id) }}">
         <div class="modal-content">
             <label for="postFeedback"></label>
             <textarea name="postFeedback" id="postFeedback" class="modal-box autoResize" cols="30" rows="10" contenteditable></textarea>

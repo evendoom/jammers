@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="row">
-    <form class="col s12 reply-form" method="POST" action="{{ url_for('view_message', username=messages.to_user, message_id=messages._id) }}">
+    <form class="col s12 reply-form" method="POST" action="{{ url_for('view_message', message_id=messages._id) }}">
         <div class="row">
             <div class="input-field col s12">
                 <i class="fas fa-pen prefix"></i>
