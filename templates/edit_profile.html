@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h3 class="center-align">Edit Profile</h3>
+
+    <div class="row register-form">
+        <form class="col s12" method="POST" action="{{ url_for('edit_profile') }}" enctype="multipart/form-data">
+            <!-- Personal Details -->
+            <div class="row">
+                <h5 class="col s12">Personal Details</h5>
+                <div class="input-field col s12 m6">
+                    <input id="first_name" name="first_name" type="text" class="validate" value="{{ user.first_name }}" required>
+                    <label for="first_name">First Name</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input id="last_name" name="last_name" type="text" class="validate" value="{{ user.last_name }}" required>
+                    <label for="last_name">Last Name</label>
+                </div>
+            </div>
+            <!-- Location Details -->
+            <div class="row">
+                <div class="input-field col s12 m6">
+                    <input id="city" name="city" type="text" class="validate" value="{{ user.city|capitalize() }}" required>
+                    <label for="city">City</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <input id="country" name="country" type="text" class="validate" value="{{ user.country|capitalize() }}" required>
+                    <label for="country">Country</label>
+                </div>
+            </div>
+            <!-- Picture -->
+            <div class="row">
+                <div class="file-field input-field col s12 m6">
+                    <div class="btn">
+                        <span>Picture</span>
+                        <input type="file" name="profile_pic">
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text">
+                    </div>
+                </div>
+            </div>
+            <!-- Instruments -->
+            <div class="row">
+                <h5 class="col s12">Instruments</h5>
+                {% if 'voice' in user.instruments %}
+                    <p class="col s4">
+                        <label>
+                            <input name="instrument" value="voice" type="checkbox" checked/>
+                            <span class="form-checkbox-text">Voice</span>
+                        </label>
+                    </p>
+                {% else %}
+                    <p class="col s4">
+                        <label>
+                            <input name="instrument" value="voice" type="checkbox" />
+                            <span class="form-checkbox-text">Voice</span>
+                        </label>
+                    </p>
+                {% endif %}
+                {% if 'guitar' in user.instruments %}
+                    <p class="col s4">
+                        <label>
+                            <input name="instrument" value="guitar" type="checkbox" checked/>
+                            <span class="form-checkbox-text">Guitar</span>
+                        </label>
+                    </p>
+                {% else %}
+                    <p class="col s4">
+                        <label>
+                            <input name="instrument" value="guitar" type="checkbox" />
+                            <span class="form-checkbox-text">Guitar</span>
+                        </label>
+                    </p>
+                {% endif %}
+
+                {% if 'bass' in user.instruments %}
+                    <p class="col s4">
+                        <label>
+                            <input name="instrument" value="bass" type="checkbox" checked/>
+                            <span class="form-checkbox-text">Bass</span>
+                        </label>
+                    </p>
+                {% else %}
+                    <p class="col s4">
+                        <label>
+                            <input name="instrument" value="bass" type="checkbox" />
+                            <span class="form-checkbox-text">Bass</span>
+                        </label>
+                    </p>
+                {% endif %}
+
+                {% if 'drums' in user.instruments %}
+                    <p class="col s4">
+                        <label>
+                            <input name="instrument" value="drums" type="checkbox" checked/>
+                            <span class="form-checkbox-text">Drums</span>
+                        </label>
+                    </p>
+                {% else %}
+                    <p class="col s4">
+                        <label>
+                            <input name="instrument" value="drums" type="checkbox" />
+                            <span class="form-checkbox-text">Drums</span>
+                        </label>
+                    </p>
+                {% endif %}
+
+                {% if 'keyboard' in user.instruments %}
+                    <p class="col s8 m4">
+                        <label>
+                            <input name="instrument" value="keyboard" type="checkbox" checked/>
+                            <span class="form-checkbox-text">Keyboard</span>
+                        </label>
+                    </p>
+                {% else %}
+                    <p class="col s8 m4">
+                        <label>
+                            <input name="instrument" value="keyboard" type="checkbox" />
+                            <span class="form-checkbox-text">Keyboard</span>
+                        </label>
+                    </p>
+                {% endif %}
+
+                <div class="input-field col s12 m4 other_inst">
+                    {% if other_instruments|length() == 0 %}
+                        <input name="other_instrument" placeholder="Other instrument" type="text" class="validate">
+                    {% else %}
+                        <input name="other_instrument" type="text" value="{{ other_instruments }}" class="validate">
+                    {% endif %}
+                </div>
+            </div>
+            <!-- About -->
+            <div class="row">
+                <h5 class="col s12">About Yourself</h5>
+                <div class="input-field col s12">
+                    <textarea id="about_yourself" name="about_yourself" class="materialize-textarea" required>{{ user.about }}</textarea>
+                </div>
+            </div>
+            <!-- Submit Button -->
+            <div class="col s12 center-align">
+                <button type="submit" class="btn">
+                    Update
+                </button>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

@@ -56,10 +56,9 @@ def register():
 
         # Check if other instruments are available and add them to instruments
         if (request.form.get('other_instrument')):
-            instruments.append(request.form.get('other_instrument'))
+            instruments.append(request.form.get('other_instrument').lower())
         
         # Check if user uploaded a picture
-        profile_pic = None
         if 'profile_pic' in request.files:
             profile_pic = request.files['profile_pic']
             profile_pic_name = f"{request.form.get('username')}{profile_pic.filename}"
@@ -292,6 +291,69 @@ def view_message(message_id):
 def user_profile():
     user = mongo.db.users.find_one({'username': session['user']})
     return render_template('view_user_profile.html', user=user)
+
+
+# Edit profile
+@app.route('/dashboard/profile/edit', methods=['GET', 'POST'])
+def edit_profile():
+    user = mongo.db.users.find_one({'username': session['user']})
+
+    if request.method == 'POST':
+        # Create list with instruments that have been selected
+        instruments = request.form.getlist('instrument')
+
+        # Check if other instruments are available and add them to instruments list
+        if request.form.get('other_instrument'):
+            instruments.append(request.form.get('other_instrument').lower())
+
+        # Check if user uploaded a picture
+        if 'profile_pic' in request.files:
+            profile_pic = request.files['profile_pic']
+            if profile_pic.filename == '':
+                profile_pic_name = user['profile_pic']
+            else:
+                profile_pic_name = f"{user['username']}{profile_pic.filename}"
+                mongo.save_file(profile_pic_name, profile_pic)
+        
+        # Create dictionary to update Mongo DB
+        update_profile = {
+            'first_name': request.form.get('first_name'),
+            'last_name': request.form.get('last_name'),
+            'city': request.form.get('city').lower(),
+            'country': request.form.get('country').lower(),
+            'profile_pic': profile_pic_name,
+            'instruments': instruments,
+            'about': request.form.get('about_yourself')
+        }
+
+        # Update user on Mongo DB
+        # Update 'users' collection
+        mongo.db.users.update_one({'_id': ObjectId(user['_id'])}, { '$set': update_profile })
+        # Update 'messages' collection
+        mongo.db.messages.update_many({'to_user': user['username']}, { '$set': { 'to_user_image': profile_pic_name } })
+        mongo.db.messages.update_many({'from_user': user['username']}, { '$set': { 'from_user_image': profile_pic_name } }) 
+
+        # Redirect user to profile page
+        return redirect(url_for('user_profile'))
+
+    # Separate instruments that have an HTML checkbox from the 'Other instruments' input HTML field
+    instrument_check = ['voice', 'guitar', 'bass', 'drums', 'keyboard']
+    other_instruments_list = []
+
+    for instrument in user['instruments']:
+        if instrument not in instrument_check:
+            other_instruments_list.append(instrument)
+
+    # Condition here to check the length of other_instruments_list
+    if len(other_instruments_list) == 0:
+        other_instruments = ""
+    elif len(other_instruments_list) == 1:
+        other_instruments = other_instruments_list[0]
+    else:
+        other_instruments = ", "
+        other_instruments.join(other_instruments_list)
+
+    return render_template('edit_profile.html', user=user, other_instruments=other_instruments)
 
 
 if __name__ == '__main__':
