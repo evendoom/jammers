@@ -401,8 +401,11 @@ footer a:hover {
     margin-top: 15px;
 }
 
-.modal .modal-box {
+.modal .modal-content {
     color: black;
+}
+
+.modal .modal-box {
     outline: none;
     overflow: hidden;
     border: 1px solid black;

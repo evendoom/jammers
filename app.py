@@ -344,7 +344,7 @@ def edit_profile():
         if instrument not in instrument_check:
             other_instruments_list.append(instrument)
 
-    # Condition here to check the length of other_instruments_list
+    # Check the length of other_instruments_list
     if len(other_instruments_list) == 0:
         other_instruments = ""
     elif len(other_instruments_list) == 1:
@@ -355,6 +355,25 @@ def edit_profile():
 
     return render_template('edit_profile.html', user=user, other_instruments=other_instruments)
 
+
+# Delete user profile
+@app.route('/dashboard/profile/delete')
+def delete_profile():
+    user = mongo.db.users.find_one({'username': session['user']})['username']
+    
+    # Delete user from 'users' collection
+    mongo.db.users.delete_one({'username': user})
+
+    # Delete user's 'collaborators' collection
+    mongo.db.collaborators.delete_one({'user': user})
+
+    # Delete messages related to user
+    mongo.db.messages.delete_many({ '$or': [ { 'to_user': user }, { 'from_user': user } ] })
+
+    # Terminate user session and redirect to main page
+    session.pop('user')
+    return redirect(url_for('main'))
+    
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
