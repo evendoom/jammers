@@ -29,7 +29,26 @@ def main():
 # Intro Page Search function
 @app.route('/search', methods=['GET', 'POST'])
 def intro_search():
-    search_results = mongo.db.users.find({'username': request.form.get('search_query')})
+    search_query = request.form.get('search_query')
+    search_results = []
+
+    # Find usernames that partially match search query (case insensitive)
+    search = mongo.db.users.find({ 'username': { '$regex': f'.*{search_query}.*', '$options': 'i' } })
+    for item in search:
+        search_results.append(item)
+    
+    # Find cities or countries that match search query
+    search = mongo.db.users.find({ '$text': { '$search': search_query } })
+    for item in search:
+        if item not in search_results:
+            search_results.append(item)
+    
+    # Find instruments that match search query
+    search = mongo.db.users.find({ 'instruments': { '$regex': f'.*{search_query}.*', '$options': 'i' } })
+    for item in search:
+        if item not in search_results:
+            search_results.append(item)
+
     return render_template('intro_search.html', search_results=search_results)
 
 
@@ -143,7 +162,25 @@ def user_dashboard():
 @app.route('/dashboard/search', methods=['GET', 'POST'])
 def dashboard_search():
     user = mongo.db.users.find_one({'username': session['user']})
-    search_results = mongo.db.users.find({'username': request.form.get('search_query')})
+    search_query = request.form.get('search_query')
+    search_results = []
+
+    # Find usernames that partially match search query (case insensitive)
+    search = mongo.db.users.find({ 'username': { '$regex': f'.*{search_query}.*', '$options': 'i' } })
+    for item in search:
+        search_results.append(item)
+    
+    # Find cities or countries that match search query
+    search = mongo.db.users.find({ '$text': { '$search': search_query } })
+    for item in search:
+        if item not in search_results:
+            search_results.append(item)
+    
+    # Find instruments that match search query
+    search = mongo.db.users.find({ 'instruments': { '$regex': f'.*{search_query}.*', '$options': 'i' } })
+    for item in search:
+        if item not in search_results:
+            search_results.append(item)
     return render_template('dashboard_search.html', user=user, search_results=search_results)
 
 
