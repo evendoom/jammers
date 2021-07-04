@@ -339,6 +339,7 @@ def edit_profile():
         mongo.db.messages.update_many({'from_user': user['username']}, { '$set': { 'from_user_image': profile_pic_name } }) 
 
         # Redirect user to profile page
+        flash('Profile updated!', 'info')
         return redirect(url_for('user_profile'))
 
     # Separate instruments that have an HTML checkbox from the 'Other instruments' input HTML field
@@ -382,6 +383,7 @@ def delete_profile():
 
     # Terminate user session and redirect to main page
     session.pop('user')
+    flash('Profile deleted!', 'info')
     return redirect(url_for('main'))
     
 
