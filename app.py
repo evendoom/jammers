@@ -70,13 +70,18 @@ def register():
             flash('Username already exists', 'error')
             return redirect(url_for('register'))
 
-        # Create list with instruments that have been selected 
+        # Create a list of instruments 
         instruments = request.form.getlist('instrument')
 
-        # Check if other instruments are available and add them to instruments
+        # Check if other instruments are available and add them to instruments list
         if (request.form.get('other_instrument')):
             instruments.append(request.form.get('other_instrument').lower())
         
+        # Prevent registration if there are no instruments
+        if len(instruments) == 0:
+            flash('Please select an instrument!', 'error')
+            return redirect(url_for('register'))
+
         # Check if user uploaded a picture
         if 'profile_pic' in request.files:
             profile_pic = request.files['profile_pic']
@@ -342,6 +347,11 @@ def edit_profile():
         # Check if other instruments are available and add them to instruments list
         if request.form.get('other_instrument'):
             instruments.append(request.form.get('other_instrument').lower())
+
+        # Prevent edit submission if there are no instruments:
+        if len(instruments) == 0:
+            flash('Please select an instrument!', 'error')
+            return redirect(url_for('edit_profile'))
 
         # Check if user uploaded a picture
         if 'profile_pic' in request.files:
