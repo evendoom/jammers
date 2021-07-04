@@ -385,7 +385,7 @@ def edit_profile():
 
     for instrument in user['instruments']:
         if instrument not in instrument_check:
-            other_instruments_list.append(instrument)
+            other_instruments_list.append(instrument.capitalize())
 
     # Check the length of other_instruments_list
     if len(other_instruments_list) == 0:
