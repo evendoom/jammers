@@ -303,15 +303,24 @@ def view_collaborators():
         collabs.append(details)
     
     # Render template
-    return render_template('collaborators.html', user=user, collabs=collabs)
+    if len(collabs) == 0:
+        flash('You have 0 collaborators. Search and add users!', 'info')
+        return render_template('collaborators.html', user=user, collabs=collabs)
+    else:
+        return render_template('collaborators.html', user=user, collabs=collabs)
 
 
 # Get user messages
 @app.route('/dashboard/messages')
 def get_messages():
     user = mongo.db.users.find_one({'username': session['user']})
-    messages = mongo.db.messages.find({'to_user': session['user']})
-    return render_template('messages.html', user=user, messages=messages)
+    messages = list(mongo.db.messages.find({'to_user': session['user']}))
+    
+    if len(messages) == 0:
+        flash('You have 0 messages', 'info')
+        return render_template('messages.html', user=user, messages=messages)
+    else:
+        return render_template('messages.html', user=user, messages=messages)
 
 
 # View message
