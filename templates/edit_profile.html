@@ -124,7 +124,7 @@
 
                 <div class="input-field col s12 m4 other_inst">
                     {% if other_instruments|length() == 0 %}
-                        <input name="other_instrument" placeholder="Other instrument" type="text" class="validate">
+                        <input name="other_instrument" placeholder="Other instruments (separate with a comma)" type="text" class="validate">
                     {% else %}
                         <input name="other_instrument" type="text" value="{{ other_instruments }}" class="validate">
                     {% endif %}

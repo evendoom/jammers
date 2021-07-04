@@ -74,8 +74,18 @@ def register():
         instruments = request.form.getlist('instrument')
 
         # Check if other instruments are available and add them to instruments list
-        if (request.form.get('other_instrument')):
-            instruments.append(request.form.get('other_instrument').lower())
+        if request.form.get('other_instrument'):
+            other_instruments_str = request.form.get('other_instrument')
+            if ', ' in other_instruments_str:
+                other_instruments_lst = list(other_instruments_str.split(', '))
+                for item in other_instruments_lst:
+                    instruments.append(item.lower())
+            elif ',' in other_instruments_str:
+                other_instruments_lst = list(other_instruments_str.split(','))
+                for item in other_instruments_lst:
+                    instruments.append(item.lower())
+            else:
+                instruments.append(other_instruments_str.lower())
         
         # Prevent registration if there are no instruments
         if len(instruments) == 0:
@@ -346,7 +356,17 @@ def edit_profile():
 
         # Check if other instruments are available and add them to instruments list
         if request.form.get('other_instrument'):
-            instruments.append(request.form.get('other_instrument').lower())
+            other_instruments_str = request.form.get('other_instrument')
+            if ', ' in other_instruments_str:
+                other_instruments_lst = list(other_instruments_str.split(', '))
+                for item in other_instruments_lst:
+                    instruments.append(item.lower())
+            elif ',' in other_instruments_str:
+                other_instruments_lst = list(other_instruments_str.split(','))
+                for item in other_instruments_lst:
+                    instruments.append(item.lower())
+            else:
+                instruments.append(other_instruments_str)
 
         # Prevent edit submission if there are no instruments:
         if len(instruments) == 0:
@@ -403,8 +423,7 @@ def edit_profile():
     elif len(other_instruments_list) == 1:
         other_instruments = other_instruments_list[0]
     else:
-        other_instruments = ", "
-        other_instruments.join(other_instruments_list)
+        other_instruments = ", ".join(other_instruments_list)
 
     return render_template('edit_profile.html', user=user, other_instruments=other_instruments)
 
