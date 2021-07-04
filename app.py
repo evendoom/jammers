@@ -49,7 +49,12 @@ def intro_search():
         if item not in search_results:
             search_results.append(item)
 
-    return render_template('intro_search.html', search_results=search_results)
+    # Render template
+    if len(search_results) == 0:
+        flash('No results found. Hit main logo to perform another search', 'info')
+        return render_template('intro_search.html', search_results=search_results)
+    else:
+        return render_template('intro_search.html', search_results=search_results)
 
 
 # View Profile
@@ -196,7 +201,13 @@ def dashboard_search():
     for item in search:
         if item not in search_results:
             search_results.append(item)
-    return render_template('dashboard_search.html', user=user, search_results=search_results)
+
+    # Render template
+    if len(search_results) == 0:
+        flash('No results found. Hit main logo to perform another search', 'info')
+        return render_template('dashboard_search.html', user=user, search_results=search_results)
+    else:
+        return render_template('dashboard_search.html', user=user, search_results=search_results)
 
 
 # Dashboard Search View Profile
