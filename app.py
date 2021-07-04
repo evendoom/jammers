@@ -314,6 +314,11 @@ def edit_profile():
             else:
                 profile_pic_name = f"{user['username']}{profile_pic.filename}"
                 mongo.save_file(profile_pic_name, profile_pic)
+
+                # Delete user's old profile pic
+                file_id = mongo.db.fs.files.find_one({'filename': user['profile_pic']})['_id']
+                mongo.db.fs.files.delete_one({'filename': user['profile_pic']})
+                mongo.db.fs.chunks.delete_one({'files_id': ObjectId(file_id)})
         
         # Create dictionary to update Mongo DB
         update_profile = {
@@ -359,16 +364,21 @@ def edit_profile():
 # Delete user profile
 @app.route('/dashboard/profile/delete')
 def delete_profile():
-    user = mongo.db.users.find_one({'username': session['user']})['username']
+    user = mongo.db.users.find_one({'username': session['user']})
     
     # Delete user from 'users' collection
-    mongo.db.users.delete_one({'username': user})
+    mongo.db.users.delete_one({'username': user['username']})
 
     # Delete user's 'collaborators' collection
-    mongo.db.collaborators.delete_one({'user': user})
+    mongo.db.collaborators.delete_one({'user': user['username']})
 
     # Delete messages related to user
-    mongo.db.messages.delete_many({ '$or': [ { 'to_user': user }, { 'from_user': user } ] })
+    mongo.db.messages.delete_many({ '$or': [ { 'to_user': user['username'] }, { 'from_user': user['username'] } ] })
+
+    # Delete profile picture from DB
+    file_id = mongo.db.fs.files.find_one({'filename': user['profile_pic']})['_id']
+    mongo.db.fs.files.delete_one({'filename': user['profile_pic']})
+    mongo.db.fs.chunks.delete_one({'files_id': ObjectId(file_id)})
 
     # Terminate user session and redirect to main page
     session.pop('user')
