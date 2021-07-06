@@ -240,7 +240,8 @@ def send_message(profile_id):
             'user': from_user['username'],
             'message': request.form.get('sendMessage')
         }],
-        'is_new': True
+        'is_new': True,
+        'date_created': now.strftime('%d/%m/%Y %H:%M')
     }
 
     # Insert record on Mongo DB
