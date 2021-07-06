@@ -52,7 +52,7 @@ def intro_search():
     # Render template
     if len(search_results) == 0:
         flash('No results found. Hit main logo to perform another search', 'info')
-        return render_template('intro_search.html', search_results=search_results)
+        return render_template('intro_search.html')
     else:
         return render_template('intro_search.html', search_results=search_results)
 
@@ -175,13 +175,15 @@ def get_profile_pic(filename):
 @app.route('/dashboard')
 def user_dashboard(): 
     user = mongo.db.users.find_one({'username': session['user']})
-    return render_template('profile_main.html', user=user)
+    new_messages = check_new_messages()
+    return render_template('profile_main.html', user=user, new_messages=new_messages)
 
 
 # Dashboard Search
 @app.route('/dashboard/search', methods=['GET', 'POST'])
 def dashboard_search():
     user = mongo.db.users.find_one({'username': session['user']})
+    new_messages = check_new_messages()
     search_query = request.form.get('search_query')
     search_results = []
 
@@ -205,18 +207,19 @@ def dashboard_search():
     # Render template
     if len(search_results) == 0:
         flash('No results found. Hit main logo to perform another search', 'info')
-        return render_template('dashboard_search.html', user=user, search_results=search_results)
+        return render_template('dashboard_search.html', user=user, new_messages=new_messages)
     else:
-        return render_template('dashboard_search.html', user=user, search_results=search_results)
+        return render_template('dashboard_search.html', user=user, search_results=search_results, new_messages=new_messages)
 
 
 # Dashboard Search View Profile
 @app.route('/dashboard/search/<profile_id>')
 def dashboard_view_user(profile_id):
     user = mongo.db.users.find_one({'username': session['user']})
+    new_messages = check_new_messages()
     profile = mongo.db.users.find_one({'_id': ObjectId(profile_id)})
     collaborators = mongo.db.collaborators.find_one({'user': session['user']})
-    return render_template('dashboard_view_user.html', user=user, profile=profile, collaborators=collaborators)
+    return render_template('dashboard_view_user.html', user=user, profile=profile, collaborators=collaborators, new_messages=new_messages)
 
 
 # Send message to user
@@ -301,6 +304,7 @@ def remove_collaborator(profile_id):
 @app.route('/dashboard/collaborators')
 def view_collaborators():
     user = mongo.db.users.find_one({'username': session['user']})
+    new_messages = check_new_messages()
 
     # Get all members from user's collaborators collection
     collabs_db = mongo.db.collaborators.find_one({'user': session['user']})['collaborations']
@@ -316,9 +320,9 @@ def view_collaborators():
     # Render template
     if len(collabs) == 0:
         flash('You have 0 collaborators. Search and add users!', 'info')
-        return render_template('collaborators.html', user=user, collabs=collabs)
+        return render_template('collaborators.html', user=user, new_messages=new_messages)
     else:
-        return render_template('collaborators.html', user=user, collabs=collabs)
+        return render_template('collaborators.html', user=user, collabs=collabs, new_messages=new_messages)
 
 
 # Get user messages
@@ -326,12 +330,15 @@ def view_collaborators():
 def get_messages():
     user = mongo.db.users.find_one({'username': session['user']})
     messages = list(mongo.db.messages.find({'to_user': session['user']}))
+
+    # Check new messages
+    new_messages = check_new_messages()
     
     if len(messages) == 0:
         flash('You have 0 messages', 'info')
-        return render_template('messages.html', user=user, messages=messages)
+        return render_template('messages.html', user=user, new_messages=new_messages)
     else:
-        return render_template('messages.html', user=user, messages=messages)
+        return render_template('messages.html', user=user, messages=messages, new_messages=new_messages)
 
 
 # View message
@@ -355,20 +362,23 @@ def view_message(message_id):
 
     user = mongo.db.users.find_one({'username': session['user']})
     messages = mongo.db.messages.find_one({'_id': ObjectId(message_id)})
-    return render_template('view_message.html', user=user, messages=messages)
+    new_messages = check_new_messages()
+    return render_template('view_message.html', user=user, messages=messages, new_messages=new_messages)
 
 
 # View logged user's profile
 @app.route('/dashboard/profile')
 def user_profile():
     user = mongo.db.users.find_one({'username': session['user']})
-    return render_template('view_user_profile.html', user=user)
+    new_messages = check_new_messages()
+    return render_template('view_user_profile.html', user=user, new_messages=new_messages)
 
 
 # Edit profile
 @app.route('/dashboard/profile/edit', methods=['GET', 'POST'])
 def edit_profile():
     user = mongo.db.users.find_one({'username': session['user']})
+    new_messages = check_new_messages()
 
     if request.method == 'POST':
         # Create list with instruments that have been selected
@@ -445,7 +455,7 @@ def edit_profile():
     else:
         other_instruments = ", ".join(other_instruments_list)
 
-    return render_template('edit_profile.html', user=user, other_instruments=other_instruments)
+    return render_template('edit_profile.html', user=user, other_instruments=other_instruments, new_messages=new_messages)
 
 
 # Delete user profile
@@ -472,6 +482,18 @@ def delete_profile():
     flash('Profile deleted!', 'info')
     return redirect(url_for('main'))
     
+
+# Check new messages
+def check_new_messages():
+    messages = list(mongo.db.messages.find({'to_user': session['user']}))
+    new_messages = 0
+
+    for message in messages:
+        if message['is_new']:
+            new_messages = new_messages + 1
+    
+    return new_messages
+
 
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),

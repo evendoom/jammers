@@ -85,7 +85,14 @@
             <li>
                 <div class="divider"></div>
             </li>
-            <li><a href="{{ url_for('get_messages') }}" class="white-text {% block active_link_messages %}{% endblock %}">Messages</a></li>
+            <li>
+                <a href="{{ url_for('get_messages') }}" class="white-text {% block active_link_messages %}{% endblock %}">
+                    Messages 
+                    {% if new_messages != 0 %}
+                        <span class="new badge blue">{{ new_messages }}</span>
+                    {% endif %}
+                </a>
+            </li>
             <li><a href="{{ url_for('view_collaborators') }}" class="white-text {% block active_link_collaborators %}{% endblock %}">Collaborators</a></li>
             <li><a href="{{ url_for('user_profile') }}" class="white-text {% block active_link_profile %}{% endblock %}">Profile</a></li>
             <li><a href="{{ url_for('logout') }}" class="white-text">Log Out</a></li>
