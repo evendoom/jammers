@@ -2,7 +2,7 @@
 {% block active_link_messages %}active-link{% endblock %}
 {% block content %}
 <div class="row">
-    <form class="col s12 reply-form" method="POST" action="{{ url_for('view_message', message_id=messages._id) }}">
+    <form class="col s12 reply-form" method="POST" action="{{ url_for('view_message', message_id=message._id) }}">
         <div class="row">
             <div class="input-field col s12">
                 <i class="fas fa-pen prefix"></i>
@@ -19,22 +19,22 @@
 </div>
 
 <div class="row card-message">
-    {% for message in messages['message_list']|reverse() %}
+    {% for msg in message['message_list']|reverse() %}
         <div class="col s12">
             <div class="card horizontal">
                 <div class="message-image">
-                    {% if message.user == messages.to_user %}
-                        <img src="{{ url_for('get_profile_pic', filename=messages.to_user_image) }}" class="circle">
+                    {% if msg.user == message.to_user %}
+                        <img src="{{ url_for('get_profile_pic', filename=message.to_user_image) }}" class="circle">
                     {% else %}
-                        <img src="{{ url_for('get_profile_pic', filename=messages.from_user_image) }}" class="circle">
+                        <img src="{{ url_for('get_profile_pic', filename=message.from_user_image) }}" class="circle">
                     {% endif %}
                 </div>
                 <div class="card-stacked">
                     <div class="card-content">
-                        <p>From: {{ message.user }}</p>
-                        <p>Date: {{ message.date }}</p>
+                        <p>From: {{ msg.user }}</p>
+                        <p>Date: {{ msg.date }}</p>
                         <br>
-                        <p class="user-message">{{ message.message }}</p>
+                        <p class="user-message">{{ msg.message }}</p>
                     </div>
                 </div>
             </div>

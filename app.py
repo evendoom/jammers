@@ -361,9 +361,15 @@ def view_message(message_id):
         return redirect(url_for('get_messages'))
 
     user = mongo.db.users.find_one({'username': session['user']})
-    messages = mongo.db.messages.find_one({'_id': ObjectId(message_id)})
+    message = mongo.db.messages.find_one({'_id': ObjectId(message_id)})
+
+    #Update message status
+    message_status = message['is_new']
+    if message_status == True:
+        mongo.db.messages.update_one({'_id': ObjectId(message_id)}, { '$set': { 'is_new': False } })
+    
     new_messages = check_new_messages()
-    return render_template('view_message.html', user=user, messages=messages, new_messages=new_messages)
+    return render_template('view_message.html', user=user, message=message, new_messages=new_messages)
 
 
 # View logged user's profile
