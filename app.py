@@ -330,6 +330,7 @@ def view_collaborators():
 def get_messages():
     user = mongo.db.users.find_one({'username': session['user']})
     messages = list(mongo.db.messages.find({'to_user': session['user']}))
+    messages = sorted(messages, key=lambda k: (k['is_new'], datetime.strptime(k['date_created'], '%d/%m/%Y %H:%M')), reverse=True)
 
     # Check new messages
     new_messages = check_new_messages()
