@@ -33,7 +33,7 @@
 <body>
 
     <header>
-
+        <!-- Mobile Dropdown -->
         <ul id="mobile-dropdown" class="dropdown-content">
             {% if not session.user %}
                 <li><a href="{{ url_for('login') }}">Login</a></li>
@@ -116,11 +116,13 @@
         {% endwith %}
     </section>
 
+    <!-- Main Section -->
     <main class="container">
         {% block content %}
         {% endblock %}
     </main>
 
+    <!-- Footer -->
     <footer class="page-footer black">
         <div class="footer-copyright">
             <div class="container">
