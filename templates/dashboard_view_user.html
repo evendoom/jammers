@@ -40,7 +40,7 @@
     <div id="modalMessage" class="modal">
         <form method="POST" action="{{ url_for('send_message', profile_id=profile._id) }}">
         <div class="modal-content">
-            <label for="sendMessage"></label>
+            <label for="sendMessage">Message</label>
             <textarea name="sendMessage" id="sendMessage" class="modal-box autoResize" cols="30" rows="10" contenteditable></textarea>
         </div>
         <div class="modal-footer">

@@ -23,6 +23,7 @@
                 {% endif %}
                 <div class="card-stacked">
                     <div class="card-content">
+                        <p>From: {{ message.from_user }}</p>
                         <p>{{ message.message_list[0]['message'] }}</p>
                     </div>
                     <div class="card-action right-align">
