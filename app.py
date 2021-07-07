@@ -231,6 +231,7 @@ def send_message(profile_id):
     # Create dictionary to store on DB
     now = datetime.now()
     send_message = {
+        'date_created': now.strftime('%d/%m/%Y %H:%M'),
         'to_user': to_user['username'],
         'from_user': from_user['username'],
         'to_user_image': to_user['profile_pic'],
@@ -241,7 +242,7 @@ def send_message(profile_id):
             'message': request.form.get('sendMessage')
         }],
         'is_new': True,
-        'date_created': now.strftime('%d/%m/%Y %H:%M')
+        'is_archived': False
     }
 
     # Insert record on Mongo DB
@@ -330,7 +331,7 @@ def view_collaborators():
 @app.route('/dashboard/messages')
 def get_messages():
     user = mongo.db.users.find_one({'username': session['user']})
-    messages = list(mongo.db.messages.find({'to_user': session['user']}))
+    messages = list(mongo.db.messages.find({'to_user': session['user'], 'is_archived': False}))
     messages = sorted(messages, key=lambda k: (k['is_new'], datetime.strptime(k['date_created'], '%d/%m/%Y %H:%M')), reverse=True)
 
     # Check new messages
@@ -372,6 +373,56 @@ def view_message(message_id):
     
     new_messages = check_new_messages()
     return render_template('view_message.html', user=user, message=message, new_messages=new_messages)
+
+
+# Archive Messages
+@app.route('/dashboard/messages/archive/<message_id>')
+def archive_message(message_id):    
+    # Update message 'is_new' status
+    if mongo.db.messages.find_one({'_id': ObjectId(message_id)})['is_new']:
+        mongo.db.messages.update_one({'_id': ObjectId(message_id)}, { '$set': { 'is_new': False } })
+    
+    # Update message 'is_archived' status
+    mongo.db.messages.update_one({'_id': ObjectId(message_id)}, { '$set': { 'is_archived': True } })
+
+    # Redirect user to get_messages()
+    flash('Message archived!', 'info')
+    return redirect(url_for('get_messages'))
+
+
+# Unarchive Messages
+@app.route('/dashboard/messages/view_archived/unarchive/<archive_id>')
+def unarchive_message(archive_id):
+    mongo.db.messages.update_one({'_id': ObjectId(archive_id)}, { '$set': { 'is_archived': False } })
+
+    # Redirect user to get_messages()
+    flash('Message unarchived!' , 'info')
+    return redirect(url_for('get_messages'))
+
+
+# Delete Messages
+@app.route('/dashboard/messages/view_archived/delete/<archive_id>')
+def delete_message(archive_id):
+    mongo.db.messages.delete_one({'_id': ObjectId(archive_id)})
+
+    # Redirect user to get_messages()
+    flash('Message deleted!' , 'info')
+    return redirect(url_for('get_messages'))
+
+
+# View archived messages
+@app.route('/dashboard/messages/view_archived')
+def view_archived():
+    user = mongo.db.users.find_one({'username': session['user']})
+    new_messages = check_new_messages()
+    archived = list(mongo.db.messages.find({'to_user': session['user'], 'is_archived': True}))
+    archived = sorted(archived, key=lambda k: (datetime.strptime(k['date_created'], '%d/%m/%Y %H:%M')), reverse=True)
+
+    if len(archived) == 0:
+        flash('No archived messages!', 'info')
+        return render_template('view_archived_messages.html', user=user, new_messages=new_messages)
+    else:
+        return render_template('view_archived_messages.html', user=user, archived=archived, new_messages=new_messages)
 
 
 # View logged user's profile
