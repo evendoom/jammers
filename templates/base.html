@@ -36,21 +36,34 @@
         <!-- Mobile Dropdown -->
         <ul id="mobile-dropdown" class="dropdown-content">
             {% if not session.user %}
-                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('login') }}" class="dropdown_border">Login</a></li>
                 <li><a href="{{ url_for('register') }}">Register</a></li>
             {% else %}
-                <li><a href="#">Messages</a></li>
-                <li><a href="#">Collaborators</a></li>
-                <li><a href="#">Profile</a></li>
-                <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+                <li>
+                    <a href="{{ url_for('get_messages') }}" class="dropdown_border">
+                        Messages 
+                        {% if new_messages != 0 %}
+                            <span class="new badge blue">{{ new_messages }}</span>
+                        {% endif %}
+                    </a>
+                </li>
+                <li><a href="{{ url_for('view_collaborators') }}" class="dropdown_border">Collaborators</a></li>
+                <li><a href="{{ url_for('user_profile') }}" class="dropdown_border">Profile</a></li>
+                <li><a href="{{ url_for('logout') }}" class="dropdown_border">Log Out</a></li>
             {% endif %}
         </ul>
 
         <nav class="black">
             <div class="nav-wrapper">
                 {% if session.user %}
-                    <a href="{{ url_for('user_dashboard') }}" class="brand-logo">
+                    <!-- Logged in Logo for tablets (landscape mode) and desktop -->
+                    <a href="{{ url_for('user_dashboard') }}" class="brand-logo hide-on-small-only">
                         <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Jammers Logo">
+                    </a>
+
+                    <!-- Logged in Logo for mobile and tablets (portrait mode) -->
+                    <a href="{{ url_for('user_dashboard') }}" class="brand-logo hide-on-med-and-up">
+                        <img src="{{ url_for('get_profile_pic', filename=user.profile_pic) }}" alt="Jammers Logo" class="nav-logged-in-mobile-img">
                     </a>
                 {% else %}
                     <a href="{{ url_for('main') }}" class="brand-logo"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Jammers Logo"></a>

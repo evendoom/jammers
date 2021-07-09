@@ -52,7 +52,7 @@ nav .brand-logo {
 nav .fa-music {
     font-size: 30px;
     margin-right: 5px;
-    margin-top: 25px;
+    margin-top: 20px;
 }
 
 nav ul a {
@@ -66,6 +66,17 @@ nav ul a:hover {
 .dropdown-content li > a {
     color: black;
     text-transform: uppercase;
+}
+
+.nav-logged-in-mobile-img {
+    width: 63px;
+    height: 63px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.dropdown_border {
+    border-bottom: 1px solid black;
 }
 
 /* SIDENAV */
@@ -237,10 +248,6 @@ footer a:hover {
     background-color: #47126F;
 }
 
-.other_inst {
-    margin-top: 0;
-}
-
 /* LOGIN FORM */
 
 .login-form .input-field > label {
@@ -288,21 +295,36 @@ footer a:hover {
     letter-spacing: 1px;
 }
 
-.card-message .message-image {
-    display: flex;
-    width: 13%;
-    align-items: center;
-    justify-content: space-around;
-}
-
-.card-message .message-image.unread {
-    background-color: #47126F;
+.card-message {
+    margin-top: 20px;
 }
 
 .card-message .circle {
-    height: 100px;
-    width: 100px;
+    height: 60px;
+    width: 60px;
+    margin-top: 40%;
+    margin-left: 5%;
     object-fit: cover;
+}
+
+.card-message .message-user {
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.card-message .message-contents {
+    font-weight: 100;
+    letter-spacing: 1px;
+}
+
+.card-message .card-content {
+    padding: 12px 20px;
+}
+
+.card-message div > span {
+    padding: 0;
+    margin: 15px 7px 0 0;
+    color: #ffffff;
 }
 
 .card-message .btn {
@@ -315,6 +337,10 @@ footer a:hover {
 
 .card-message .view-button {
     margin-right: 10px;
+}
+
+.view-archived {
+    margin-bottom: 20px;
 }
 
 /* VIEW MESSAGES PAGE */
@@ -360,8 +386,8 @@ footer a:hover {
 }
 
 .user_profile img {
-    width: 400px;
-    height: 400px;
+    width: 150px;
+    height: 150px;
     object-fit: cover;
 }
 
@@ -417,23 +443,29 @@ footer a:hover {
     min-height: 100px;
 }
 
-.feedback-card .card.horizontal {
-    height: 150px;
+.user-feedback-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
 }
 
-.feedback-card .card-image {
-    width: 150px;
+.user-feedback .user-feedback-info h5 {
+    margin-top: 0;
+    font-size: 1.2rem;
 }
 
-.feedback-card .card.horizontal .card-image img {
-    max-width: 100%;
-    width: 150px;
-    height: 150px;
+.user-feedback img {
+    height: 50px;
+    width: 50px;
     object-fit: cover;
+    border-radius: 50%;
 }
 
-.feedback-card p, .feedback-card h5 {
+.user-feedback .card-content p {
     font-weight: 100;
+    letter-spacing: 1px;
 }
 
 /* SEARCH USERS */
@@ -502,6 +534,7 @@ small):not(.btn-large):not(.btn-floating):hover {
 
 
 /* MEDIA QUERIES */
+
 @media screen and (min-width: 768px) {
     nav .fa-music {
         margin-top: 8px;
@@ -518,3 +551,28 @@ small):not(.btn-large):not(.btn-floating):hover {
     }
 }
 
+@media screen and (min-width: 1440px) {
+
+    .card-message .message-image {
+        display: flex;
+        width: 13%;
+        align-items: center;
+        justify-content: space-around;
+    }
+    
+    
+    .card-message .message-image.unread {
+        background-color: #47126F;
+    }
+
+    .card-message .circle {
+        height: 100px;
+        width: 100px;
+    }
+
+    .user_profile img {
+        width: 413px;
+        height: 413px;
+    }
+
+}

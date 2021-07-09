@@ -9,12 +9,14 @@
 
 {% block content %}
 <div class="row card-message">
+    <a href="{{ url_for('view_archived') }}" class="col s6 offset-s3 btn hide-on-med-and-up view-archived">View Archived</a>
     {% for message in messages %}
         <div class="col s12">
             <div class="card horizontal">
                 {% if message.is_new %}
                     <div class="message-image unread">
                         <img src="{{ url_for('get_profile_pic', filename=message.from_user_image) }}" class="circle">
+                        <div><span class="badge blue">NEW</span></div>
                     </div>
                 {% else %}
                     <div class="message-image">
@@ -23,8 +25,8 @@
                 {% endif %}
                 <div class="card-stacked">
                     <div class="card-content">
-                        <p>From: {{ message.from_user }}</p>
-                        <p>{{ message.message_list[0]['message'] }}</p>
+                        <h5 class="message-user">From: {{ message.from_user }}</h5>
+                        <p class="message-contents">{{ message.message_list[0]['message'] }}</p>
                     </div>
                     <div class="card-action right-align">
                         <a href="{{ url_for('view_message', message_id=message._id) }}" class="btn view-button">Reply</a>

@@ -2,19 +2,10 @@
 {% block content %}
 
 <div class="row user_profile">
-    <div class="col m6">
+    <div class="col s12 m6">
         <img src="{{ url_for('get_profile_pic', filename=profile.profile_pic) }}" alt="{{ profile.username }} Profile Picture" class="m6">
-        {% if profile.username in collaborators.collaborations %}
-            <a class="btn add-button" href="{{ url_for('remove_collaborator', profile_id=profile._id) }}" >
-                <i class="fas fa-minus"></i>Remove from Collaborators
-            </a>
-        {% else %}
-            <a class="btn add-button" href="{{ url_for('add_collaborator', profile_id=profile._id) }}">
-                <i class="fas fa-plus"></i>Add to Collaborators
-            </a>
-        {% endif %}
     </div>
-    <div class="col m6">
+    <div class="col s12 m6">
         <h5>{{ profile.username }}</h5>
         <p><strong>Name:</strong> <span class="p_contents">{{profile.first_name}} {{ profile.last_name }}</span></p>
         <p><strong>City:</strong> <span class="p_contents">{{ profile.city|capitalize() }}</span></p>
@@ -30,9 +21,24 @@
             {% endfor %}
         </p>
         <p><strong>About:</strong> <span class="p_contents">{{ profile.about }}</span></p>
-        <div class="button-container">
+
+        <!-- Message and Feedback buttons -->
+        <div class="button-container center-align">
             <a class="btn btn-message modal-trigger" href="#modalMessage"><i class="fas fa-envelope"></i>Message</a>
             <a class="btn modal-trigger" href="#modalFeedback"><i class="fas fa-star"></i>Feedback</a>
+        </div>
+
+        <!-- Add Collaborator button -->
+        <div class="center-align">
+            {% if profile.username in collaborators.collaborations %}
+                <a class="btn add-button" href="{{ url_for('remove_collaborator', profile_id=profile._id) }}" >
+                    <i class="fas fa-minus"></i>Remove from Collaborators
+                </a>
+            {% else %}
+                <a class="btn add-button" href="{{ url_for('add_collaborator', profile_id=profile._id) }}">
+                    <i class="fas fa-plus"></i>Add to Collaborators
+                </a>
+            {% endif %}
         </div>
     </div>
 
@@ -64,19 +70,17 @@
 </div>
 
 {% if profile.feedback %}
-<div class="row feedback-card">
+<div class="row user-feedback">
     <h4 class="col s12">Feedback</h4>
     {% for feedback in profile.feedback %}
         <div class="col s12">
-            <h5>{{ feedback.from_user }} ({{ feedback.date }})</h5>
-            <div class="card horizontal">
-                <div class="card-image">
-                    <img src="{{ url_for('get_profile_pic', filename=feedback.from_user_img) }}">
-                </div>
-                <div class="card-stacked">
-                    <div class="card-content">
-                        <p>{{ feedback.feedback_msg }}</p>
+            <div class="card">
+                <div class="card-content white-text">
+                    <div class="user-feedback-info">
+                        <img src="{{ url_for('get_profile_pic', filename=feedback.from_user_img) }}" alt="{{ feedback.from_user}} profile picture">
+                        <h5>{{ feedback.from_user }} ({{ feedback.date }})</h5>
                     </div>
+                    <p>{{ feedback.feedback_msg }}</p>
                 </div>
             </div>
         </div>

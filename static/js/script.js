@@ -1,6 +1,8 @@
 $(document).ready(function() {
     // Dropdown menu for mobile
-    $(".dropdown-trigger").dropdown();
+    $('.dropdown-trigger').dropdown({
+        constrainWidth: false
+    });
     
     // Modal for messages and feedback
     $('.modal').modal();
