@@ -581,6 +581,10 @@ small):not(.btn-large):not(.btn-floating):hover {
         margin-left: 10px;
     }
 
+    .container {
+        width: 95%;
+    }
+
 }
 
 @media screen and (min-width: 1280px) {
