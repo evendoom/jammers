@@ -583,6 +583,9 @@ def delete_profile():
     # Delete messages related to user
     mongo.db.messages.delete_many({ '$or': [ { 'to_user': user['username'] }, { 'from_user': user['username'] } ] })
 
+    # Delete user from other users' 'collaborators' collection
+    mongo.db.collaborators.update_many({'collaborations': user['username']}, { '$pull': { 'collaborations': user['username'] } })
+
     # Delete profile picture from DB
     if user['profile_pic'] != 'generic_profile_pic.jpg':
         file_id = mongo.db.fs.files.find_one({'filename': user['profile_pic']})['_id']
