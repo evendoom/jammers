@@ -30,12 +30,29 @@ def main():
 @app.route('/search', methods=['GET', 'POST'])
 def intro_search():
     search_query = request.form.get('search_query')
+    search_query_lst = []
     search_results = []
 
+    # Put multiple search query words into a list
+    if ',' in search_query:
+        search_query_lst = list(search_query.split(','))
+    elif ', ' in search_query:
+        search_query_lst = list(search_query.split(', '))
+    elif ' ' in search_query:
+        search_query_lst = list(search_query.split(' '))
+
     # Find usernames that partially match search query (case insensitive)
-    search = mongo.db.users.find({ 'username': { '$regex': f'.*{search_query}.*', '$options': 'i' } })
-    for item in search:
-        search_results.append(item)
+    if search_query_lst:
+        for word in search_query_lst:
+            search = mongo.db.users.find({ 'username': { '$regex': f'.*{word}.*', '$options': 'i' } })
+            for item in search:
+                if item not in search_results:
+                    search_results.append(item)
+    else: 
+        search = mongo.db.users.find({ 'username': { '$regex': f'.*{search_query}.*', '$options': 'i' } })
+        for item in search:
+            if item not in search_results:
+                search_results.append(item)
     
     # Find cities or countries that match search query
     search = mongo.db.users.find({ '$text': { '$search': search_query } })
@@ -44,10 +61,17 @@ def intro_search():
             search_results.append(item)
     
     # Find instruments that match search query
-    search = mongo.db.users.find({ 'instruments': { '$regex': f'.*{search_query}.*', '$options': 'i' } })
-    for item in search:
-        if item not in search_results:
-            search_results.append(item)
+    if search_query_lst:
+        for word in search_query_lst:
+            search = mongo.db.users.find({ 'instruments': { '$regex': f'.*{word}.*', '$options': 'i' } })
+            for item in search:
+                if item not in search_results:
+                    search_results.append(item)
+    else:
+        search = mongo.db.users.find({ 'instruments': { '$regex': f'.*{search_query}.*', '$options': 'i' } })
+        for item in search:
+            if item not in search_results:
+                search_results.append(item)
 
     # Render template
     if len(search_results) == 0:
@@ -185,12 +209,29 @@ def dashboard_search():
     user = mongo.db.users.find_one({'username': session['user']})
     new_messages = check_new_messages()
     search_query = request.form.get('search_query')
+    search_query_lst = []
     search_results = []
 
+    # Put search query words into a list
+    if ',' in search_query:
+        search_query_lst = list(search_query.split(','))
+    elif ', ' in search_query:
+        search_query_lst = list(search_query.split(', '))
+    elif ' ' in search_query:
+        search_query_lst = list(search_query.split(' '))
+
     # Find usernames that partially match search query (case insensitive)
-    search = mongo.db.users.find({ 'username': { '$regex': f'.*{search_query}.*', '$options': 'i' } })
-    for item in search:
-        search_results.append(item)
+    if search_query_lst:
+        for word in search_query_lst:
+            search = mongo.db.users.find({ 'username': { '$regex': f'.*{word}.*', '$options': 'i' } })
+            for item in search:
+                if item not in search_results:
+                    search_results.append(item)
+    else:
+        search = mongo.db.users.find({ 'username': { '$regex': f'.*{search_query}.*', '$options': 'i' } })
+        for item in search:
+            if item not in search_results:
+                search_results.append(item)
     
     # Find cities or countries that match search query
     search = mongo.db.users.find({ '$text': { '$search': search_query } })
@@ -199,10 +240,17 @@ def dashboard_search():
             search_results.append(item)
     
     # Find instruments that match search query
-    search = mongo.db.users.find({ 'instruments': { '$regex': f'.*{search_query}.*', '$options': 'i' } })
-    for item in search:
-        if item not in search_results:
-            search_results.append(item)
+    if search_query_lst:
+        for word in search_query_lst:
+            search = mongo.db.users.find({ 'instruments': { '$regex': f'.*{word}.*', '$options': 'i' } })
+            for item in search:
+                if item not in search_results:
+                    search_results.append(item)
+    else:
+        search = mongo.db.users.find({ 'instruments': { '$regex': f'.*{search_query}.*', '$options': 'i' } })
+        for item in search:
+            if item not in search_results:
+                search_results.append(item)
 
     # Render template
     if len(search_results) == 0:
