@@ -9,7 +9,7 @@
 
 {% block content %}
 <div class="row card-message">
-    <a href="{{ url_for('view_archived') }}" class="col s6 offset-s3 btn hide-on-med-and-up view-archived">View Archived</a>
+    <a href="{{ url_for('view_archived') }}" class="col s6 offset-s3 btn hide-on-large-only view-archived">View Archived</a>
     {% for message in messages %}
         <div class="col s12">
             <div class="card horizontal">

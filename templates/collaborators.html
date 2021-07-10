@@ -4,7 +4,7 @@
 
 <div class="row collaborators">
     {% for collab in collabs %}
-        <div class="col s12 m4">
+        <div class="col s12 m6">
             <div class="card">
                 <a href="{{ url_for('dashboard_view_user', username=user.username, profile_id=collab._id) }}">
                     <div class="card-image">

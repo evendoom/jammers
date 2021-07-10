@@ -299,12 +299,23 @@ footer a:hover {
     margin-top: 20px;
 }
 
+.card-message .message-image {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 68px;
+    align-items: center;
+}
+
 .card-message .circle {
     height: 60px;
     width: 60px;
     margin-top: 40%;
-    margin-left: 5%;
     object-fit: cover;
+}
+
+.card-message .message-image.unread {
+    background-color: #47126F;
 }
 
 .card-message .message-user {
@@ -323,7 +334,7 @@ footer a:hover {
 
 .card-message div > span {
     padding: 0;
-    margin: 15px 7px 0 0;
+    margin: 20px 0 0 0;
     color: #ffffff;
 }
 
@@ -543,6 +554,25 @@ small):not(.btn-large):not(.btn-floating):hover {
     .intro-headers > h2 {
         font-size: 2rem;
     }
+
+    .card-message .message-image {
+        width: 80px;
+    }
+
+    .user_profile img {
+        width: 300px;
+        height: 300px;
+    }
+
+    .user-feedback-info {
+        justify-content:left;
+    }
+
+    .user-feedback img {
+        height: 70px;
+        width: 70px;
+        margin-right: 25px;
+    }
 }
 
 @media screen and (min-width: 1024px) {
@@ -558,11 +588,6 @@ small):not(.btn-large):not(.btn-floating):hover {
         width: 13%;
         align-items: center;
         justify-content: space-around;
-    }
-    
-    
-    .card-message .message-image.unread {
-        background-color: #47126F;
     }
 
     .card-message .circle {

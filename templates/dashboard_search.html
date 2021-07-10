@@ -4,7 +4,7 @@
 <div class="row search_users">
     {% for result in search_results %}
   
-      <div class="col s12 m3">
+      <div class="col s12 m6">
         <a href="{{ url_for('dashboard_view_user', profile_id=result._id) }}">
           <div class="card">
             <div class="card-image">

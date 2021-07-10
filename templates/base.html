@@ -62,7 +62,7 @@
                     </a>
 
                     <!-- Logged in Logo for mobile and tablets (portrait mode) -->
-                    <a href="{{ url_for('user_dashboard') }}" class="brand-logo hide-on-med-and-up">
+                    <a href="{{ url_for('user_dashboard') }}" class="brand-logo hide-on-large-only">
                         <img src="{{ url_for('get_profile_pic', filename=user.profile_pic) }}" alt="Jammers Logo" class="nav-logged-in-mobile-img">
                     </a>
                 {% else %}
