@@ -35,7 +35,7 @@
                     <label for="city">City</label>
                 </div>
                 <div class="input-field col s12 m6">
-                    <input id="country" name="country" type="text" class="validate" required>
+                    <input id="country" name="country" type="text" class="validate autocomplete" required>
                     <label for="country">Country</label>
                 </div>
             </div>
@@ -106,4 +106,8 @@
         </form>
     </div>
 
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/autocomplete.js') }}"></script>
 {% endblock %}
