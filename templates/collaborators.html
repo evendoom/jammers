@@ -4,8 +4,8 @@
 
 <div class="row collaborators">
     {% for collab in collabs %}
-        <div class="col s12 m6">
-            <div class="card">
+        <div class="col s12 m6 l4">
+            <div class="card medium">
                 <a href="{{ url_for('dashboard_view_user', username=user.username, profile_id=collab._id) }}">
                     <div class="card-image">
                         <img src="{{ url_for('get_profile_pic', filename=collab.profile_pic) }}" alt="{{ collab.username }} Profile Picture">

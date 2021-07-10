@@ -573,31 +573,60 @@ small):not(.btn-large):not(.btn-floating):hover {
         width: 70px;
         margin-right: 25px;
     }
+
 }
 
 @media screen and (min-width: 1024px) {
     nav .brand-logo {
         margin-left: 10px;
     }
+
+}
+
+@media screen and (min-width: 1280px) {
+
+    .container {
+        width: 85%;
+    }
+
+    .card-message .message-image {
+        width: 90px;
+    }
+
+    .card-message .circle {
+        height: 75px;
+        width: 75px;
+        margin-top: 35%;
+    }
+
 }
 
 @media screen and (min-width: 1440px) {
 
+    .card-message .circle {
+        margin-top: 30%;
+    }
+
+}
+
+@media screen and (min-width: 1920px) {
+
     .card-message .message-image {
-        display: flex;
-        width: 13%;
-        align-items: center;
-        justify-content: space-around;
+        width: 110px;
     }
 
     .card-message .circle {
-        height: 100px;
-        width: 100px;
+        height: 90px;
+        width: 90px;
     }
 
-    .user_profile img {
-        width: 413px;
-        height: 413px;
+    .card-message .circle {
+        margin-top: 18%;
+    }
+
+    .user-feedback img {
+        height: 80px;
+        width: 80px;
     }
 
 }

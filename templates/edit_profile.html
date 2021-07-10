@@ -108,14 +108,14 @@
                 {% endif %}
 
                 {% if 'keyboard' in user.instruments %}
-                    <p class="col s8 m4">
+                    <p class="col s4">
                         <label>
                             <input name="instrument" value="keyboard" type="checkbox" checked/>
                             <span class="form-checkbox-text">Keyboard</span>
                         </label>
                     </p>
                 {% else %}
-                    <p class="col s8 m4">
+                    <p class="col s4">
                         <label>
                             <input name="instrument" value="keyboard" type="checkbox" />
                             <span class="form-checkbox-text">Keyboard</span>
@@ -123,11 +123,11 @@
                     </p>
                 {% endif %}
 
-                <div class="input-field col s12 m4 other_inst">
+                <div class="input-field col s12 other_inst">
                     {% if other_instruments|length() == 0 %}
                         <input name="other_instrument" placeholder="Other instruments (separate with a comma)" type="text" class="validate">
                     {% else %}
-                        <input name="other_instrument" type="text" value="{{ other_instruments }}" class="validate">
+                        <input name="other_instrument" placeholder="Other instruments (separate with a comma)" type="text" value="{{ other_instruments }}" class="validate">
                     {% endif %}
                 </div>
             </div>
