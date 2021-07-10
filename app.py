@@ -124,8 +124,11 @@ def register():
         # Check if user uploaded a picture
         if 'profile_pic' in request.files:
             profile_pic = request.files['profile_pic']
-            profile_pic_name = f"{request.form.get('username')}{profile_pic.filename}"
-            mongo.save_file(profile_pic_name, profile_pic)
+            if profile_pic.filename == '':
+                profile_pic_name = 'generic_profile_pic.jpg'
+            else:
+                profile_pic_name = f"{request.form.get('username')}{profile_pic.filename}"
+                mongo.save_file(profile_pic_name, profile_pic)
         
         # Create dictionaries to send to Mongo DB
         register = {
@@ -520,9 +523,10 @@ def edit_profile():
                 mongo.save_file(profile_pic_name, profile_pic)
 
                 # Delete user's old profile pic
-                file_id = mongo.db.fs.files.find_one({'filename': user['profile_pic']})['_id']
-                mongo.db.fs.files.delete_one({'filename': user['profile_pic']})
-                mongo.db.fs.chunks.delete_one({'files_id': ObjectId(file_id)})
+                if user['profile_pic'] != 'generic_profile_pic.jpg':
+                    file_id = mongo.db.fs.files.find_one({'filename': user['profile_pic']})['_id']
+                    mongo.db.fs.files.delete_one({'filename': user['profile_pic']})
+                    mongo.db.fs.chunks.delete_one({'files_id': ObjectId(file_id)})
         
         # Create dictionary to update Mongo DB
         update_profile = {
@@ -580,9 +584,10 @@ def delete_profile():
     mongo.db.messages.delete_many({ '$or': [ { 'to_user': user['username'] }, { 'from_user': user['username'] } ] })
 
     # Delete profile picture from DB
-    file_id = mongo.db.fs.files.find_one({'filename': user['profile_pic']})['_id']
-    mongo.db.fs.files.delete_one({'filename': user['profile_pic']})
-    mongo.db.fs.chunks.delete_one({'files_id': ObjectId(file_id)})
+    if user['profile_pic'] != 'generic_profile_pic.jpg':
+        file_id = mongo.db.fs.files.find_one({'filename': user['profile_pic']})['_id']
+        mongo.db.fs.files.delete_one({'filename': user['profile_pic']})
+        mongo.db.fs.chunks.delete_one({'files_id': ObjectId(file_id)})
 
     # Terminate user session and redirect to main page
     session.pop('user')
