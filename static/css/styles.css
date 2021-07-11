@@ -577,6 +577,29 @@ small):not(.btn-large):not(.btn-floating):hover {
     color: black;
 }
 
+/* ABOUT */
+
+.about h3 {
+    font-size: 1.7rem;
+    line-height: 45px;
+}
+
+.about h5 {
+    line-height: 35px;
+}
+
+.about p {
+    font-weight: 300;
+}
+
+.about h3, .about p, .about h5 {
+    letter-spacing: 1px;
+}
+
+.about .fas {
+    font-size: 3rem;
+    margin-top: 40px;
+}
 
 /* MEDIA QUERIES */
 
@@ -606,6 +629,19 @@ small):not(.btn-large):not(.btn-floating):hover {
         height: 70px;
         width: 70px;
         margin-right: 25px;
+    }
+
+    .about h3 {
+        font-size: 2.5rem;
+        font-weight: 500;
+    }
+
+    .about h5 {
+        font-size: 1.8rem;
+    }
+
+    .about p {
+        font-size: 1.3rem;
     }
 
 }
@@ -645,6 +681,18 @@ small):not(.btn-large):not(.btn-floating):hover {
         margin-top: 30%;
     }
 
+    .about {
+        margin-top: 50px;
+    }
+
+    .statement {
+        margin-top: 35px;
+    }
+
+    .stickaround {
+        margin-top: 45px;
+    }
+
 }
 
 @media screen and (min-width: 1920px) {
@@ -665,6 +713,14 @@ small):not(.btn-large):not(.btn-floating):hover {
     .user-feedback img {
         height: 80px;
         width: 80px;
+    }
+
+    .about h5 {
+        font-size: 2rem;
+    }
+
+    .stickaround {
+        margin-top: 55px;
     }
 
 }
