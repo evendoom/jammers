@@ -45,31 +45,43 @@ def intro_search():
         # Find usernames that partially match search query (case insensitive)
         if search_query_lst:
             for word in search_query_lst:
-                search = mongo.db.users.find({'username':{'$regex': f'.*{word}.*', '$options': 'i'}})
-                for item in search:
-                    if item not in search_results:
-                        search_results.append(item)
-        else: 
-            search = mongo.db.users.find({ 'username': { '$regex': f'.*{search_query}.*', '$options': 'i' } })
-            for item in search:
-                if item not in search_results:
-                    search_results.append(item)
-        
-        # Find cities or countries that match search query
-        search = mongo.db.users.find({ '$text': { '$search': search_query } })
-        for item in search:
-            if item not in search_results:
-                search_results.append(item)
-        
-        # Find instruments that match search query
-        if search_query_lst:
-            for word in search_query_lst:
-                search = mongo.db.users.find({ 'instruments': { '$regex': f'.*{word}.*', '$options': 'i' } })
+                search = mongo.db.users.find({'username':
+                                             {'$regex': f'.*{word}.*',
+                                              '$options': 'i'}})
+
                 for item in search:
                     if item not in search_results:
                         search_results.append(item)
         else:
-            search = mongo.db.users.find({ 'instruments': { '$regex': f'.*{search_query}.*', '$options': 'i' } })
+            search = mongo.db.users.find({'username':
+                                         {'$regex': f'.*{search_query}.*',
+                                          '$options': 'i'}})
+
+            for item in search:
+                if item not in search_results:
+                    search_results.append(item)
+
+        # Find cities or countries that match search query
+        search = mongo.db.users.find({'$text': {'$search': search_query}})
+        for item in search:
+            if item not in search_results:
+                search_results.append(item)
+
+        # Find instruments that match search query
+        if search_query_lst:
+            for word in search_query_lst:
+                search = mongo.db.users.find({'instruments':
+                                             {'$regex': f'.*{word}.*',
+                                              '$options': 'i'}})
+
+                for item in search:
+                    if item not in search_results:
+                        search_results.append(item)
+        else:
+            search = mongo.db.users.find({'instruments':
+                                         {'$regex': f'.*{search_query}.*',
+                                          '$options': 'i'}})
+
             for item in search:
                 if item not in search_results:
                     search_results.append(item)
@@ -79,10 +91,12 @@ def intro_search():
     else:
         # Render template
         if len(search_results) == 0:
-            flash('No results found. Hit main logo to perform another search', 'info')
+            flash('No results found. Hit main logo to perform another search',
+                  'info')
             return render_template('intro_search.html')
         else:
-            return render_template('intro_search.html', search_results=search_results)
+            return render_template('intro_search.html',
+                                   search_results=search_results)
 
 
 # View Profile
@@ -102,16 +116,18 @@ def view_profile(user_id):
 def register():
     if request.method == 'POST':
         # Check if username already exists
-        username_exists = mongo.db.users.find_one({'username': request.form.get('username')})
+        username_exists = mongo.db.users.find_one(
+            {'username': request.form.get('username')})
 
         if username_exists:
             flash('Username already exists', 'error')
             return redirect(url_for('register'))
 
-        # Create a list of instruments 
+        # Create a list of instruments
         instruments = request.form.getlist('instrument')
 
-        # Check if other instruments are available and add them to instruments list
+        # Check if other instruments are available
+        # and add them to instruments list
         if request.form.get('other_instrument'):
             other_instruments_str = request.form.get('other_instrument')
             if ', ' in other_instruments_str:
@@ -124,7 +140,7 @@ def register():
                     instruments.append(item.lower())
             else:
                 instruments.append(other_instruments_str.lower())
-        
+
         # Prevent registration if there are no instruments
         if len(instruments) == 0:
             flash('Please select an instrument!', 'error')
@@ -136,15 +152,19 @@ def register():
             if profile_pic.filename == '':
                 profile_pic_name = 'generic_profile_pic.jpg'
             else:
-                profile_pic_name = f"{request.form.get('username')}{profile_pic.filename}"
+                profile_pic_name = (
+                    f"{request.form.get('username')}{profile_pic.filename}")
+
                 mongo.save_file(profile_pic_name, profile_pic)
-        
+
         # Create dictionaries to send to Mongo DB
         register = {
             'first_name': request.form.get('first_name'),
             'last_name': request.form.get('last_name'),
             'username': request.form.get('username'),
-            'password': generate_password_hash(request.form.get('password'), method='pbkdf2:sha256', salt_length=16),
+            'password': generate_password_hash(request.form.get('password'),
+                                               method='pbkdf2:sha256',
+                                               salt_length=16),
             'city': request.form.get('city').lower(),
             'country': request.form.get('country').lower(),
             'profile_pic': profile_pic_name,
@@ -180,16 +200,17 @@ def login():
     if request.method == "POST":
         try:
             # Check if user exists
-            user_exists = mongo.db.users.find_one({'username': request.form.get('username')})
+            user_exists = mongo.db.users.find_one(
+                {'username': request.form.get('username')})
         except:
             render_error()
             return render_template('intro.html')
         else:
             # Check is password matches
             if user_exists:
-                if check_password_hash(
-                    user_exists['password'], request.form.get('password')):
-                    # Create session user 
+                if check_password_hash(user_exists['password'],
+                                       request.form.get('password')):
+                    # Create session user
                     session['user'] = request.form.get('username')
                     return redirect(url_for('user_dashboard'))
                 else:
@@ -198,7 +219,7 @@ def login():
             else:
                 flash('Invalid username / password', 'error')
                 return redirect(url_for('login'))
-            
+
     return render_template('login.html')
 
 
@@ -225,7 +246,8 @@ def user_dashboard():
         render_error()
         return render_template('intro.html')
     else:
-        return render_template('profile_main.html', user=user, new_messages=new_messages)
+        return render_template(
+            'profile_main.html', user=user, new_messages=new_messages)
 
 
 # Dashboard Search
@@ -249,31 +271,39 @@ def dashboard_search():
         # Find usernames that partially match search query (case insensitive)
         if search_query_lst:
             for word in search_query_lst:
-                search = mongo.db.users.find({ 'username': { '$regex': f'.*{word}.*', '$options': 'i' } })
+                search = mongo.db.users.find({'username':
+                                             {'$regex': f'.*{word}.*',
+                                              '$options': 'i'}})
                 for item in search:
                     if item not in search_results:
                         search_results.append(item)
         else:
-            search = mongo.db.users.find({ 'username': { '$regex': f'.*{search_query}.*', '$options': 'i' } })
+            search = mongo.db.users.find({'username':
+                                         {'$regex': f'.*{search_query}.*',
+                                          '$options': 'i'}})
             for item in search:
                 if item not in search_results:
                     search_results.append(item)
-        
+
         # Find cities or countries that match search query
-        search = mongo.db.users.find({ '$text': { '$search': search_query } })
+        search = mongo.db.users.find({'$text': {'$search': search_query}})
         for item in search:
             if item not in search_results:
                 search_results.append(item)
-        
+
         # Find instruments that match search query
         if search_query_lst:
             for word in search_query_lst:
-                search = mongo.db.users.find({ 'instruments': { '$regex': f'.*{word}.*', '$options': 'i' } })
+                search = mongo.db.users.find({'instruments':
+                                             {'$regex': f'.*{word}.*',
+                                              '$options': 'i'}})
                 for item in search:
                     if item not in search_results:
                         search_results.append(item)
         else:
-            search = mongo.db.users.find({ 'instruments': { '$regex': f'.*{search_query}.*', '$options': 'i' } })
+            search = mongo.db.users.find({'instruments':
+                                         {'$regex': f'.*{search_query}.*',
+                                          '$options': 'i'}})
             for item in search:
                 if item not in search_results:
                     search_results.append(item)
@@ -283,10 +313,14 @@ def dashboard_search():
     else:
         # Render template
         if len(search_results) == 0:
-            flash('No results found. Hit main logo to perform another search', 'info')
-            return render_template('dashboard_search.html', user=user, new_messages=new_messages)
+            flash('No results found. Hit main logo to perform another search',
+                  'info')
+            return render_template('dashboard_search.html',
+                                   user=user, new_messages=new_messages)
         else:
-            return render_template('dashboard_search.html', user=user, search_results=search_results, new_messages=new_messages)
+            return render_template('dashboard_search.html',
+                                   user=user, search_results=search_results,
+                                   new_messages=new_messages)
 
 
 # Dashboard Search View Profile
@@ -296,16 +330,21 @@ def dashboard_view_user(profile_id):
         user = mongo.db.users.find_one({'username': session['user']})
         new_messages = check_new_messages()
         profile = mongo.db.users.find_one({'_id': ObjectId(profile_id)})
-        collaborators = mongo.db.collaborators.find_one({'user': session['user']})
+        collaborators = mongo.db.collaborators.find_one({'user':
+                                                         session['user']})
     except:
         render_error()
         return render_template('intro.html')
     else:
-        return render_template('dashboard_view_user.html', user=user, profile=profile, collaborators=collaborators, new_messages=new_messages)
+        return render_template('dashboard_view_user.html',
+                               user=user, profile=profile,
+                               collaborators=collaborators,
+                               new_messages=new_messages)
 
 
 # Send message to user
-@app.route('/dashboard/search/<profile_id>/sendMessage', methods=['GET', 'POST'])
+@app.route('/dashboard/search/<profile_id>/sendMessage',
+           methods=['GET', 'POST'])
 def send_message(profile_id):
     try:
         from_user = mongo.db.users.find_one({'username': session['user']})
@@ -340,7 +379,8 @@ def send_message(profile_id):
 
 
 # Post feedback on user profile page
-@app.route('/dashboard/search/<profile_id>/postFeedback', methods=['GET', 'POST'])
+@app.route('/dashboard/search/<profile_id>/postFeedback',
+           methods=['GET', 'POST'])
 def post_feedback(profile_id):
     try:
         from_user = mongo.db.users.find_one({'username': session['user']})
@@ -356,7 +396,8 @@ def post_feedback(profile_id):
         }
 
         # Push dictionary to Mongo DB
-        mongo.db.users.update_one({'_id': ObjectId(profile_id)}, { '$push': {'feedback': feedback} })
+        mongo.db.users.update_one({'_id': ObjectId(profile_id)},
+                                  {'$push': {'feedback': feedback}})
     except:
         render_error()
         return render_template('intro.html')
@@ -373,7 +414,10 @@ def add_collaborator(profile_id):
         collaborator = mongo.db.users.find_one({'_id': ObjectId(profile_id)})
 
         # Push collaboration to user's collaborators collection
-        mongo.db.collaborators.update_one({'user': session['user']}, { '$push': { 'collaborations': collaborator['username'] } })
+        mongo.db.collaborators.update_one({'user': session['user']},
+                                          {'$push':
+                                          {'collaborations':
+                                           collaborator['username']}})
     except:
         render_error()
         return render_template('intro.html')
@@ -390,7 +434,10 @@ def remove_collaborator(profile_id):
         collaborator = mongo.db.users.find_one({'_id': ObjectId(profile_id)})
 
         # Remove collaboration from user's collaborators collection
-        mongo.db.collaborators.update_one({'user': session['user']}, { '$pull': { 'collaborations': collaborator['username'] } })
+        mongo.db.collaborators.update_one({'user': session['user']},
+                                          {'$pull':
+                                          {'collaborations':
+                                           collaborator['username']}})
     except:
         render_error()
         return render_template('intro.html')
@@ -408,12 +455,14 @@ def view_collaborators():
         new_messages = check_new_messages()
 
         # Get all members from user's collaborators collection
-        collabs_db = mongo.db.collaborators.find_one({'user': session['user']})['collaborations']
+        collabs_db = mongo.db.collaborators.find_one(
+            {'user': session['user']})['collaborations']
 
         # Create an empty list that will store all members' details
         collabs = []
 
-        # Iterate through all members in collaborators collection and add their details to collabs
+        # Iterate through all members in collaborators collection
+        # and add their details to collabs
         for collab in collabs_db:
             details = mongo.db.users.find_one({'username': collab})
             collabs.append(details)
@@ -423,10 +472,16 @@ def view_collaborators():
     else:
         # Render template
         if len(collabs) == 0:
-            flash('You have 0 collaborators. Search and add users!', 'info')
-            return render_template('collaborators.html', user=user, new_messages=new_messages)
+            flash('You have 0 collaborators. Search and add users!',
+                  'info')
+            return render_template('collaborators.html',
+                                   user=user,
+                                   new_messages=new_messages)
         else:
-            return render_template('collaborators.html', user=user, collabs=collabs, new_messages=new_messages)
+            return render_template('collaborators.html',
+                                   user=user,
+                                   collabs=collabs,
+                                   new_messages=new_messages)
 
 
 # Get user messages
@@ -434,8 +489,12 @@ def view_collaborators():
 def get_messages():
     try:
         user = mongo.db.users.find_one({'username': session['user']})
-        messages = list(mongo.db.messages.find({'to_user': session['user'], 'is_archived': False}))
-        messages = sorted(messages, key=lambda k: (k['is_new'], datetime.strptime(k['date_created'], '%d/%m/%Y %H:%M')), reverse=True)
+        messages = list(mongo.db.messages.find({'to_user': session['user'],
+                                                'is_archived': False}))
+        messages = sorted(messages, key=lambda
+                          k: (k['is_new'], datetime.strptime(k['date_created'],
+                              '%d/%m/%Y %H:%M')),
+                          reverse=True)
 
         # Check new messages
         new_messages = check_new_messages()
@@ -445,9 +504,14 @@ def get_messages():
     else:
         if len(messages) == 0:
             flash('You have 0 messages', 'info')
-            return render_template('messages.html', user=user, new_messages=new_messages)
+            return render_template('messages.html',
+                                   user=user,
+                                   new_messages=new_messages)
         else:
-            return render_template('messages.html', user=user, messages=messages, new_messages=new_messages)
+            return render_template('messages.html',
+                                   user=user,
+                                   messages=messages,
+                                   new_messages=new_messages)
 
 
 # View message
@@ -466,27 +530,33 @@ def view_message(message_id):
             }
 
             # Push to Mongo DB
-            mongo.db.messages.update_one({'_id': ObjectId(message_id)}, { '$push': {'message_list': submit}})
+            mongo.db.messages.update_one({'_id': ObjectId(message_id)},
+                                         {'$push': {'message_list': submit}})
         except:
             render_error()
             return render_template('intro.html')
         else:
             return redirect(url_for('get_messages'))
+
     try:
         user = mongo.db.users.find_one({'username': session['user']})
         message = mongo.db.messages.find_one({'_id': ObjectId(message_id)})
 
-        #Update message status
+        # Update message status
         message_status = message['is_new']
-        if message_status == True:
-            mongo.db.messages.update_one({'_id': ObjectId(message_id)}, { '$set': { 'is_new': False } })
-        
+        if message_status:
+            mongo.db.messages.update_one({'_id': ObjectId(message_id)},
+                                         {'$set': {'is_new': False}})
+
         new_messages = check_new_messages()
     except:
         render_error()
         return render_template('intro.html')
     else:
-        return render_template('view_message.html', user=user, message=message, new_messages=new_messages)
+        return render_template('view_message.html',
+                               user=user,
+                               message=message,
+                               new_messages=new_messages)
 
 
 # Archive Messages
@@ -495,10 +565,12 @@ def archive_message(message_id):
     try:
         # Update message 'is_new' status
         if mongo.db.messages.find_one({'_id': ObjectId(message_id)})['is_new']:
-            mongo.db.messages.update_one({'_id': ObjectId(message_id)}, { '$set': { 'is_new': False } })
-        
+            mongo.db.messages.update_one({'_id': ObjectId(message_id)},
+                                         {'$set': {'is_new': False}})
+
         # Update message 'is_archived' status
-        mongo.db.messages.update_one({'_id': ObjectId(message_id)}, { '$set': { 'is_archived': True } })
+        mongo.db.messages.update_one({'_id': ObjectId(message_id)},
+                                     {'$set': {'is_archived': True}})
     except:
         render_error()
         return render_template('intro.html')
@@ -512,13 +584,14 @@ def archive_message(message_id):
 @app.route('/dashboard/messages/view_archived/unarchive/<archive_id>')
 def unarchive_message(archive_id):
     try:
-        mongo.db.messages.update_one({'_id': ObjectId(archive_id)}, { '$set': { 'is_archived': False } })
+        mongo.db.messages.update_one({'_id': ObjectId(archive_id)},
+                                     {'$set': {'is_archived': False}})
     except:
         render_error()
         return render_template('intro.html')
     else:
         # Redirect user to get_messages()
-        flash('Message unarchived!' , 'info')
+        flash('Message unarchived!', 'info')
         return redirect(url_for('get_messages'))
 
 
@@ -532,7 +605,7 @@ def delete_message(archive_id):
         return render_template('intro.html')
     else:
         # Redirect user to get_messages()
-        flash('Message deleted!' , 'info')
+        flash('Message deleted!', 'info')
         return redirect(url_for('get_messages'))
 
 
@@ -542,17 +615,26 @@ def view_archived():
     try:
         user = mongo.db.users.find_one({'username': session['user']})
         new_messages = check_new_messages()
-        archived = list(mongo.db.messages.find({'to_user': session['user'], 'is_archived': True}))
-        archived = sorted(archived, key=lambda k: (datetime.strptime(k['date_created'], '%d/%m/%Y %H:%M')), reverse=True)
+        archived = list(mongo.db.messages.find({'to_user': session['user'],
+                                                'is_archived': True}))
+        archived = sorted(archived, key=lambda
+                          k: (datetime.strptime
+                              (k['date_created'], '%d/%m/%Y %H:%M')),
+                          reverse=True)
     except:
         render_error()
         return render_template('intro.html')
     else:
         if len(archived) == 0:
             flash('No archived messages!', 'info')
-            return render_template('view_archived_messages.html', user=user, new_messages=new_messages)
+            return render_template('view_archived_messages.html',
+                                   user=user,
+                                   new_messages=new_messages)
         else:
-            return render_template('view_archived_messages.html', user=user, archived=archived, new_messages=new_messages)
+            return render_template('view_archived_messages.html',
+                                   user=user,
+                                   archived=archived,
+                                   new_messages=new_messages)
 
 
 # View logged user's profile
@@ -565,7 +647,9 @@ def user_profile():
         render_error()
         return render_template('intro.html')
     else:
-        return render_template('view_user_profile.html', user=user, new_messages=new_messages)
+        return render_template('view_user_profile.html',
+                               user=user,
+                               new_messages=new_messages)
 
 
 # Edit profile
@@ -582,15 +666,18 @@ def edit_profile():
             # Create list with instruments that have been selected
             instruments = request.form.getlist('instrument')
 
-            # Check if other instruments are available and add them to instruments list
+            # Check if other instruments are available
+            # and add them to instruments list
             if request.form.get('other_instrument'):
                 other_instruments_str = request.form.get('other_instrument')
                 if ', ' in other_instruments_str:
-                    other_instruments_lst = list(other_instruments_str.split(', '))
+                    other_instruments_lst = list(
+                        other_instruments_str.split(', '))
                     for item in other_instruments_lst:
                         instruments.append(item.lower())
                 elif ',' in other_instruments_str:
-                    other_instruments_lst = list(other_instruments_str.split(','))
+                    other_instruments_lst = list(
+                        other_instruments_str.split(','))
                     for item in other_instruments_lst:
                         instruments.append(item.lower())
                 else:
@@ -607,15 +694,19 @@ def edit_profile():
                 if profile_pic.filename == '':
                     profile_pic_name = user['profile_pic']
                 else:
-                    profile_pic_name = f"{user['username']}{profile_pic.filename}"
+                    profile_pic_name = (
+                        f"{user['username']}{profile_pic.filename}")
                     mongo.save_file(profile_pic_name, profile_pic)
 
                     # Delete user's old profile pic
                     if user['profile_pic'] != 'generic_profile_pic.jpg':
-                        file_id = mongo.db.fs.files.find_one({'filename': user['profile_pic']})['_id']
-                        mongo.db.fs.files.delete_one({'filename': user['profile_pic']})
-                        mongo.db.fs.chunks.delete_one({'files_id': ObjectId(file_id)})
-            
+                        file_id = mongo.db.fs.files.find_one(
+                            {'filename': user['profile_pic']})['_id']
+                        mongo.db.fs.files.delete_one(
+                            {'filename': user['profile_pic']})
+                        mongo.db.fs.chunks.delete_one(
+                            {'files_id': ObjectId(file_id)})
+
             # Create dictionary to update Mongo DB
             update_profile = {
                 'first_name': request.form.get('first_name'),
@@ -630,10 +721,17 @@ def edit_profile():
             try:
                 # Update user on Mongo DB
                 # Update 'users' collection
-                mongo.db.users.update_one({'_id': ObjectId(user['_id'])}, { '$set': update_profile })
+                mongo.db.users.update_one({'_id': ObjectId(user['_id'])},
+                                          {'$set': update_profile})
                 # Update 'messages' collection
-                mongo.db.messages.update_many({'to_user': user['username']}, { '$set': { 'to_user_image': profile_pic_name } })
-                mongo.db.messages.update_many({'from_user': user['username']}, { '$set': { 'from_user_image': profile_pic_name } }) 
+                mongo.db.messages.update_many({'to_user': user['username']},
+                                              {'$set':
+                                              {'to_user_image':
+                                               profile_pic_name}})
+                mongo.db.messages.update_many({'from_user': user['username']},
+                                              {'$set':
+                                              {'from_user_image':
+                                               profile_pic_name}})
             except:
                 render_error()
                 return render_template('intro.html')
@@ -642,7 +740,8 @@ def edit_profile():
                 flash('Profile updated!', 'info')
                 return redirect(url_for('user_profile'))
 
-        # Separate instruments that have an HTML checkbox from the 'Other instruments' input HTML field
+        # Separate instruments that have an HTML checkbox
+        # from the 'Other instruments' input HTML field
         instrument_check = ['voice', 'guitar', 'bass', 'drums', 'keyboard']
         other_instruments_list = []
 
@@ -658,7 +757,10 @@ def edit_profile():
         else:
             other_instruments = ", ".join(other_instruments_list)
 
-        return render_template('edit_profile.html', user=user, other_instruments=other_instruments, new_messages=new_messages)
+        return render_template('edit_profile.html',
+                               user=user,
+                               other_instruments=other_instruments,
+                               new_messages=new_messages)
 
 
 # Delete user profile
@@ -666,7 +768,7 @@ def edit_profile():
 def delete_profile():
     try:
         user = mongo.db.users.find_one({'username': session['user']})
-        
+
         # Delete user from 'users' collection
         mongo.db.users.delete_one({'username': user['username']})
 
@@ -674,15 +776,22 @@ def delete_profile():
         mongo.db.collaborators.delete_one({'user': user['username']})
 
         # Delete messages related to user
-        mongo.db.messages.delete_many({ '$or': [ { 'to_user': user['username'] }, { 'from_user': user['username'] } ] })
+        mongo.db.messages.delete_many({'$or': [{'to_user': user['username']},
+                                      {'from_user': user['username']}]})
 
         # Delete user from other users' 'collaborators' collection
-        mongo.db.collaborators.update_many({'collaborations': user['username']}, { '$pull': { 'collaborations': user['username'] } })
+        mongo.db.collaborators.update_many({'collaborations':
+                                            user['username']},
+                                           {'$pull':
+                                           {'collaborations':
+                                            user['username']}})
 
         # Delete profile picture from DB
         if user['profile_pic'] != 'generic_profile_pic.jpg':
-            file_id = mongo.db.fs.files.find_one({'filename': user['profile_pic']})['_id']
-            mongo.db.fs.files.delete_one({'filename': user['profile_pic']})
+            file_id = mongo.db.fs.files.find_one(
+                {'filename': user['profile_pic']})['_id']
+            mongo.db.fs.files.delete_one(
+                {'filename': user['profile_pic']})
             mongo.db.fs.chunks.delete_one({'files_id': ObjectId(file_id)})
     except:
         render_error()
@@ -692,7 +801,7 @@ def delete_profile():
         session.pop('user')
         flash('Profile deleted!', 'info')
         return redirect(url_for('main'))
-    
+
 
 # About page
 @app.route('/about')
@@ -708,7 +817,7 @@ def check_new_messages():
     for message in messages:
         if message['is_new']:
             new_messages = new_messages + 1
-    
+
     return new_messages
 
 
