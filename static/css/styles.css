@@ -38,6 +38,16 @@ body::after {
     font-weight: 300;
 }
 
+/* BUTTONS */
+
+.btn-large, .btn {
+    background-color: black;
+}
+
+.btn-large:hover, .btn-large:active, .btn-large:focus, .btn:hover, .btn:active, .btn:focus {
+    background-color: #47126F;
+}
+
 /* NAVBAR */
 nav {
     height: 75px;
@@ -180,14 +190,6 @@ footer a:hover {
     box-shadow: 0 1px 0 0 #ffffff;
 }
 
-.intro-form button {
-    background-color: black;
-}
-
-.intro-form .btn-large:hover {
-    background-color: #47126F;
-}
-
 /* REGISTER FORM */
 
 .register-form h5 {
@@ -238,14 +240,6 @@ footer a:hover {
 .register-form [type="checkbox"]:checked + span:not(.lever)::before {
     border-right: 2px solid #47126F;
     border-bottom: 2px solid #47126F;
-}
-
-.register-form .btn {
-    background-color: black;
-}
-
-.register-form .btn:hover {
-    background-color: #47126F;
 }
 
 .autocomplete {
@@ -314,14 +308,6 @@ color: #ffffff;
     box-shadow: 0 1px 0 0 #ffffff;
 }
 
-.login-form .btn {
-    background-color: black;
-}
-
-.login-form .btn:hover {
-    background-color: #47126F;
-}
-
 /* MESSAGES PAGE */
 
 .card {
@@ -372,14 +358,6 @@ color: #ffffff;
     color: #ffffff;
 }
 
-.card-message .btn {
-    background-color: black;
-}
-
-.card-message .btn:hover {
-    background-color: #47126F;    
-}
-
 .card-message .view-button {
     margin-right: 10px;
 }
@@ -418,11 +396,13 @@ color: #ffffff;
 
 .reply-form .btn {
     background-color: rgb(0, 151, 13);
+    transition: background-color 0.5s ease-out;
 }
 
-.reply-form .btn:hover {
-    background-color: #47126F;
+.reply-form .btn:hover, .reply-form .btn:active, .reply-form .btn:focus {
+    background-color:  rgb(1, 197, 17);
 }
+
 
 /* USER PROFILE */
 
@@ -450,14 +430,6 @@ color: #ffffff;
 
 .user_profile .fas {
     margin-right: 10px;
-}
-
-.user_profile .btn {
-    background-color: black;
-}
-
-.user_profile .btn:hover {
-    background-color: #47126F;
 }
 
 .user_profile .btn.btn-edit {
@@ -563,14 +535,6 @@ small):not(.btn-large):not(.btn-floating) {
 a:not(.btn):not(.btn-large):not(.btn-
 small):not(.btn-large):not(.btn-floating):hover {
     color: #47126F;
-}
-
-.collaborators .btn {
-    background-color: black;
-}
-
-.collaborators .btn:hover {
-    background-color: #47126F;
 }
 
 .collaborators .modal-remove-message {
