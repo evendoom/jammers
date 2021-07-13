@@ -807,7 +807,7 @@ def delete_profile():
 @app.route('/about')
 def about():
     try:
-        if session['user']:
+        if 'user' in session:
             user = mongo.db.users.find_one({'username': session['user']})
             return render_template('about.html', user=user)
         else:
@@ -833,7 +833,7 @@ def check_new_messages():
 def render_error():
     flash('Internal error, please try again later!', 'error')
 
-    if session['user']:
+    if 'user' in session:
         session.pop('user')
 
 
