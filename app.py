@@ -806,7 +806,15 @@ def delete_profile():
 # About page
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    try:
+        if session['user']:
+            user = mongo.db.users.find_one({'username': session['user']})
+            return render_template('about.html', user=user)
+        else:
+            return render_template('about.html')
+    except:
+        render_error()
+        return render_template('intro.html')
 
 
 # Check new messages
