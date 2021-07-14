@@ -526,14 +526,12 @@ color: #ffffff;
 
 
 .collaborators .card .card-action 
-a:not(.btn):not(.btn-large):not(.btn-
-small):not(.btn-large):not(.btn-floating) {
+a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating) {
     color: #ffffff;
 }
 
 .collaborators .card .card-action 
-a:not(.btn):not(.btn-large):not(.btn-
-small):not(.btn-large):not(.btn-floating):hover {
+a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating):hover {
     color: #47126F;
 }
 
