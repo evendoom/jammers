@@ -9,7 +9,7 @@
       <a href="{{ url_for('view_profile', user_id=result._id) }}">
         <div class="card medium">
           <div class="card-image">
-            <img src="{{ url_for('get_profile_pic', filename=result.profile_pic) }}" alt="User Profile Picture">
+            <img src="{{ url_for('get_profile_pic', filename=result.profile_pic) }}" alt="{{ result.username }} profile picture">
           </div>
           <div class="card-content">
             <h4>{{ result.username }}</h4>

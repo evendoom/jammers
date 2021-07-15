@@ -3,8 +3,7 @@
 {% block active_link_messages %}active-link{% endblock %}
 
 {% block archived_messages %}
-    <li><a href="{{ url_for('view_archived') }}" class="white-text">View Archived Messages</a></li>
-    <div class="divider"></div>
+    <li><a href="{{ url_for('view_archived') }}" class="white-text view-archived-btn">View Archived Messages</a></li>
 {% endblock %}
 
 {% block content %}
@@ -15,12 +14,12 @@
             <div class="card horizontal">
                 {% if message.is_new %}
                     <div class="message-image unread">
-                        <img src="{{ url_for('get_profile_pic', filename=message.from_user_image) }}" class="circle">
+                        <img src="{{ url_for('get_profile_pic', filename=message.from_user_image) }}" alt="{{ message.from_user }} profile picture" class="circle">
                         <div><span class="badge blue">NEW</span></div>
                     </div>
                 {% else %}
                     <div class="message-image">
-                        <img src="{{ url_for('get_profile_pic', filename=message.from_user_image) }}" class="circle">
+                        <img src="{{ url_for('get_profile_pic', filename=message.from_user_image) }}" alt="{{ message.from_user }} profile picture" class="circle">
                     </div>
                 {% endif %}
                 <div class="card-stacked">

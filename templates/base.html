@@ -94,7 +94,7 @@
         <ul id="slide-out" class="sidenav sidenav-fixed black">
             <li>
                 <div class="user-view">
-                    <img class="circle" src="{{ url_for('get_profile_pic', filename=user.profile_pic) }}" alt="User profile picture">
+                    <img class="circle" src="{{ url_for('get_profile_pic', filename=user.profile_pic) }}" alt="{{ user.username }} profile picture">
                     <p class="white-text"> {{ user.username }} </p>
                 </div>
             </li>
@@ -120,17 +120,17 @@
 
     <!-- Flash Messages -->
 
-    <section class="flash_messages">
         {% with flash_messages = get_flashed_messages(with_categories=True) %}
-            {% if flash_messages %}
-                {% for category, message in flash_messages %}
-                <div class="row center-align">
-                    <h4 class="alert-{{ category }}">{{ message }}</h4>
-                </div>
-                {% endfor %}
+            {% if flash_messages|length() > 0 %}
+                <section class="flash_messages">
+                    {% for category, message in flash_messages %}
+                        <div class="row center-align">
+                            <h4 class="alert-{{ category }}">{{ message }}</h4>
+                        </div>
+                    {% endfor %}
+                </section>
             {% endif %}
         {% endwith %}
-    </section>
 
     <!-- Main Section -->
     <main class="container">

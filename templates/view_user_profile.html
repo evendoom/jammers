@@ -4,7 +4,7 @@
 
 <div class="row user_profile">
     <div class="col m6">
-        <img src="{{ url_for('get_profile_pic', filename=user.profile_pic) }}" alt="{{ user.profile_pic }} Profile Picture" class="m6">
+        <img src="{{ url_for('get_profile_pic', filename=user.profile_pic) }}" alt="{{ user.username }} profile picture" class="m6">
     </div>
     <div class="col m6">
         <h5>{{ user.username }}</h5>
@@ -48,7 +48,7 @@
             <div class="card">
                 <div class="card-content white-text">
                     <div class="user-feedback-info">
-                        <img src="{{ url_for('get_profile_pic', filename=feedback.from_user_img) }}" alt="{{ feedback.from_user}} profile picture">
+                        <img src="{{ url_for('get_profile_pic', filename=feedback.from_user_img) }}" alt="{{ feedback.from_user }} profile picture">
                         <h5>{{ feedback.from_user }} ({{ feedback.date }})</h5>
                     </div>
                     <p>{{ feedback.feedback_msg }}</p>

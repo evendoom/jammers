@@ -24,9 +24,9 @@
             <div class="card horizontal">
                 <div class="message-image">
                     {% if msg.user == message.to_user %}
-                        <img src="{{ url_for('get_profile_pic', filename=message.to_user_image) }}" class="circle">
+                        <img src="{{ url_for('get_profile_pic', filename=message.to_user_image) }}" alt="{{ message.to_user }} profile picture" class="circle">
                     {% else %}
-                        <img src="{{ url_for('get_profile_pic', filename=message.from_user_image) }}" class="circle">
+                        <img src="{{ url_for('get_profile_pic', filename=message.from_user_image) }}" alt="{{ message.from_user }} profile picture" class="circle">
                     {% endif %}
                 </div>
                 <div class="card-stacked">

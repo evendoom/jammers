@@ -8,7 +8,7 @@
             <div class="card medium">
                 <a href="{{ url_for('dashboard_view_user', username=user.username, profile_id=collab._id) }}">
                     <div class="card-image">
-                        <img src="{{ url_for('get_profile_pic', filename=collab.profile_pic) }}" alt="{{ collab.username }} Profile Picture">
+                        <img src="{{ url_for('get_profile_pic', filename=collab.profile_pic) }}" alt="{{ collab.username }} profile picture">
                     </div>
                 </a>
                 <div class="card-content">
@@ -25,8 +25,8 @@
         <div id="modalMessage{{ collab.username }}" class="modal">
             <form method="POST" action="{{ url_for('send_message', username=session['user'], profile_id=collab._id) }}">
                 <div class="modal-content">
-                    <label for="sendMessage"></label>
-                    <textarea name="sendMessage" id="sendMessage" class="modal-box autoResize" cols="30" rows="10"
+                    <label for="sendMessage{{ collab.username }}"></label>
+                    <textarea name="sendMessage" id="sendMessage{{ collab.username }}" class="modal-box autoResize" cols="30" rows="10"
                         contenteditable></textarea>
                 </div>
                 <div class="modal-footer">
@@ -44,8 +44,7 @@
                     <button class="btn modal-close" type="submit">Cancel</button>
                     <a class="btn modal-close" href="{{ url_for('remove_collaborator', username=user.username, profile_id=collab._id) }}">Delete</a>
                 </div>
-            </form>
         </div>
     {% endfor %}
-
+</div>
 {% endblock %}

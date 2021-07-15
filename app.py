@@ -544,7 +544,7 @@ def view_message(message_id):
 
         # Update message status
         message_status = message['is_new']
-        if message_status:
+        if message_status is True:
             mongo.db.messages.update_one({'_id': ObjectId(message_id)},
                                          {'$set': {'is_new': False}})
 
