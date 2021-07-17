@@ -363,8 +363,10 @@ def send_message(profile_id):
                 'user': from_user['username'],
                 'message': request.form.get('sendMessage')
             }],
+            'latest_message': request.form.get('sendMessage'),
             'is_new': True,
-            'is_archived': False
+            'is_archived': False,
+            'related_message_id': False
         }
 
         # Insert record on Mongo DB
@@ -489,6 +491,7 @@ def view_collaborators():
 def get_messages():
     try:
         user = mongo.db.users.find_one({'username': session['user']})
+
         messages = list(mongo.db.messages.find({'to_user': session['user'],
                                                 'is_archived': False}))
         messages = sorted(messages, key=lambda
@@ -522,7 +525,7 @@ def view_message(message_id):
             # Get message date
             now = datetime.now()
 
-            # Create dictionary to store on Mongo DB
+            # Create dictionary to update message_list
             submit = {
                 'date': now.strftime('%d/%m/%Y %H:%M'),
                 'user': session['user'],
@@ -532,10 +535,55 @@ def view_message(message_id):
             # Push to Mongo DB
             mongo.db.messages.update_one({'_id': ObjectId(message_id)},
                                          {'$push': {'message_list': submit}})
+
+            # Create dictionary for reply
+            msg = mongo.db.messages.find_one({'_id': ObjectId(message_id)})
+
+            if not msg['related_message_id']:
+
+                reply = {
+                    'date_created': now.strftime('%d/%m/%Y %H:%M'),
+                    'to_user': msg['from_user'],
+                    'from_user': msg['to_user'],
+                    'to_user_image': msg['from_user_image'],
+                    'from_user_image': msg['to_user_image'],
+                    'message_list': msg['message_list'],
+                    'latest_message': request.form.get('send_message'),
+                    'is_new': True,
+                    'is_archived': False,
+                    'related_message_id': msg['_id'],
+                }
+
+                # Push to Mongo DB
+                mongo.db.messages.insert_one(reply)
+
+                # Update 'related_message_id' of original message
+                reply = mongo.db.messages.find_one(
+                    {'related_message_id': ObjectId(message_id)})
+
+                mongo.db.messages.update_one(
+                    {'_id': ObjectId(message_id)},
+                    {'$set': {'related_message_id': reply['_id']}})
+
+            else:
+                mongo.db.messages.update_many(
+                    {'related_message_id': ObjectId(message_id)},
+                    {'$set': {
+                        'date_created': now.strftime('%d/%m/%Y %H:%M'),
+                        'latest_message': request.form.get('send_message'),
+                        'is_new': True}},
+                    upsert=True)
+
+                mongo.db.messages.update_one(
+                    {'related_message_id': ObjectId(message_id)},
+                    {'$push': {'message_list': submit}}
+                )
+
         except:
             render_error()
             return render_template('intro.html')
         else:
+            flash('Message Sent!', 'info')
             return redirect(url_for('get_messages'))
 
     try:
@@ -544,7 +592,7 @@ def view_message(message_id):
 
         # Update message status
         message_status = message['is_new']
-        if message_status is True:
+        if message_status:
             mongo.db.messages.update_one({'_id': ObjectId(message_id)},
                                          {'$set': {'is_new': False}})
 
@@ -600,6 +648,11 @@ def unarchive_message(archive_id):
 def delete_message(archive_id):
     try:
         mongo.db.messages.delete_one({'_id': ObjectId(archive_id)})
+
+        mongo.db.messages.update_one(
+            {'related_message_id': ObjectId(archive_id)},
+            {'$set': {'related_message_id': False}})
+
     except:
         render_error()
         return render_template('intro.html')

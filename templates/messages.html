@@ -25,7 +25,7 @@
                 <div class="card-stacked">
                     <div class="card-content">
                         <h5 class="message-user">From: {{ message.from_user }}</h5>
-                        <p class="message-contents">{{ message.message_list[0]['message'] }}</p>
+                        <p class="message-contents">{{ message.latest_message }}</p>
                     </div>
                     <div class="card-action right-align">
                         <a href="{{ url_for('view_message', message_id=message._id) }}" class="btn view-button">Reply</a>
