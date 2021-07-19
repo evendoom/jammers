@@ -26,11 +26,13 @@ As a first time user, I expect the following:
 
 As a frequent user, I expect the following:
 
-* Easily log in onto my dashboard
+* Easily log into my dashboard
 * Quickly search for other users
 * Be able to contact other users and keep a record of our message exchange
 * Access a database containing my favourite users
+* Leave feedback on another member's page
 * Edit / delete my profile
+* Be able to log out
 
 ## 2. Features
 
@@ -185,7 +187,7 @@ All functionalities related to buttons and links are encapsulated within Python 
 
 2. Frequent user goals
 
-    - Easily log in onto my dashboard
+    - Easily log into my dashboard
 
         - The user can click on the 'Login' button on the intro page. This will lead the user to a page asking for the username and password. If both fields are correct, the user can then access his dashboard.
 
@@ -200,3 +202,82 @@ All functionalities related to buttons and links are encapsulated within Python 
         - If the member is on the user's 'Collaborators' database, the user can access that database and message the member from there by clicking on the 'Message' button attached to that member's thumbnail - see example [here](wireframes/message_via_collaborators_screenshot.png).
 
         - The 'Messages' button on the user's dashboard allows the user to access new and old [messages](wireframes/messages_screenshot.png). The 'Reply' button on each message allows the user to reply to the message and also keep track of the entire conversation [history](wireframes/reply_screenshot.png).
+
+    - Access a database containing my favourite users
+
+        - The dashboard contains a section entitled 'Collaborators' that allows a user to access his favoutire musicians / collaborators. To add a member to the 'Collaborators' database, the user needs to click on a member's profile and then click the 'Add to Collaborators' button.
+
+        - The 'Collaborators' section has some basic management functionality. The user can message a member or remove them as a collaborator - see example [here](wireframes/collaborators_screenshot.png). It is also possible to remove someone as a collaborator by accessing the member's profile and click the 'Remove from Collaborators' button (only visible if the member is a collaborator).
+
+    - Leave feedback on another member's page
+
+        - This can be done by clicking on a member's profile and then the 'Feedback' button. A modal window pops up, allowing the user to write [feedback](wireframes/feedback_screenshot.png) on someone else. The feedback then appears in the lower section of the profile page.
+
+    - Edit / delete my profile
+
+        - The user dashboard has a section called ['Profile'](wireframes/profile_settings_screenshot.png) that allows users to view, edit and delete their profiles.
+
+        - Clicking the 'Edit' button under 'Profile' will lead the user to an Edit Profile page. This [page](wireframes/edit_profile_screenshot.png) is very similar to the Register page, allowing the user to alter most of the current details.
+
+        -  The 'Delete' button under 'Profile' will delete the user's profile. Once [clicked](wireframes/delete_profile_screenshot.png), a modal window pops up, requesting confirmation from the user.
+
+    - Be able to log out
+
+        - This is done by clicking the 'Logout' button on the top right corner of the screen. Clicking this button will terminate the user's session and lead them back to the main page.
+
+### 4.4 Bugs Encountered and Resolution Steps
+
+1. If the user doesn't upload a picture, nothing shows up in the profile display.
+
+To avoid the above, a generic picture has been uploaded to the MongoDB 'jammers' database, under the 'fs.chunks' and 'fs.files' collection: 'generic_profile_pic.jpg'.
+
+If the user doesn't upload a picture, the code under `register()` and `edit_profile()` in app.py will assign 'generic_profile_pic.jpg' as the user's profile [picture](wireframes/generic_profile_pic_screenshot.png). Example code under `register()`:
+
+```
+    if 'profile_pic' in request.files:
+        profile_pic = request.files['profile_pic']
+        if profile_pic.filename == '':
+            profile_pic_name = 'generic_profile_pic.jpg'
+        else:
+            profile_pic_name = (
+                f"{request.form.get('username')}{profile_pic.filename}")
+
+            mongo.save_file(profile_pic_name, profile_pic)
+```
+
+2. Multiple entries on 'other_instrument' input on the 'Register' section get entered on database as a single string.
+
+If a user types in "Violin, Cello" for example, if gets entered in the 'users' collection in MongoDB as "violin, cello". To solve this, code was added to the `register()` and `edit_profile()` functions that splits the string and sends multiple entries to MongoDB. Code example for `register()`:
+
+```
+    # Create a list of instruments
+    instruments = request.form.getlist('instrument')
+
+    # Check if other instruments are available
+    # and add them to instruments list
+    if request.form.get('other_instrument'):
+        other_instruments_str = request.form.get('other_instrument')
+        if ', ' in other_instruments_str:
+            other_instruments_lst = list(other_instruments_str.split(', '))
+            for item in other_instruments_lst:
+                instruments.append(item.lower())
+        elif ',' in other_instruments_str:
+            other_instruments_lst = list(other_instruments_str.split(','))
+            for item in other_instruments_lst:
+                instruments.append(item.lower())
+        else:
+            instruments.append(other_instruments_str.lower())
+```
+
+The caveat is that the user needs to use commas to separate multiple values. I thought about adding a condition for spaces, but this will add complications on its own. For example, a user may want to write "Various ethnic instruments" or even simpler "Acoustic Guitar". To ensure the use of commas, the following comment was added to the 'other_instrument' input label: "Other instruments (separate with a comma)".
+
+3. Profile pictures with the same name will cause conflicts on MongoDB.
+
+There may be occasions where multiple users upload a profile picture with the same name (for example, two users may upload a picture called 'profile.jpg'). This will cause a conflict on the database and some users will not see their profile picture displayed correctly.
+
+To avoid this, each file needs to have a unique name. In this case, we're adding the username to the file's original name:
+
+```
+    profile_pic_name = (
+        f"{request.form.get('username')}{profile_pic.filename}")
+```
