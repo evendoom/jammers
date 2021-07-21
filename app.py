@@ -34,10 +34,10 @@ def intro_search():
     search_results = []
 
     # Put multiple search query words into a list
-    if ',' in search_query:
-        search_query_lst = list(search_query.split(','))
-    elif ', ' in search_query:
+    if ', ' in search_query:
         search_query_lst = list(search_query.split(', '))
+    elif ',' in search_query:
+        search_query_lst = list(search_query.split(','))
     elif ' ' in search_query:
         search_query_lst = list(search_query.split(' '))
 
@@ -260,10 +260,10 @@ def dashboard_search():
     search_results = []
 
     # Put search query words into a list
-    if ',' in search_query:
-        search_query_lst = list(search_query.split(','))
-    elif ', ' in search_query:
+    if ', ' in search_query:
         search_query_lst = list(search_query.split(', '))
+    elif ',' in search_query:
+        search_query_lst = list(search_query.split(','))
     elif ' ' in search_query:
         search_query_lst = list(search_query.split(' '))
 
