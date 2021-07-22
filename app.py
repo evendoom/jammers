@@ -23,7 +23,10 @@ mongo = PyMongo(app)
 # Intro Page
 @app.route('/')
 def main():
-    return render_template('intro.html')
+    if 'user' in session:
+        return redirect(url_for('user_dashboard'))
+    else:
+        return render_template('intro.html')
 
 
 # Intro Page Search function
