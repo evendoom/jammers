@@ -417,6 +417,7 @@ color: #ffffff;
 .user_profile img {
     width: 150px;
     height: 150px;
+    margin-left: auto;
     object-fit: cover;
 }
 
@@ -466,14 +467,15 @@ color: #ffffff;
 
 .user-feedback-info {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: space-around;
     align-items: center;
     flex-wrap: wrap;
     margin-bottom: 10px;
 }
 
 .user-feedback .user-feedback-info h5 {
-    margin-top: 0;
+    margin-top: 15px;
     font-size: 1.2rem;
 }
 
@@ -569,6 +571,28 @@ a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating):h
 
 /* MEDIA QUERIES */
 
+@media screen and (min-width: 600px) {
+    .user-feedback .user-feedback-info h5 {
+        margin-top: 0;
+    }
+
+    .user-feedback img {
+        height: 70px;
+        width: 70px;
+        margin-right: 25px;
+    }
+    
+    .user-feedback-info {
+        flex-direction: row;
+        justify-content: left;
+    }
+
+    .user_profile img {
+        width: 250px;
+        height: 250px;
+    }
+}
+
 @media screen and (min-width: 768px) {
     nav .fa-music {
         margin-top: 8px;
@@ -587,14 +611,12 @@ a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-large):not(.btn-floating):h
         height: 300px;
     }
 
-    .user-feedback-info {
-        justify-content:left;
+    .user_profile h5 {
+        margin-top: 0;
     }
 
-    .user-feedback img {
-        height: 70px;
-        width: 70px;
-        margin-right: 25px;
+    .user-feedback-info {
+        justify-content:left;
     }
 
     .about h3 {

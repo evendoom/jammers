@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="row user_profile">
-    <div class="col s12 m6">
+    <div class="col s12 offset-s3 m6">
         <img src="{{ url_for('get_profile_pic', filename=profile.profile_pic) }}" alt="{{ profile.username }} Profile Picture">
     </div>
     <div class="col s12 m6">
