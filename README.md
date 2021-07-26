@@ -439,6 +439,10 @@ The following is returned: "Hi! How are you?"
 
 More research needs to be done, in order to understand why this is happening.
 
+#### 4.6.2 Users can find themselves on search results.
+
+At the moment, users are able to find their own profile on search results, message themselves, add themselves as collaborators and also give feedback on themselves. More code needs to be written to prevent this.
+
 ## 5. MongoDB Collections
 
 For this project I used 3 collections:
