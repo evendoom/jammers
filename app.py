@@ -101,6 +101,7 @@ def intro_search():
             else:
                 return render_template(
                     'intro_search.html', search_results=search_results)
+
     return redirect(url_for('main'))
 
 
@@ -215,12 +216,15 @@ def login():
             if user_exists:
                 if check_password_hash(user_exists['password'],
                                        request.form.get('password')):
+
                     # Create session user
                     session['user'] = request.form.get('username')
                     return redirect(url_for('user_dashboard'))
+
                 else:
                     flash('Invalid username / password', 'error')
                     return redirect(url_for('login'))
+
             else:
                 flash('Invalid username / password', 'error')
                 return redirect(url_for('login'))
@@ -342,8 +346,8 @@ def dashboard_view_user(profile_id):
         user = mongo.db.users.find_one({'username': session['user']})
         new_messages = check_new_messages()
         profile = mongo.db.users.find_one({'_id': ObjectId(profile_id)})
-        collaborators = mongo.db.collaborators.find_one({'user':
-                                                         session['user']})
+        collaborators = mongo.db.collaborators.find_one(
+            {'user': session['user']})
     except:
         render_error()
         return render_template('intro.html')
@@ -392,6 +396,7 @@ def send_message(profile_id):
             flash('Message sent!', 'info')
             return redirect(
                 url_for('dashboard_view_user', profile_id=profile_id))
+
     return redirect(url_for('user_dashboard'))
 
 
@@ -414,16 +419,18 @@ def post_feedback(profile_id):
             }
 
             # Push dictionary to Mongo DB
-            mongo.db.users.update_one({'_id': ObjectId(profile_id)},
-                                    {'$push': {'feedback': feedback}})
+            mongo.db.users.update_one(
+                {'_id': ObjectId(profile_id)},
+                {'$push': {'feedback': feedback}})
         except:
             render_error()
             return render_template('intro.html')
         else:
             # Redirect to user profile
             flash('Feedback posted!', 'info')
-            return redirect(url_for('dashboard_view_user', profile_id=profile_id))
-            
+            return redirect(
+                url_for('dashboard_view_user', profile_id=profile_id))
+
     return redirect(url_for('user_dashboard'))
 
 
@@ -434,10 +441,10 @@ def add_collaborator(profile_id):
         collaborator = mongo.db.users.find_one({'_id': ObjectId(profile_id)})
 
         # Push collaboration to user's collaborators collection
-        mongo.db.collaborators.update_one({'user': session['user']},
-                                          {'$push':
-                                          {'collaborations':
-                                           collaborator['username']}})
+        mongo.db.collaborators.update_one(
+            {'user': session['user']},
+            {'$push': {'collaborations': collaborator['username']}})
+
     except:
         render_error()
         return render_template('intro.html')
@@ -454,10 +461,10 @@ def remove_collaborator(profile_id):
         collaborator = mongo.db.users.find_one({'_id': ObjectId(profile_id)})
 
         # Remove collaboration from user's collaborators collection
-        mongo.db.collaborators.update_one({'user': session['user']},
-                                          {'$pull':
-                                          {'collaborations':
-                                           collaborator['username']}})
+        mongo.db.collaborators.update_one(
+            {'user': session['user']},
+            {'$pull': {'collaborations': collaborator['username']}})
+
     except:
         render_error()
         return render_template('intro.html')
@@ -494,14 +501,16 @@ def view_collaborators():
         if len(collabs) == 0:
             flash('You have 0 collaborators. Search and add users!',
                   'info')
-            return render_template('collaborators.html',
-                                   user=user,
-                                   new_messages=new_messages)
+            return render_template(
+                'collaborators.html',
+                user=user,
+                new_messages=new_messages)
         else:
-            return render_template('collaborators.html',
-                                   user=user,
-                                   collabs=collabs,
-                                   new_messages=new_messages)
+            return render_template(
+                'collaborators.html',
+                user=user,
+                collabs=collabs,
+                new_messages=new_messages)
 
 
 # Get user messages
@@ -510,8 +519,9 @@ def get_messages():
     try:
         user = mongo.db.users.find_one({'username': session['user']})
 
-        messages = list(mongo.db.messages.find({'to_user': session['user'],
-                                                'is_archived': False}))
+        messages = list(mongo.db.messages.find(
+            {'to_user': session['user'], 'is_archived': False}))
+
         messages = sorted(messages, key=lambda
                           k: (k['is_new'], datetime.strptime(k['date_created'],
                               '%d/%m/%Y %H:%M')),
@@ -551,8 +561,9 @@ def view_message(message_id):
             }
 
             # Push to Mongo DB
-            mongo.db.messages.update_one({'_id': ObjectId(message_id)},
-                                         {'$push': {'message_list': submit}})
+            mongo.db.messages.update_one(
+                {'_id': ObjectId(message_id)},
+                {'$push': {'message_list': submit}})
 
             # Create dictionary for reply
             msg = mongo.db.messages.find_one({'_id': ObjectId(message_id)})
@@ -594,8 +605,7 @@ def view_message(message_id):
 
                 mongo.db.messages.update_one(
                     {'related_message_id': ObjectId(message_id)},
-                    {'$push': {'message_list': submit}}
-                )
+                    {'$push': {'message_list': submit}})
 
         except:
             render_error()
@@ -611,8 +621,9 @@ def view_message(message_id):
         # Update message status
         message_status = message['is_new']
         if message_status:
-            mongo.db.messages.update_one({'_id': ObjectId(message_id)},
-                                         {'$set': {'is_new': False}})
+            mongo.db.messages.update_one(
+                {'_id': ObjectId(message_id)},
+                {'$set': {'is_new': False}})
 
         new_messages = check_new_messages()
     except:
@@ -631,15 +642,19 @@ def archive_message(message_id):
     try:
         # Update message 'is_new' status
         if mongo.db.messages.find_one({'_id': ObjectId(message_id)})['is_new']:
-            mongo.db.messages.update_one({'_id': ObjectId(message_id)},
-                                         {'$set': {'is_new': False}})
+            mongo.db.messages.update_one(
+                {'_id': ObjectId(message_id)},
+                {'$set': {'is_new': False}})
 
         # Update message 'is_archived' status
-        mongo.db.messages.update_one({'_id': ObjectId(message_id)},
-                                     {'$set': {'is_archived': True}})
+        mongo.db.messages.update_one(
+            {'_id': ObjectId(message_id)},
+            {'$set': {'is_archived': True}})
+
     except:
         render_error()
         return render_template('intro.html')
+
     else:
         # Redirect user to get_messages()
         flash('Message archived!', 'info')
@@ -650,11 +665,14 @@ def archive_message(message_id):
 @app.route('/dashboard/messages/view_archived/unarchive/<archive_id>')
 def unarchive_message(archive_id):
     try:
-        mongo.db.messages.update_one({'_id': ObjectId(archive_id)},
-                                     {'$set': {'is_archived': False}})
+        mongo.db.messages.update_one(
+            {'_id': ObjectId(archive_id)},
+            {'$set': {'is_archived': False}})
+
     except:
         render_error()
         return render_template('intro.html')
+
     else:
         # Redirect user to get_messages()
         flash('Message unarchived!', 'info')
@@ -686,8 +704,8 @@ def view_archived():
     try:
         user = mongo.db.users.find_one({'username': session['user']})
         new_messages = check_new_messages()
-        archived = list(mongo.db.messages.find({'to_user': session['user'],
-                                                'is_archived': True}))
+        archived = list(mongo.db.messages.find(
+            {'to_user': session['user'], 'is_archived': True}))
         archived = sorted(archived, key=lambda
                           k: (datetime.strptime
                               (k['date_created'], '%d/%m/%Y %H:%M')),
@@ -698,14 +716,16 @@ def view_archived():
     else:
         if len(archived) == 0:
             flash('No archived messages!', 'info')
-            return render_template('view_archived_messages.html',
-                                   user=user,
-                                   new_messages=new_messages)
+            return render_template(
+                'view_archived_messages.html',
+                user=user,
+                new_messages=new_messages)
         else:
-            return render_template('view_archived_messages.html',
-                                   user=user,
-                                   archived=archived,
-                                   new_messages=new_messages)
+            return render_template(
+                'view_archived_messages.html',
+                user=user,
+                archived=archived,
+                new_messages=new_messages)
 
 
 # View logged user's profile
@@ -718,9 +738,10 @@ def user_profile():
         render_error()
         return render_template('intro.html')
     else:
-        return render_template('view_user_profile.html',
-                               user=user,
-                               new_messages=new_messages)
+        return render_template(
+            'view_user_profile.html',
+            user=user,
+            new_messages=new_messages)
 
 
 # Edit profile
@@ -792,17 +813,16 @@ def edit_profile():
             try:
                 # Update user on Mongo DB
                 # Update 'users' collection
-                mongo.db.users.update_one({'_id': ObjectId(user['_id'])},
-                                          {'$set': update_profile})
+                mongo.db.users.update_one(
+                    {'_id': ObjectId(user['_id'])},
+                    {'$set': update_profile})
                 # Update 'messages' collection
-                mongo.db.messages.update_many({'to_user': user['username']},
-                                              {'$set':
-                                              {'to_user_image':
-                                               profile_pic_name}})
-                mongo.db.messages.update_many({'from_user': user['username']},
-                                              {'$set':
-                                              {'from_user_image':
-                                               profile_pic_name}})
+                mongo.db.messages.update_many(
+                    {'to_user': user['username']},
+                    {'$set': {'to_user_image': profile_pic_name}})
+                mongo.db.messages.update_many(
+                    {'from_user': user['username']},
+                    {'$set': {'from_user_image': profile_pic_name}})
             except:
                 render_error()
                 return render_template('intro.html')
@@ -828,10 +848,11 @@ def edit_profile():
         else:
             other_instruments = ", ".join(other_instruments_list)
 
-        return render_template('edit_profile.html',
-                               user=user,
-                               other_instruments=other_instruments,
-                               new_messages=new_messages)
+        return render_template(
+            'edit_profile.html',
+            user=user,
+            other_instruments=other_instruments,
+            new_messages=new_messages)
 
 
 # Delete user profile
@@ -847,15 +868,16 @@ def delete_profile():
         mongo.db.collaborators.delete_one({'user': user['username']})
 
         # Delete messages related to user
-        mongo.db.messages.delete_many({'$or': [{'to_user': user['username']},
-                                      {'from_user': user['username']}]})
+        mongo.db.messages.delete_many(
+            {'$or': [
+                {'to_user': user['username']},
+                {'from_user': user['username']}
+                ]})
 
         # Delete user from other users' 'collaborators' collection
-        mongo.db.collaborators.update_many({'collaborations':
-                                            user['username']},
-                                           {'$pull':
-                                           {'collaborations':
-                                            user['username']}})
+        mongo.db.collaborators.update_many(
+            {'collaborations': user['username']},
+            {'$pull': {'collaborations': user['username']}})
 
         # Delete profile picture from DB
         if user['profile_pic'] != 'generic_profile_pic.jpg':
