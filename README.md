@@ -69,7 +69,7 @@ The [register page](wireframes/register.png) displays a simple, yet elegant form
 
 ### 2.4 User Dashboard
 
-The user dashboard allows logged-in members to check their messages, view their favourite collaborators and also edit / delete their profile. The initial dashboard page allows the user to search for other members.
+The [user dashboard](wireframes/user_dashboard_main_page.png) allows logged-in members to check their messages, view their favourite collaborators and also edit / delete their profile. The initial dashboard page allows the user to search for other members.
 
 Subsections of this app will be discussed on the testing section.
 
@@ -106,7 +106,7 @@ The following were used on the development of this app:
 
 * [Font Awesome 5.15.3](https://fontawesome.com/)
 
-    All icons on the website were derived from Font Awesome.
+    All icons (except logo icon) on the website derive from Font Awesome.
 
 * [Freelogo Design](https://editor.freelogodesign.org/)
 
@@ -124,22 +124,22 @@ The following were used on the development of this app:
 
 The website was tested on the following browsers, all displaying similar behaviour:
 
-* Mozilla Firefox (90.0.2)
-* Google Chrome (92.0.4515.107)
-* Microsoft Edge (92.0.902.55)
+* Mozilla Firefox (v 90.0.2)
+* Google Chrome (v 92.0.4515.107)
+* Microsoft Edge (v 92.0.902.55)
 
 For mobile, I used an Asus Zenphone 5, Android version 9. The following browsers were used for testing:
 
-* Mozilla Firefox (90.1.2)
-* Google Chrome (91.0.4472.120)
+* Mozilla Firefox (v 90.1.2)
+* Google Chrome (v 91.0.4472.120)
 
 ### 4.1 Code Validation
 
 | Test | Outcome | Pass / Fail |
 | :--: | :-----: | :---------: |
 | Ensure code passes [HTML Validator](https://validator.w3.org/) | Because the HTML validator doesn't recognize Jinja code, it is not possible to copy-paste the code straight into the validator, as this will result in errors. To work around this, I validated each page by passing the URL, instead of the actual code ([example here](wireframes/html_validator.png)). Alternatively, it is also possible to load each page on Firefox, right click on the page and select 'View Page Source'. This will open a new window with the HTML code. You can then copy-paste that code into the validator to check for warnings / errors. No issues found on the HTML code. | Pass |
-| Ensure code passes [CSS Validator](https://jigsaw.w3.org/css-validator/) | No errors found on 'styles.css'. | Pass |
-| Ensure code passes [JS Validator](https://jshint.com/) | No issues found on file 'script.js'. The file 'autocomplete.js' came up with the following warning: 'Functions declared within loops referencing an outer scoped variable may lead to confusing semantics. (inp, closeAllLists)'. This does not affect the app. | Pass |
+| Ensure code passes [CSS Validator](https://jigsaw.w3.org/css-validator/) | No errors found on `styles.css`. | Pass |
+| Ensure code passes [JS Validator](https://jshint.com/) | No issues found on file `script.js`. The file `autocomplete.js` came up with the following warning: 'Functions declared within loops referencing an outer scoped variable may lead to confusing semantics. (inp, closeAllLists)'. This does not affect the app. | Pass |
 | Ensure code passes [Python Validator](http://pep8online.com/) | No issues found on `app.py`. | Pass |
 
 ### 4.2 Manual Testing of Buttons and Links
@@ -148,13 +148,13 @@ Manually tested all buttons and links on the app, they behave as expected: trigg
 
 | Button / Link | Expected Result | Pass / Fail |
 | :----: | :-------------: | :---------: |
-| Search button | Display results based on a visitor / registered member's search | Pass |
-| Login nav link | Lead user to 'login.html' | Pass |
-| Register nav link | Lead user to 'register.html' | Pass |
-| 'About Us' link | Lead user to 'about.html' | Pass |
-| Logo mainpage link | Lead visitor or logged in user back to main page | Pass |
-| Login button | Start `login()` on `app.py` | Pass |
-| Register button | Start `register()` on `app.py` | Pass |
+| Search button | Display results based on a visitor / registered member's search. Trigger POST methods of `intro_search()` or `dashboard_search()` on `app.py` | Pass |
+| Login nav link | Trigger GET method of `login()` on `app.py` | Pass |
+| Register nav link | Trigger GET method of `register()` on `app.py` | Pass |
+| 'About Us' link | Start `about()` on `app.py` | Pass |
+| Logo mainpage link | Depending if the user is logged in or not, start `main()` or `user_dashboard` on `app.py` | Pass |
+| Login button | Trigger POST method on `login()` on `app.py` | Pass |
+| Register button | Trigger POST method on `register()` on `app.py` | Pass |
 | Messages nav link | Start `get_messages()` on `app.py` & reveal 'View Archived Messages' link when active | Pass |
 | Reply link on each user message | Trigger GET method of `view_message(message_id)` on `app.py` | Pass |
 | Archive link on each user message | Start `archive_message(message_id)` on `app.py` | Pass |
@@ -166,7 +166,7 @@ Manually tested all buttons and links on the app, they behave as expected: trigg
 | Collaborators nav link | Trigger `view_collaborators()` on `app.py` | Pass |
 | Message link on 'collaborators.html' | Open Message modal | Pass |
 | Remove link on 'collaborators.html' | Open Remove modal | Pass |
-| Send Message button on Message modal on 'collaborators.html' | Trigger `send_message(profile_id)` on `app.py` | Pass |
+| Send Message button on Message modal on 'collaborators.html' | Trigger POST method on `send_message(profile_id)` on `app.py` | Pass |
 | Cancel button on Remove modal on 'collaborators.html' | Close Remove modal | Pass |
 | Delete link on Remove modal on 'collaborators.html' | Trigger `remove_collaborator(profile_id)` on `app.py` | Pass |
 | Profile nav link | Trigger `user_profile()` on `app.py` | Pass |
@@ -178,14 +178,14 @@ Manually tested all buttons and links on the app, they behave as expected: trigg
 | User thumbnail link on 'intro_search.html' | Trigger `view_profile(user_id)` on `app.py` | Pass |
 | User thumbnail link on 'dashboard_search.html' | Trigger `dashboard_view_user(profile_id)` on `app.py` | Pass |
 | Message link on 'dashboard_view_user.html' | Open Message modal | Pass !
-| Send Message button on Message modal on 'dashboard_view_user.html' | Trigger `send_message(profile_id)` on `app.py` | Pass |
+| Send Message button on Message modal on 'dashboard_view_user.html' | Trigger POST method of `send_message(profile_id)` on `app.py` | Pass |
 | Feedback link on 'dashboard_view_user.html' | Open Feedback modal | Pass |
-| Post Feedback button on Feedback modal on 'dashboard_view_user.html' | Start `post_feedback(profile_id)` on `app.py` | Pass |
+| Post Feedback button on Feedback modal on 'dashboard_view_user.html' | Trigger POST method of `post_feedback(profile_id)` on `app.py` | Pass |
 | Add to Collaborators link on 'dashboard_view_user.html' | Trigger `add_collaborator(profile_id)` on `app.py` | Pass |
 | Remove from Collaborators link on 'dashboard_view_user.html' | Start `remove_collaborator(profile_id)` on `app.py` | Pass |
 
 
-All functionalities related to buttons and links are encapsulated within Python try / except blocks, so if the code fails the 'try' block, the user is sent to the main page. I tested this by doing two things:
+All functionalities related to buttons and links are encapsulated within Python 'try / except' blocks, so if the code fails the 'try' block, the user is sent to the main page. I tested this by doing two things:
 
 * Purposely write faulty syntax and see how the code behaves.
 
@@ -242,7 +242,7 @@ No issues found on the above mentioned resolutions.
 
     - Quickly search for members that are currently using the app
 
-        - The search function on the intro page allows visitors to search for current members either by username, instrument or location. Search words are not exclusive, so, for example, if one types 'saxophone, london', the results page will display all users that play saxophone and all users that live in a city called London - see example [here](wireframes/search_results_screenshot.png). The visitor is also allowed to click on a member's [profile](wireframes/user_profile_screenshot.png) to view more information. The visitor cannot message or leave feedback back on a member's profile, unless the visitor is logged in.
+        - The search function on the intro page allows visitors to search for current members either by username, instrument or location. Search words are not exclusive, so, for example, if one types 'saxophone, london', the results page will display all users that play saxophone and all users that live in a city called London - see example [here](wireframes/search_results_screenshot.png). The visitor is also allowed to click on a member's [profile](wireframes/user_profile_screenshot.png) to view more information. The visitor cannot message or leave feedback back on a member's profile, this functionality is reserved for registered users.
 
     - Easily create a user profile
 
@@ -252,7 +252,7 @@ No issues found on the above mentioned resolutions.
 
     - Easily log into my dashboard
 
-        - The user can click on the 'Login' button on the intro page. This will lead the user to a page asking for the username and password. If both fields are correct, the user can then access his dashboard.
+        - The user can click on the 'Login' button on the intro page. This will lead the user to a page asking for the username and password. If both fields are correct, the user can then access his dashboard. If the credentials are wrong, the user will be notified that either the username or password are [incorrect](wireframes/invalid_credentials.png).
 
     - Quickly search for other users
 
@@ -281,8 +281,9 @@ No issues found on the above mentioned resolutions.
         - Whenever a user submits a message or feedback, if it is successfull, a message is displayed on top of the screen. This is done via Flash messages on certain functions on app.py. For example, the below code on `send_message()` displays a comment on top of the webpage, whenever a message is sent successfully:
 
         ```
-            flash('Message sent!', 'info')
-            return redirect(url_for('dashboard_view_user', profile_id=profile_id))
+        flash('Message sent!', 'info')
+        return redirect(
+            url_for('dashboard_view_user', profile_id=profile_id))
         ``` 
 
     - Get some sort of feedback if I have no messages, no archived messages or collaborators
@@ -290,19 +291,19 @@ No issues found on the above mentioned resolutions.
         - If a user has no messages, no archived messages or collaborators, a flash message will display on screen confirming this. An example is the code on `view_collaborators()`:
 
         ```
-            if len(collabs) == 0:
-                flash('You have 0 collaborators. Search and add users!',
-                      'info')
-                return render_template(
-                    'collaborators.html',
-                    user=user,
-                    new_messages=new_messages)
-            else:
-                return render_template(
-                    'collaborators.html',
-                    user=user,
-                    collabs=collabs,
-                    new_messages=new_messages)
+        if len(collabs) == 0:
+            flash('You have 0 collaborators. Search and add users!',
+                'info')
+            return render_template(
+                'collaborators.html',
+                user=user,
+                new_messages=new_messages)
+        else:
+            return render_template(
+                'collaborators.html',
+                user=user,
+                collabs=collabs,
+                new_messages=new_messages)
         ```
     
     - Clearly know in which section of the dashboard I am
@@ -329,20 +330,20 @@ No issues found on the above mentioned resolutions.
 
 #### 4.5.1 If the user doesn't upload a picture, nothing shows up in the profile display.
 
-To avoid the above, a generic picture has been uploaded to the MongoDB 'jammers' database, under the 'fs.chunks' and 'fs.files' collection: 'generic_profile_pic.jpg'.
+To avoid the above, a generic picture has been uploaded to the MongoDB 'jammers' database, under the 'fs.chunks' and 'fs.files' collections: 'generic_profile_pic.jpg'.
 
 If the user doesn't upload a picture, the code under `register()` and `edit_profile()` in app.py will assign 'generic_profile_pic.jpg' as the user's profile [picture](wireframes/generic_profile_pic_screenshot.png). Example code under `register()`:
 
 ```
-    if 'profile_pic' in request.files:
-        profile_pic = request.files['profile_pic']
-        if profile_pic.filename == '':
-            profile_pic_name = 'generic_profile_pic.jpg'
-        else:
-            profile_pic_name = (
-                f"{request.form.get('username')}{profile_pic.filename}")
+if 'profile_pic' in request.files:
+    profile_pic = request.files['profile_pic']
+    if profile_pic.filename == '':
+        profile_pic_name = 'generic_profile_pic.jpg'
+    else:
+        profile_pic_name = (
+            f"{request.form.get('username')}{profile_pic.filename}")
 
-            mongo.save_file(profile_pic_name, profile_pic)
+        mongo.save_file(profile_pic_name, profile_pic)
 ```
 
 #### 4.5.2 Multiple entries on 'other_instrument' input on the 'Register' section get entered on database as a single string.
@@ -350,23 +351,23 @@ If the user doesn't upload a picture, the code under `register()` and `edit_prof
 If a user types in "Violin, Cello" for example, if gets entered in the 'users' collection in MongoDB as "violin, cello". To solve this, code was added to the `register()` and `edit_profile()` functions that splits the string and sends multiple entries to MongoDB. Code example for `register()`:
 
 ```
-    # Create a list of instruments
-    instruments = request.form.getlist('instrument')
+# Create a list of instruments
+instruments = request.form.getlist('instrument')
 
-    # Check if other instruments are available
-    # and add them to instruments list
-    if request.form.get('other_instrument'):
-        other_instruments_str = request.form.get('other_instrument')
-        if ', ' in other_instruments_str:
-            other_instruments_lst = list(other_instruments_str.split(', '))
-            for item in other_instruments_lst:
-                instruments.append(item.lower())
-        elif ',' in other_instruments_str:
-            other_instruments_lst = list(other_instruments_str.split(','))
-            for item in other_instruments_lst:
-                instruments.append(item.lower())
-        else:
-            instruments.append(other_instruments_str.lower())
+# Check if other instruments are available
+# and add them to instruments list
+if request.form.get('other_instrument'):
+    other_instruments_str = request.form.get('other_instrument')
+    if ', ' in other_instruments_str:
+        other_instruments_lst = list(other_instruments_str.split(', '))
+        for item in other_instruments_lst:
+            instruments.append(item.lower())
+    elif ',' in other_instruments_str:
+        other_instruments_lst = list(other_instruments_str.split(','))
+        for item in other_instruments_lst:
+            instruments.append(item.lower())
+    else:
+        instruments.append(other_instruments_str.lower())
 ```
 
 The caveat is that the user needs to use commas to separate multiple values. I thought about adding a condition for spaces, but this will add complications on its own. For example, a user may want to write "Various ethnic instruments" or even simpler "Acoustic Guitar". To ensure the use of commas, the following comment was added to the 'other_instrument' input label: "Other instruments (separate with a comma)".
@@ -378,24 +379,22 @@ There may be occasions where multiple users upload a profile picture with the sa
 To avoid this, each file needs to have a unique name. In this case, we're adding the username to the file's original name:
 
 ```
-    profile_pic_name = (
-        f"{request.form.get('username')}{profile_pic.filename}")
+profile_pic_name = (
+    f"{request.form.get('username')}{profile_pic.filename}")
 ```
 
-#### 4.5.4 When viewing messages, they are not sorted by New or by date
+#### 4.5.4 When viewing messages, they are not sorted by 'New' or by date
 
 If users click the 'Messages' section, messages are not sorted out properly. This was fixed with the following code on `get_messages()`:
 
 ```
-    messages = list(mongo.db.messages.find({'to_user': session['user'],
-                                            'is_archived': False}))
-    messages = sorted(
-        messages, key=lambda
-        k: (k['is_new'],
-        datetime.strptime(
-            k['date_created'],
-            '%d/%m/%Y %H:%M')),
-        reverse=True)
+messages = list(mongo.db.messages.find(
+    {'to_user': session['user'], 'is_archived': False}))
+
+messages = sorted(messages, key=lambda
+                    k: (k['is_new'], datetime.strptime(k['date_created'],
+                        '%d/%m/%Y %H:%M')),
+                    reverse=True)
 ```
 
 A similar approach was also used on `view_archived()` where messages are sorted by date.
@@ -405,25 +404,25 @@ A similar approach was also used on `view_archived()` where messages are sorted 
 If a user searches for 'violin, saxophone' for example and both values are definitely present on the database, only violin will show up. This is because of the order on the conditional logic for this code. The first condition splits the string by ',' so this means that 'violin, saxophone' will become 'violin' & ' saxophone'. The second value will end up with a space (' saxophone'), which returns nothing. This was fixed by changing the order of the logic:
 
 ```
-    if ', ' in search_query:
-        search_query_lst = list(search_query.split(', '))
-    elif ',' in search_query:
-        search_query_lst = list(search_query.split(','))
-    elif ' ' in search_query:
-        search_query_lst = list(search_query.split(' '))
+if ', ' in search_query:
+    search_query_lst = list(search_query.split(', '))
+elif ',' in search_query:
+    search_query_lst = list(search_query.split(','))
+elif ' ' in search_query:
+    search_query_lst = list(search_query.split(' '))
 ```
 
 #### 4.5.6 App crashes when logged user closes browser tab and opens a new one without closing the browser
 
-The Flask session by default terminates when the browser is closed. However, the same is not true when only the tab is closed. This is causing a problem in the app, because if a logged user closes a tab, opens a new tab (without closing the browser) and navigates to the main page, 'base.html' will detect a session 'user', but will not find the 'user' variable (see 'user dashboard' jinja code in 'base.html').
+The Flask session by default terminates when the browser is closed. However, the same is not true when only the tab is closed. This is causing the app to crash, because if a logged user closes a tab, opens a new tab (without closing the browser) and navigates to the main page, 'base.html' will detect a session 'user', but will not find the 'user' variable (see 'user dashboard' jinja code in 'base.html').
 
 This was fixed by adding an 'if' statement under `main()`:
 
 ```
-    if 'user' in session:
-        return redirect(url_for('user_dashboard'))
-    else:
-        return render_template('intro.html')
+if 'user' in session:
+    return redirect(url_for('user_dashboard'))
+else:
+    return render_template('intro.html')
 ```
 
 ### 4.6 Open / Unresolved Bugs
@@ -433,6 +432,7 @@ This was fixed by adding an 'if' statement under `main()`:
 If a user sends messages with line breaks, those line breaks aren't returned from the database. For example, if a user writes:
 
 "Hi!
+
 How are you?"
 
 The following is returned: "Hi! How are you?"
@@ -454,35 +454,57 @@ For this project I used 3 collections:
 The schema for 'users' documents is:
 
 _id: ObjectId
+
 first_name: string
+
 last_name: string
+
 username: string
+
 password: string
+
 city: string
+
 country: string
+
 profile_pic: string
+
 intruments: array
+
 about: string
+
 feedback: array
 
 The schema for 'messages' is:
 
 _id: ObjectId
+
 date_created: string
+
 to_user: string
+
 from_user: string
+
 to_user_image: string
+
 from_user_image: string
+
 message_list: array
+
 latest_message: string
+
 is_new: boolean
+
 is_archived: boolean
+
 related_message_id: ObjectId
 
 For 'collaborators', the document model is:
 
 _id: ObjectId
+
 user: string
+
 collaborations: array
 
 Aside from the collections mentioned above, this database also contains two other collections ('fs.chunks' & 'fs.files'), which are automatically created by MongoDB to store / reference files (in this case, pictures users may upload).
@@ -497,7 +519,7 @@ This project was deployed to GitHub and Heroku.
 * Create a workspace based on your new repository by clicking the GitPod Online IDE browser extension.
 * Create files and write code on GitPod.
 * Add, commit and push your files / code to your GitHub repository using Git commands on GitPod's Terminal window. As best practice, don't forget to add to '.gitignore' assets you don't want to commit (i.e. in this case `env.py` and `__pycache__`).
-* After initiating GitPod for the first time and closing your browser, you don't need to return to your GitHub repository to start it again. You can simply click GitPod on your browser extensions - this will take you to your workspaces menu and you can choose the workspace you were previously working on.
+* When you close your browser, it is easy to return to your Gitpod workspace. You can simply click GitPod on your browser extensions - this will take you to your workspaces menu and you can choose the workspace you were previously working on.
 * If you have local files that need to be uploaded to your repository, you can drag 'n' drop them onto your GitPod workspace and then commit them to your GitHub repository.
 
 ### 6.2 Heroku Deployment
@@ -510,7 +532,8 @@ This project was deployed to GitHub and Heroku.
 * Under 'Config Vars', you'll need to create the same settings as you have on your 'env.py' file (in this case, 'IP', 'PORT', 'SECRET_KEY', 'MONGO_DBNAME' and 'MONGO_URI').
 * Under the same tab, scroll further down to 'Domains' to find out your domain name.
 * If you haven't done so yet, create a Procfile and deploy it to your GitHub repository.
-* Under the 'Deploy' tab, locate the 'Deployment method' section and click the 'GitHub' option. Log onto GitHub if required, then type the name of your repository and click 'Search'. Locate your repository under the search results and click 'Connect'.
+* If you haven't done so yet, create a `requirements.txt` file and deploy it to your GitHub repository. You can run the following command to create the text file: pip3 freeze --local > requirements.txt
+* Under the 'Deploy' tab, locate the 'Deployment method' section and click the 'GitHub' option. Log onto GitHub if prompted, then type the name of your repository and click 'Search'. Locate your repository under the search results and click 'Connect'.
 * Scroll down to 'Manual deploy', select the branch containing your project and then click 'Deploy Branch'.
 * You can then click on 'Enable Automatic Deploys' if you want your Heroku repository to automatically sync with your GitHub repository, whenever you update your code on GitHub (make sure you have the correct branch selected under 'Automatic deploys'). 
 
@@ -522,7 +545,7 @@ The following webpages were directly used or served as an inspiration for this p
 
 * The following article helped me to create autoresize textareas that I used on my modal windows: https://www.geeksforgeeks.org/how-to-create-auto-resize-textarea-using-javascript-jquery/
 
-* The code for this JS tutorial in W3 Schools was used on my project as an autocomplete function for the 'Country' input on the Register page: https://www.w3schools.com/howto/howto_js_autocomplete.asp
+* The code on this JS tutorial was used on my project as an autocomplete function for the 'country' input on the Register page: https://www.w3schools.com/howto/howto_js_autocomplete.asp
 
 * This video tutorial by 'Pretty Printed' on YouTube taught me how to upload images to MongoDB using Flask: https://www.youtube.com/watch?v=DsgAuceHha4
 
