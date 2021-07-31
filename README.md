@@ -452,7 +452,7 @@ For this project I used 3 collections:
 * collaborators
 
 The schema for 'users' documents is:
-
+```
 _id: ObjectId
 
 first_name: string
@@ -474,9 +474,10 @@ intruments: array
 about: string
 
 feedback: array
+```
 
 The schema for 'messages' is:
-
+```
 _id: ObjectId
 
 date_created: string
@@ -498,14 +499,16 @@ is_new: boolean
 is_archived: boolean
 
 related_message_id: ObjectId
+```
 
 For 'collaborators', the document model is:
-
+```
 _id: ObjectId
 
 user: string
 
 collaborations: array
+```
 
 Aside from the collections mentioned above, this database also contains two other collections ('fs.chunks' & 'fs.files'), which are automatically created by MongoDB to store / reference files (in this case, pictures users may upload).
 
