@@ -358,67 +358,73 @@ def dashboard_view_user(profile_id):
 @app.route('/dashboard/search/<profile_id>/sendMessage',
            methods=['GET', 'POST'])
 def send_message(profile_id):
-    try:
-        from_user = mongo.db.users.find_one({'username': session['user']})
-        to_user = mongo.db.users.find_one({'_id': ObjectId(profile_id)})
+    if request.method == 'POST':
+        try:
+            from_user = mongo.db.users.find_one({'username': session['user']})
+            to_user = mongo.db.users.find_one({'_id': ObjectId(profile_id)})
 
-        # Create dictionary to store on DB
-        now = datetime.now()
-        send_message = {
-            'date_created': now.strftime('%d/%m/%Y %H:%M'),
-            'to_user': to_user['username'],
-            'from_user': from_user['username'],
-            'to_user_image': to_user['profile_pic'],
-            'from_user_image': from_user['profile_pic'],
-            'message_list': [{
-                'date': now.strftime('%d/%m/%Y %H:%M'),
-                'user': from_user['username'],
-                'message': request.form.get('sendMessage')
-            }],
-            'latest_message': request.form.get('sendMessage'),
-            'is_new': True,
-            'is_archived': False,
-            'related_message_id': False
-        }
+            # Create dictionary to store on DB
+            now = datetime.now()
+            send_message = {
+                'date_created': now.strftime('%d/%m/%Y %H:%M'),
+                'to_user': to_user['username'],
+                'from_user': from_user['username'],
+                'to_user_image': to_user['profile_pic'],
+                'from_user_image': from_user['profile_pic'],
+                'message_list': [{
+                    'date': now.strftime('%d/%m/%Y %H:%M'),
+                    'user': from_user['username'],
+                    'message': request.form.get('sendMessage')
+                }],
+                'latest_message': request.form.get('sendMessage'),
+                'is_new': True,
+                'is_archived': False,
+                'related_message_id': False
+            }
 
-        # Insert record on Mongo DB
-        mongo.db.messages.insert_one(send_message)
-    except:
-        render_error()
-        return render_template('intro.html')
-    else:
-        # Redirect to user profile
-        flash('Message sent!', 'info')
-        return redirect(url_for('dashboard_view_user', profile_id=profile_id))
+            # Insert record on Mongo DB
+            mongo.db.messages.insert_one(send_message)
+        except:
+            render_error()
+            return render_template('intro.html')
+        else:
+            # Redirect to user profile
+            flash('Message sent!', 'info')
+            return redirect(
+                url_for('dashboard_view_user', profile_id=profile_id))
+    return redirect(url_for('user_dashboard'))
 
 
 # Post feedback on user profile page
 @app.route('/dashboard/search/<profile_id>/postFeedback',
            methods=['GET', 'POST'])
 def post_feedback(profile_id):
-    try:
-        from_user = mongo.db.users.find_one({'username': session['user']})
+    if request.method == 'POST':
+        try:
+            from_user = mongo.db.users.find_one({'username': session['user']})
 
-        # Create dictionary to store on Mongo DB
-        now = datetime.now()
+            # Create dictionary to store on Mongo DB
+            now = datetime.now()
 
-        feedback = {
-            'from_user': from_user['username'],
-            'from_user_img': from_user['profile_pic'],
-            'date': now.strftime('%d/%m/%Y'),
-            'feedback_msg': request.form.get('postFeedback')
-        }
+            feedback = {
+                'from_user': from_user['username'],
+                'from_user_img': from_user['profile_pic'],
+                'date': now.strftime('%d/%m/%Y'),
+                'feedback_msg': request.form.get('postFeedback')
+            }
 
-        # Push dictionary to Mongo DB
-        mongo.db.users.update_one({'_id': ObjectId(profile_id)},
-                                  {'$push': {'feedback': feedback}})
-    except:
-        render_error()
-        return render_template('intro.html')
-    else:
-        # Redirect to user profile
-        flash('Feedback posted!', 'info')
-        return redirect(url_for('dashboard_view_user', profile_id=profile_id))
+            # Push dictionary to Mongo DB
+            mongo.db.users.update_one({'_id': ObjectId(profile_id)},
+                                    {'$push': {'feedback': feedback}})
+        except:
+            render_error()
+            return render_template('intro.html')
+        else:
+            # Redirect to user profile
+            flash('Feedback posted!', 'info')
+            return redirect(url_for('dashboard_view_user', profile_id=profile_id))
+            
+    return redirect(url_for('user_dashboard'))
 
 
 # Add collaborator
