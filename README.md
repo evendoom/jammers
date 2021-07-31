@@ -53,7 +53,7 @@ Please note that the PDF document only includes wireframes for desktop and mobil
 
 The main colours on the app are black, white and purple. I opted for dark colours, as these are less distracting to the user.
 
-The main font on the website is 'Noto Sans JP', with a fallback on Sans Serif. 'Noto Sans JP' is an atractive, easy to read font.
+The main font on the website is 'Noto Sans JP', with a fallback on Sans Serif. 'Noto Sans JP' is an attractive, easy to read font.
 
 ### 2.1 Main page
 
@@ -137,9 +137,9 @@ For mobile, I used an Asus Zenphone 5, Android version 9. The following browsers
 
 | Test | Outcome | Pass / Fail |
 | :--: | :-----: | :---------: |
-| Ensure code passes [HTML Validator](https://validator.w3.org/) | Because the HTML validator doesn't recognize Jinja code, it is not possible to copy-paste the code straight into the validator, as this will result in errors. To work around this, I loaded each page on Firefox, right clicked on the page and selected 'View Page Source'. This will open a new window with the HTML code. I then copy-pasted that code into the validator to check for warnings / errors. | Pass |
+| Ensure code passes [HTML Validator](https://validator.w3.org/) | Because the HTML validator doesn't recognize Jinja code, it is not possible to copy-paste the code straight into the validator, as this will result in errors. To work around this, I validated each page by passing the URL, instead of the actual code ([example here](wireframes/html_validator.png)). Alternatively, it is also possible to load each page on Firefox, right click on the page and select 'View Page Source'. This will open a new window with the HTML code. You can then copy-paste that code into the validator to check for warnings / errors. No issues found on the HTML code. | Pass |
 | Ensure code passes [CSS Validator](https://jigsaw.w3.org/css-validator/) | No errors found on 'styles.css'. | Pass |
-| Ensure code passes [JS Validator](https://jshint.com/) | No issues found on file 'script.js'. The file 'autocomplete.js' came up with the following warning: 'Functions declared within loops referencing an outer scoped variable may lead to confusing semantics. (inp, closeAllLists)'. | Pass |
+| Ensure code passes [JS Validator](https://jshint.com/) | No issues found on file 'script.js'. The file 'autocomplete.js' came up with the following warning: 'Functions declared within loops referencing an outer scoped variable may lead to confusing semantics. (inp, closeAllLists)'. This does not affect the app. | Pass |
 | Ensure code passes [Python Validator](http://pep8online.com/) | No issues found on `app.py`. | Pass |
 
 ### 4.2 Manual Testing of Buttons and Links
