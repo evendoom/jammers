@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
+<!-- Add 'active-link' class when link is selected -->
 {% block active_link_profile %}active-link{% endblock %}
+
 {% block content %}
 
 <div class="row user_profile">
@@ -23,8 +25,8 @@
         </p>
         <p><strong>About:</strong> <span class="p_contents">{{ user.about }}</span></p>
         <div class="button-container">
-            <a class="btn btn-edit" href="{{ url_for('edit_profile') }}" ><i class="fas fa-pen"></i>Edit</a>
-            <a class="btn modal-trigger" href="#deleteProfile"><i class="fas fa-user-slash"></i>Delete</a>
+            <a class="btn btn-edit" href="{{ url_for('edit_profile') }}" aria-label="Edit profile"><i class="fas fa-pen"></i>Edit</a>
+            <a class="btn modal-trigger" href="#deleteProfile" aria-label="Delete profile"><i class="fas fa-user-slash"></i>Delete</a>
         </div>
     </div>
 
@@ -34,8 +36,8 @@
             <p>Are you sure you want to delete your profile?</p>
         </div>
         <div class="modal-footer">
-            <button class="btn modal-close">Cancel</button>
-            <a class="btn modal-close" href="{{ url_for('delete_profile') }}">Delete Profile</a>
+            <button class="btn modal-close" aria-label="Cancel">Cancel</button>
+            <a class="btn modal-close" href="{{ url_for('delete_profile') }}" aria-label="Delete profile">Delete Profile</a>
         </div>
     </div>
 </div>

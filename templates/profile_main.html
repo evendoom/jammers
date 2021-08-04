@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<!-- Main page for when user is logged in -->
+
 <div class="intro-headers">
     <h1 class="center-align">Jammers</h1>
     <h2 class="center-align">Find musicians to collaborate with your songs</h2>
@@ -15,7 +17,7 @@
                 <label for="search_query">i.e. username, instrument or location</label>
             </div>
             <div class="col s12 center-align">
-                <button type="submit" class="btn-large">
+                <button type="submit" class="btn-large" aria-label="Perform search">
                     Search
                 </button>
             </div>

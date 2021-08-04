@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
+<!-- Add 'active-link' class when link is selected -->
 {% block active_link_profile %}active-link{% endblock %}
+
 {% block content %}
+
+<!-- Page to edit member's profile -->
 
     <h3 class="center-align">Edit Profile</h3>
 
@@ -140,7 +144,7 @@
             </div>
             <!-- Submit Button -->
             <div class="col s12 center-align">
-                <button type="submit" class="btn">
+                <button type="submit" class="btn" aria-label="Update profile">
                     Update
                 </button>
             </div>

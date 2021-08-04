@@ -1,14 +1,23 @@
 {% extends 'base.html' %}
-
+<!-- Add 'active-link' class when link is selected -->
 {% block active_link_messages %}active-link{% endblock %}
 
+<!-- Visible only when 'Messages' link is selected and on Desktop / Laptop mode -->
 {% block archived_messages %}
-    <li><a href="{{ url_for('view_archived') }}" class="white-text view-archived-btn">View Archived Messages</a></li>
+    <li><a href="{{ url_for('view_archived') }}" class="white-text view-archived-btn" aria-label="View archived messages">
+        View Archived Messages
+    </a></li>
 {% endblock %}
+
+<!-- Messages page -->
 
 {% block content %}
 <div class="row card-message">
-    <a href="{{ url_for('view_archived') }}" class="col s6 offset-s3 btn hide-on-large-only view-archived">View Archived</a>
+    <!-- Visible on mobile and tablet only -->
+    <a href="{{ url_for('view_archived') }}" class="col s6 offset-s3 btn hide-on-large-only view-archived" aria-label="View archived messages">
+        View Archived
+    </a>
+
     {% for message in messages %}
         <div class="col s12">
             <div class="card horizontal">
@@ -28,8 +37,8 @@
                         <p class="message-contents">{{ message.latest_message }}</p>
                     </div>
                     <div class="card-action right-align">
-                        <a href="{{ url_for('view_message', message_id=message._id) }}" class="btn view-button">Reply</a>
-                        <a href="{{ url_for('archive_message', message_id=message._id) }}" class="btn">Archive</a>
+                        <a href="{{ url_for('view_message', message_id=message._id) }}" class="btn view-button" aria-label="Reply message">Reply</a>
+                        <a href="{{ url_for('archive_message', message_id=message._id) }}" class="btn" aria-label="Archive message">Archive</a>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
+<!-- Add 'active-link' class when link is selected -->
 {% block active_link_messages %}active-link{% endblock %}
+
+<!-- Page to reply to a message -->
+
 {% block content %}
 <div class="row">
     <form class="col s12 reply-form" method="POST" action="{{ url_for('view_message', message_id=message._id) }}">
@@ -11,7 +15,7 @@
             </div>
         </div>
         <div class="col s12 left-align">
-            <button type="submit" class="btn">
+            <button type="submit" class="btn" aria-label="Reply to message">
                 Send
             </button>
         </div>

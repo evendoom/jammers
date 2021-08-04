@@ -1,14 +1,17 @@
 {% extends 'base.html' %}
-
+<!-- Add 'active-link' class when link is selected -->
 {% block active_link_messages %}active-link{% endblock %}
 
+<!-- Visible only when 'Messages' link is selected and on Desktop / Laptop mode -->
 {% block archived_messages %}
     <li><a href="{{ url_for('view_archived') }}" class="white-text active-link view-archived-btn">View Archived Messages</a></li>
 {% endblock %}
 
 {% block content %}
 <div class="row card-message">
+    <!-- Visible on mobile and tablet only -->
     <a href="{{ url_for('get_messages') }}" class="col s6 offset-s3 btn hide-on-large-only view-archived">View Unarchived</a>
+
     {% for archive in archived %}
         <div class="col s12">
             <div class="card horizontal">
@@ -21,9 +24,11 @@
                         <p class="message-contents">{{ archive.latest_message }}</p>
                     </div>
                     <div class="card-action right-align">
-                        <a href="{{ url_for('view_message', message_id=archive._id) }}" class="btn view-button">Reply</a>
-                        <a href="{{ url_for('unarchive_message', archive_id=archive._id) }}" class="btn view-button hide-on-small-only">Unarchive</a>
-                        <a href="{{ url_for('delete_message', archive_id=archive._id) }}" class="btn">Delete</a>
+                        <a href="{{ url_for('view_message', message_id=archive._id) }}" class="btn view-button" aria-label="Reply message">Reply</a>
+                        <a href="{{ url_for('unarchive_message', archive_id=archive._id) }}" class="btn view-button hide-on-small-only" aria-label="Unarchive message">
+                            Unarchive
+                        </a>
+                        <a href="{{ url_for('delete_message', archive_id=archive._id) }}" class="btn" aria-label="Delete message">Delete</a>
                     </div>
                 </div>
             </div>

@@ -17,6 +17,7 @@
     <!-- Local CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     
+    <!-- Dashboard styles for when user is logged in -->
     {% if session.user %}
     <style>
         header, main, footer, .flash_messages {
@@ -39,20 +40,20 @@
         <!-- Mobile Dropdown -->
         <ul id="mobile-dropdown" class="dropdown-content">
             {% if not session.user %}
-                <li><a href="{{ url_for('login') }}" class="dropdown_border">Login</a></li>
-                <li><a href="{{ url_for('register') }}">Register</a></li>
+                <li><a href="{{ url_for('login') }}" class="dropdown_border" aria-label="Login">Login</a></li>
+                <li><a href="{{ url_for('register') }}" aria-label="Register">Register</a></li>
             {% else %}
                 <li>
-                    <a href="{{ url_for('get_messages') }}" class="dropdown_border">
+                    <a href="{{ url_for('get_messages') }}" class="dropdown_border" aria-label="Messages">
                         Messages 
                         {% if new_messages != 0 %}
                             <span class="new badge blue">{{ new_messages }}</span>
                         {% endif %}
                     </a>
                 </li>
-                <li><a href="{{ url_for('view_collaborators') }}" class="dropdown_border">Collaborators</a></li>
-                <li><a href="{{ url_for('user_profile') }}" class="dropdown_border">Profile</a></li>
-                <li><a href="{{ url_for('logout') }}" class="dropdown_border">Log Out</a></li>
+                <li><a href="{{ url_for('view_collaborators') }}" class="dropdown_border" aria-label="Collaborators">Collaborators</a></li>
+                <li><a href="{{ url_for('user_profile') }}" class="dropdown_border" aria-label="Profile">Profile</a></li>
+                <li><a href="{{ url_for('logout') }}" class="dropdown_border" aria-label="Log Out">Log Out</a></li>
             {% endif %}
         </ul>
 
@@ -60,31 +61,34 @@
             <div class="nav-wrapper">
                 {% if session.user %}
                     <!-- Logged in Logo for tablets (landscape mode) and desktop -->
-                    <a href="{{ url_for('user_dashboard') }}" class="brand-logo hide-on-small-only">
+                    <a href="{{ url_for('user_dashboard') }}" class="brand-logo hide-on-small-only" aria-label="Back to Main Page">
                         <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Jammers Logo">
                     </a>
 
                     <!-- Logged in Logo for mobile and tablets (portrait mode) -->
-                    <a href="{{ url_for('user_dashboard') }}" class="brand-logo hide-on-large-only">
-                        <img src="{{ url_for('get_profile_pic', filename=user.profile_pic) }}" alt="{{ user.username }} profile picture" class="nav-logged-in-mobile-img">
+                    <a href="{{ url_for('user_dashboard') }}" class="brand-logo hide-on-large-only" aria-label="Back to Main Page">
+                        <img src="{{ url_for('get_profile_pic', filename=user.profile_pic) }}" alt="{{ user.username }} profile picture" 
+                        class="nav-logged-in-mobile-img">
                     </a>
                 {% else %}
-                    <a href="{{ url_for('main') }}" class="brand-logo"><img src="{{ url_for('static', filename='images/logo.png') }}" alt="Jammers Logo"></a>
+                    <a href="{{ url_for('main') }}" class="brand-logo" aria-label="Back to Main Page">
+                        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Jammers Logo">
+                    </a>
                 {% endif %}
 
                 <!-- Laptop / Desktop Navigation -->
                 <ul class="right hide-on-med-and-down">
                     {% if not session.user %}
-                        <li><a href="{{ url_for('login') }}" class="desktop-links">Login</a></li>
-                        <li><a href="{{ url_for('register') }}">Register</a></li>
+                        <li><a href="{{ url_for('login') }}" class="desktop-links" aria-label="Login">Login</a></li>
+                        <li><a href="{{ url_for('register') }}" aria-label="Register">Register</a></li>
                     {% else %}
-                        <li><a href="{{ url_for('logout') }}" class="desktop-links">Logout</a></li>
+                        <li><a href="{{ url_for('logout') }}" class="desktop-links" aria-label="Log Out">Logout</a></li>
                     {% endif %}
                 </ul>
 
                 <!-- Mobile / Tablet Navigation -->
                 <ul class="right hide-on-large-only">
-                    <li><a class="dropdown-trigger" href="#!" data-target="mobile-dropdown"><i class="fas fa-music"></i></a></li>
+                    <li><a class="dropdown-trigger" href="#!" data-target="mobile-dropdown" aria-label="Dropdown Menu"><i class="fas fa-music"></i></a></li>
                 </ul>
             </div>
         </nav>
@@ -102,7 +106,7 @@
                     <div class="divider"></div>
                 </li>
                 <li>
-                    <a href="{{ url_for('get_messages') }}" class="white-text {% block active_link_messages %}{% endblock %}">
+                    <a href="{{ url_for('get_messages') }}" class="white-text {% block active_link_messages %}{% endblock %}" aria-label="Messages">
                         Messages 
                         {% if new_messages != 0 %}
                             <span class="new badge blue">{{ new_messages }}</span>
@@ -110,8 +114,16 @@
                     </a>
                 </li>
                 {% block archived_messages %}{% endblock %}
-                <li><a href="{{ url_for('view_collaborators') }}" class="white-text {% block active_link_collaborators %}{% endblock %}">Collaborators</a></li>
-                <li><a href="{{ url_for('user_profile') }}" class="white-text {% block active_link_profile %}{% endblock %}">Profile</a></li>
+                <li>
+                    <a href="{{ url_for('view_collaborators') }}" class="white-text {% block active_link_collaborators %}{% endblock %}" aria-label="Collaborators">
+                        Collaborators
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ url_for('user_profile') }}" class="white-text {% block active_link_profile %}{% endblock %}" aria-label="Profile">
+                        Profile
+                    </a>
+                </li>
             </ul>
         {% endif %} 
 
@@ -142,7 +154,7 @@
         <div class="footer-copyright">
             <div class="container">
                 © 2021 Jammers Inc.
-                <a class="right" href="{{ url_for('about') }}">About Us</a>
+                <a class="right" href="{{ url_for('about') }}" aria-label="About Us">About Us</a>
             </div>
         </div>
     </footer>

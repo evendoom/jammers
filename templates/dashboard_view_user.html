@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<!-- Page to view users profiles when member is logged in -->
+
 <div class="row user_profile">
     <div class="col s12 m6">
         <img src="{{ url_for('get_profile_pic', filename=profile.profile_pic) }}" alt="{{ profile.username }} Profile Picture">
@@ -24,18 +26,18 @@
 
         <!-- Message and Feedback buttons -->
         <div class="button-container center-align">
-            <a class="btn btn-message modal-trigger" href="#modalMessage"><i class="fas fa-envelope"></i>Message</a>
-            <a class="btn modal-trigger" href="#modalFeedback"><i class="fas fa-star"></i>Feedback</a>
+            <a class="btn btn-message modal-trigger" href="#modalMessage" aria-label="Message user"><i class="fas fa-envelope"></i>Message</a>
+            <a class="btn modal-trigger" href="#modalFeedback" aria-label="Write feedback"><i class="fas fa-star"></i>Feedback</a>
         </div>
 
         <!-- Add Collaborator button -->
         <div class="center-align">
             {% if profile.username in collaborators.collaborations %}
-                <a class="btn add-button" href="{{ url_for('remove_collaborator', profile_id=profile._id) }}" >
+                <a class="btn add-button" href="{{ url_for('remove_collaborator', profile_id=profile._id) }}" aria-label="Remove as collaborator">
                     <i class="fas fa-minus"></i>Remove from Collaborators
                 </a>
             {% else %}
-                <a class="btn add-button" href="{{ url_for('add_collaborator', profile_id=profile._id) }}">
+                <a class="btn add-button" href="{{ url_for('add_collaborator', profile_id=profile._id) }}" aria-label="Add as collaborator">
                     <i class="fas fa-plus"></i>Add to Collaborators
                 </a>
             {% endif %}
@@ -50,7 +52,7 @@
             <textarea name="sendMessage" id="sendMessage" class="modal-box autoResize" cols="30" rows="10" contenteditable></textarea>
         </div>
         <div class="modal-footer">
-            <button class="btn modal-close" type="submit">Send Message</button>
+            <button class="btn modal-close" type="submit" aria-label="Send message">Send Message</button>
         </div>
         </form>
     </div>
@@ -63,7 +65,7 @@
             <textarea name="postFeedback" id="postFeedback" class="modal-box autoResize" cols="30" rows="10" contenteditable></textarea>
         </div>
         <div class="modal-footer">
-            <button class="btn modal-close" type="submit">Post Feedback</button>
+            <button class="btn modal-close" type="submit" aria-label="Post feedback">Post Feedback</button>
         </div>
         </form>
     </div>

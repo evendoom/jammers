@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
 
+<!-- Search page results when user is logged in -->
+
 <div class="row search_users">
     {% for result in search_results %}
   
       <div class="col s12 m6 l4 xl3">
-        <a href="{{ url_for('dashboard_view_user', profile_id=result._id) }}">
+        <a href="{{ url_for('dashboard_view_user', profile_id=result._id) }}" aria-label="View user profile">
           <div class="card medium">
             <div class="card-image">
               <img src="{{ url_for('get_profile_pic', filename=result.profile_pic) }}" alt="{{ result.username }} profile picture">
