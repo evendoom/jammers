@@ -910,6 +910,13 @@ def about():
         return render_template('intro.html')
 
 
+# 404 error handler
+@app.errorhandler(404)
+def not_found(e):
+    flash('Ooops, page does not exist!', 'error')
+    return redirect(url_for('main'))
+
+
 # Check new messages
 def check_new_messages():
     messages = list(mongo.db.messages.find({'to_user': session['user']}))
