@@ -6,15 +6,61 @@ At its initial stage, the service allows users to exchange messages between each
 
 There is currently no company / service that has successfully achieved this, thus putting Jammers in a very good market position.
 
-## 1 UX
+<div id="toc"></div>
+
+## Table of Contents
+
+- [1. UX](#ux)
+    - [1.1 Target Audience](#1-1)
+    - [1.2 User Stories](#1-2)
+        - [1.2.1 First Time User Goals](#1-2-1)
+        - [1.2.2 Frequent User Goals](#1-2-2)
+- [2. Features](#features)
+    - [2.1 Sections](#2-1)
+    - [2.2 Wireframes](#2-2)
+    - [2.3 Finished Product Samples](#2-3)
+- [3. Technologies Used](#technologies)
+    - [3.1 Languages Used](#3-1)
+    - [3.2 Frameworks / Libraries / Programs Used](#3-2)
+- [4. Testing](#testing)
+    - [4.1 Code Validation](#4-1)
+    - [4.2 Manual Testing of Buttons and Links](#4-2)
+    - [4.3 Site Responsiveness](#4-3)
+    - [4.4 User Stories Testing](#4-4)
+    - [4.5 Bugs Encountered and Resolution Steps](#4-5)
+        - [4.5.1 If the user doesn't upload a picture, nothing shows up in the profile display](#4-5-1)
+        - [4.5.2 Multiple entries on 'other_instrument' input on the 'Register' section get entered on database as a single string](#4-5-2)
+        - [4.5.3 Profile pictures with the same name will cause conflicts on MongoDB](#4-5-3)
+        - [4.5.4 When viewing messages, they are not sorted by 'New' or by date](#4-5-4)
+        - [4.5.5 When searching for multiple values on search page, only 1 shows up](#4-5-5)
+        - [4.5.6 App crashes when logged user closes browser tab and opens a new one without closing the browser](#4-5-6)
+    - [4.6 Open / Unresolved Bugs](#4-6)
+        - [4.6.1 Sent messages don't include line breaks](#4-6-1)
+        - [4.6.2 Users can find themselves on search results](#4-6-2)
+- [5. MongoDB Collections](#mongo)
+- [6. Deployment](#deployment)
+    - [6.1 GitHub Deployment](#6-1)
+    - [6.2 Heroku Deployment](#6-2)
+- [7. Credits](#credits)
+
+<div id="ux"></div>
+
+## 1. UX
+[Go to TOC](#toc)
+
+<div id="1-1"></div>
 
 ### 1.1 Target Audience
 
 The target audience for this service are musicians (including singer / songwriters) that are looking for other musicians to boost their creative ideas and musical compositions. The company expects its users to be 18 years or older and have at least basic computer skills.
 
+<div id="1-2"></div>
+
 ### 1.2 User Stories
 
-#### 1.2.1 First time user goals
+<div id="1-2-1"></div>
+
+### 1.2.1 First Time User Goals
 
 As a first time user, I expect the following:
 
@@ -22,7 +68,9 @@ As a first time user, I expect the following:
 * Quickly search for members that are currently using the app
 * Easily create a user profile
 
-#### 1.2.2 Frequent user goals
+<div id="1-2-2"></div>
+
+### 1.2.2 Frequent User Goals
 
 As a frequent user, I expect the following:
 
@@ -38,42 +86,109 @@ As a frequent user, I expect the following:
 * Edit / delete my profile
 * Be able to log out
 
+<div id="features"></div>
+
 ## 2. Features
-
-This app can be split into 4 main sections:
-
-1. Main page
-2. Login page
-3. Register page
-4. User dashboard
-
-A PDF containing all wireframes for main sections and subsections can be found [here](wireframes/jammers_wireframes.pdf).
-
-Please note that the PDF document only includes wireframes for desktop and mobile design. Tablets will take the mobile design when viewed as portrait, and desktop / laptop design when viewed as landscape.
+[Go to TOC](#toc)
 
 The main colours on the app are black, white and purple. I opted for dark colours, as these are less distracting to the user.
 
 The main font on the website is 'Noto Sans JP', with a fallback on Sans Serif. 'Noto Sans JP' is an attractive, easy to read font.
 
-### 2.1 Main page
+<div id="2-1"></div>
 
-The [main page](wireframes/main_page.png) provides the user with basic information about the service. It allows the user to register a profile, do a search on current users and look for more information regarding the company's goals.
+### 2.1 Sections
 
-### 2.2 Login page
+This app can be split into 4 main sections:
 
-The [login page](wireframes/login_page.png) allows registered users to easily log onto their dashboard.
+1. Main Page
 
-### 2.3 Register page
+    - The main page provides the user with basic information about the service. It allows the user to register a profile, do a search on current users and look for more information regarding the company's goals.
 
-The [register page](wireframes/register.png) displays a simple, yet elegant form that allows the visitor to create a profile.
+2. Login Page
 
-### 2.4 User Dashboard
+    - The login page allows registered users to easily log onto their dashboard.
 
-The [user dashboard](wireframes/user_dashboard_main_page.png) allows logged-in members to check their messages, view their favourite collaborators and also edit / delete their profile. The initial dashboard page allows the user to search for other members.
+3. Register Page
 
-Subsections of this app will be discussed on the testing section.
+    - The register page displays a simple, yet elegant form that allows the visitor to create a profile.
+
+4. User Dashboard
+
+    - The user dashboard allows logged-in members to check their messages, view their favourite collaborators and also edit / delete their profile. The initial dashboard page allows the user to search for other members.
+
+<div id="2-2"></div>
+
+### 2.2 Wireframes
+
+Wireframes can be found below for desktop and mobile design. Tablets will take the mobile design when viewed as portrait, and desktop / laptop design when viewed as landscape.
+
+#### Main page
+![alt main page wireframe](wireframes/main_page.png)
+
+#### Main Page Search Results
+![alt main page search results wireframe](wireframes/main_page_search_results.png)
+
+#### Login Page
+![alt login page wireframe](wireframes/login_page.png)
+
+#### Register Page
+![alt register page wireframe](wireframes/register.png)
+
+#### User Dashboard
+![alt user dashboard wireframe](wireframes/user_dashboard_main_page.png)
+
+#### About Page
+![alt about page wireframe](wireframes/about_page.png)
+
+#### User Dashboard View Messages
+![alt user dashboard view messages wireframe](wireframes/user_dashboard_view_messages.png)
+
+#### User Dashboard View Archived Messages
+![alt user dashboard view archived messages wireframe](wireframes/user_dashboard_view_archived_messages.png)
+
+#### User Dashboard Reply Message
+![alt user dashboard reply message wireframe](wireframes/user_dashboard_reply_message.png)
+
+#### User Dashboard Collaborators
+![alt user dashboard collaborators wireframe](wireframes/user_dashboard_collaborators.png)
+
+#### User Dashboard Profile Settings
+![alt user dashboard profile settings wireframe](wireframes/user_dashboard_profile_settings.png)
+
+#### User Dashboard Edit Profile
+![alt user dashboard edit profile wireframe](wireframes/user_dashboard_edit_profile.png)
+
+#### User Dashboard Search Results
+![alt user dashboard search results wireframe](wireframes/user_dashboard_search_results.png)
+
+#### User Dashboard View Member Profile
+![alt user dashboard view member profile wireframe](wireframes/user_dashboard_view_user_profile.png)
+
+#### User Dashboard About Page
+![alt user dashboard about page wireframe](wireframes/user_dashboard_about_page.png)
+
+#### View Member Profile (Unregistered / Logged Out User)
+![alt view member profile wireframe](wireframes/user_profile.png)
+
+<div id="2-3"></div>
+
+### 2.3 Finished Product Samples
+
+#### Main Page
+![alt main page screenshot desktop](wireframes/main_page_screenshot_desktop.png)
+![alt main page screenshot mobile](wireframes/main_page_screenshot_mobile.png)
+
+#### User Dashboard
+![alt user dashboard screenshot desktop](wireframes/user_dashboard_screenshot_desktop.png)
+![alt user dashboard screenshot mobile](wireframes/user_dashboard_screenshot_mobile.png)
+
+<div id="technologies"></div>
 
 ## 3. Technologies Used
+[Go to TOC](#toc)
+
+<div id="3-1"></div>
 
 ### 3.1 Languages Used
 
@@ -83,6 +198,8 @@ The following languages were used on this app:
 * CSS
 * Javascript
 * Python
+
+<div id="3-2"></div>
 
 ### 3.2 Frameworks / Libraries / Programs Used
 
@@ -120,7 +237,10 @@ The following were used on the development of this app:
 
     Used to create wireframes.
 
+<div id="testing"></div>
+
 ## 4. Testing
+[Go to TOC](#toc)
 
 The website was tested on the following browsers, all displaying similar behaviour:
 
@@ -133,6 +253,8 @@ For mobile, I used an Asus Zenphone 5, Android version 9. The following browsers
 * Mozilla Firefox (v 90.1.2)
 * Google Chrome (v 91.0.4472.120)
 
+<div id="4-1"></div>
+
 ### 4.1 Code Validation
 
 | Test | Outcome | Pass / Fail |
@@ -141,6 +263,8 @@ For mobile, I used an Asus Zenphone 5, Android version 9. The following browsers
 | Ensure code passes [CSS Validator](https://jigsaw.w3.org/css-validator/) | No errors found on `styles.css`. | Pass |
 | Ensure code passes [JS Validator](https://jshint.com/) | No issues found on file `script.js`. The file `autocomplete.js` came up with the following warning: 'Functions declared within loops referencing an outer scoped variable may lead to confusing semantics. (inp, closeAllLists)'. This does not affect the app. | Pass |
 | Ensure code passes [Python Validator](http://pep8online.com/) | No issues found on `app.py`. | Pass |
+
+<div id="4-2"></div>
 
 ### 4.2 Manual Testing of Buttons and Links
 
@@ -211,7 +335,9 @@ All functionalities related to buttons and links are encapsulated within Python 
 
     Using the same code as above, I changed `mongo.db.users.find_one({'username': session['user']})` to `mongo.db.userss.find_one({'username': session['user']})`. Because the collection 'userss' doesn't exist, an error is triggered and the code within the except block runs successfully.
 
-### 4.3 Site responsiveness
+<div id="4-3"></div>
+
+### 4.3 Site Responsiveness
 
 The following resolutions were tested on Firefox's 'Responsive Design Mode' tool:
 
@@ -229,6 +355,8 @@ The following resolutions were tested on Firefox's 'Responsive Design Mode' tool
 * 1920x1080
 
 No issues found on the above mentioned resolutions.
+
+<div id="4-4"></div>
 
 ### 4.4 User Stories Testing
 
@@ -326,9 +454,13 @@ No issues found on the above mentioned resolutions.
 
         - This is done by clicking the 'Logout' button on the top right corner of the screen. Clicking this button will terminate the user's session and lead them back to the main page.
 
+<div id="4-5"></div>
+
 ### 4.5 Bugs Encountered and Resolution Steps
 
-#### 4.5.1 If the user doesn't upload a picture, nothing shows up in the profile display.
+<div id="4-5-1"></div>
+
+### 4.5.1 If the user doesn't upload a picture, nothing shows up in the profile display
 
 To avoid the above, a generic picture has been uploaded to the MongoDB 'jammers' database, under the 'fs.chunks' and 'fs.files' collections: 'generic_profile_pic.jpg'.
 
@@ -346,7 +478,9 @@ if 'profile_pic' in request.files:
         mongo.save_file(profile_pic_name, profile_pic)
 ```
 
-#### 4.5.2 Multiple entries on 'other_instrument' input on the 'Register' section get entered on database as a single string.
+<div id="4-5-2"></div>
+
+### 4.5.2 Multiple entries on 'other_instrument' input on the 'Register' section get entered on database as a single string
 
 If a user types in "Violin, Cello" for example, if gets entered in the 'users' collection in MongoDB as "violin, cello". To solve this, code was added to the `register()` and `edit_profile()` functions that splits the string and sends multiple entries to MongoDB. Code example for `register()`:
 
@@ -372,7 +506,9 @@ if request.form.get('other_instrument'):
 
 The caveat is that the user needs to use commas to separate multiple values. I thought about adding a condition for spaces, but this will add complications on its own. For example, a user may want to write "Various ethnic instruments" or even simpler "Acoustic Guitar". To ensure the use of commas, the following comment was added to the 'other_instrument' input label: "Other instruments (separate with a comma)".
 
-#### 4.5.3 Profile pictures with the same name will cause conflicts on MongoDB.
+<div id="4-5-3"></div>
+
+### 4.5.3 Profile pictures with the same name will cause conflicts on MongoDB
 
 There may be occasions where multiple users upload a profile picture with the same name (for example, two users may upload a picture called 'profile.jpg'). This will cause a conflict on the database and some users will not see their profile picture displayed correctly.
 
@@ -383,7 +519,9 @@ profile_pic_name = (
     f"{request.form.get('username')}{profile_pic.filename}")
 ```
 
-#### 4.5.4 When viewing messages, they are not sorted by 'New' or by date
+<div id="4-5-4"></div>
+
+### 4.5.4 When viewing messages, they are not sorted by 'New' or by date
 
 If users click the 'Messages' section, messages are not sorted out properly. This was fixed with the following code on `get_messages()`:
 
@@ -399,7 +537,9 @@ messages = sorted(messages, key=lambda
 
 A similar approach was also used on `view_archived()` where messages are sorted by date.
 
-#### 4.5.5 When searching for multiple values on search page, only 1 shows up
+<div id="4-5-5"></div>
+
+### 4.5.5 When searching for multiple values on search page, only 1 shows up
 
 If a user searches for 'violin, saxophone' for example and both values are definitely present on the database, only violin will show up. This is because of the order on the conditional logic for this code. The first condition splits the string by ',' so this means that 'violin, saxophone' will become 'violin' & ' saxophone'. The second value will end up with a space (' saxophone'), which returns nothing. This was fixed by changing the order of the logic:
 
@@ -412,7 +552,9 @@ elif ' ' in search_query:
     search_query_lst = list(search_query.split(' '))
 ```
 
-#### 4.5.6 App crashes when logged user closes browser tab and opens a new one without closing the browser
+<div id="4-5-6"></div>
+
+### 4.5.6 App crashes when logged user closes browser tab and opens a new one without closing the browser
 
 The Flask session by default terminates when the browser is closed. However, the same is not true when only the tab is closed. This is causing the app to crash, because if a logged user closes a tab, opens a new tab (without closing the browser) and navigates to the main page, 'base.html' will detect a session 'user', but will not find the 'user' variable (see 'user dashboard' jinja code in 'base.html').
 
@@ -424,10 +566,13 @@ if 'user' in session:
 else:
     return render_template('intro.html')
 ```
+<div id="4-6"></div>
 
 ### 4.6 Open / Unresolved Bugs
 
-#### 4.6.1 Sent messages don't include line breaks.
+<div id="4-6-1"></div>
+
+### 4.6.1 Sent messages don't include line breaks
 
 If a user sends messages with line breaks, those line breaks aren't returned from the database. For example, if a user writes:
 
@@ -439,11 +584,16 @@ The following is returned: "Hi! How are you?"
 
 More research needs to be done, in order to understand why this is happening.
 
-#### 4.6.2 Users can find themselves on search results.
+<div id="4-6-2"></div>
+
+### 4.6.2 Users can find themselves on search results
 
 At the moment, users are able to find their own profile on search results, message themselves, add themselves as collaborators and also give feedback on themselves. More code needs to be written to prevent this.
 
+<div id="mongo"></div>
+
 ## 5. MongoDB Collections
+[Go to TOC](#toc)
 
 For this project I used 3 collections:
 
@@ -512,9 +662,14 @@ collaborations: array
 
 Aside from the collections mentioned above, this database also contains two other collections ('fs.chunks' & 'fs.files'), which are automatically created by MongoDB to store / reference files (in this case, pictures users may upload).
 
+<div id="deployment"></div>
+
 ## 6. Deployment
+[Go to TOC](#toc)
 
 This project was deployed to GitHub and Heroku.
+
+<div id="6-1"></div>
 
 ### 6.1 GitHub Deployment
 
@@ -524,6 +679,8 @@ This project was deployed to GitHub and Heroku.
 * Add, commit and push your files / code to your GitHub repository using Git commands on GitPod's Terminal window. As best practice, don't forget to add to '.gitignore' assets you don't want to commit (i.e. in this case `env.py` and `__pycache__`).
 * When you close your browser, it is easy to return to your Gitpod workspace. You can simply click GitPod on your browser extensions - this will take you to your workspaces menu and you can choose the workspace you were previously working on.
 * If you have local files that need to be uploaded to your repository, you can drag 'n' drop them onto your GitPod workspace and then commit them to your GitHub repository.
+
+<div id="6-2"></div>
 
 ### 6.2 Heroku Deployment
 
@@ -540,7 +697,10 @@ This project was deployed to GitHub and Heroku.
 * Scroll down to 'Manual deploy', select the branch containing your project and then click 'Deploy Branch'.
 * You can then click on 'Enable Automatic Deploys' if you want your Heroku repository to automatically sync with your GitHub repository, whenever you update your code on GitHub (make sure you have the correct branch selected under 'Automatic deploys'). 
 
-## Credits
+<div id="credits"></div>
+
+## 7. Credits
+[Go to TOC](#toc)
 
 The following webpages were directly used or served as an inspiration for this project:
 
