@@ -124,64 +124,64 @@ This app can be split into 4 main sections:
 Wireframes can be found below for desktop and mobile design. Tablets will take the mobile design when viewed as portrait, and desktop / laptop design when viewed as landscape.
 
 #### Main page
-![alt main page wireframe](wireframes/main_page.png)
+![main page wireframe](wireframes/main_page.png)
 
 #### Main Page Search Results
-![alt main page search results wireframe](wireframes/main_page_search_results.png)
+![main page search results wireframe](wireframes/main_page_search_results.png)
 
 #### Login Page
-![alt login page wireframe](wireframes/login_page.png)
+![login page wireframe](wireframes/login_page.png)
 
 #### Register Page
-![alt register page wireframe](wireframes/register.png)
+![register page wireframe](wireframes/register.png)
 
 #### User Dashboard
-![alt user dashboard wireframe](wireframes/user_dashboard_main_page.png)
+![user dashboard wireframe](wireframes/user_dashboard_main_page.png)
 
 #### About Page
-![alt about page wireframe](wireframes/about_page.png)
+![about page wireframe](wireframes/about_page.png)
 
 #### User Dashboard View Messages
-![alt user dashboard view messages wireframe](wireframes/user_dashboard_view_messages.png)
+![user dashboard view messages wireframe](wireframes/user_dashboard_view_messages.png)
 
 #### User Dashboard View Archived Messages
-![alt user dashboard view archived messages wireframe](wireframes/user_dashboard_view_archived_messages.png)
+![user dashboard view archived messages wireframe](wireframes/user_dashboard_view_archived_messages.png)
 
 #### User Dashboard Reply Message
-![alt user dashboard reply message wireframe](wireframes/user_dashboard_reply_message.png)
+![user dashboard reply message wireframe](wireframes/user_dashboard_reply_message.png)
 
 #### User Dashboard Collaborators
-![alt user dashboard collaborators wireframe](wireframes/user_dashboard_collaborators.png)
+![user dashboard collaborators wireframe](wireframes/user_dashboard_collaborators.png)
 
 #### User Dashboard Profile Settings
-![alt user dashboard profile settings wireframe](wireframes/user_dashboard_profile_settings.png)
+![user dashboard profile settings wireframe](wireframes/user_dashboard_profile_settings.png)
 
 #### User Dashboard Edit Profile
-![alt user dashboard edit profile wireframe](wireframes/user_dashboard_edit_profile.png)
+![user dashboard edit profile wireframe](wireframes/user_dashboard_edit_profile.png)
 
 #### User Dashboard Search Results
-![alt user dashboard search results wireframe](wireframes/user_dashboard_search_results.png)
+![user dashboard search results wireframe](wireframes/user_dashboard_search_results.png)
 
 #### User Dashboard View Member Profile
-![alt user dashboard view member profile wireframe](wireframes/user_dashboard_view_user_profile.png)
+![user dashboard view member profile wireframe](wireframes/user_dashboard_view_user_profile.png)
 
 #### User Dashboard About Page
-![alt user dashboard about page wireframe](wireframes/user_dashboard_about_page.png)
+![user dashboard about page wireframe](wireframes/user_dashboard_about_page.png)
 
 #### View Member Profile (Unregistered / Logged Out User)
-![alt view member profile wireframe](wireframes/user_profile.png)
+![view member profile wireframe](wireframes/user_profile.png)
 
 <div id="2-3"></div>
 
 ### 2.3 Finished Product Samples
 
 #### Main Page
-![alt main page screenshot desktop](wireframes/main_page_screenshot_desktop.png)
-![alt main page screenshot mobile](wireframes/main_page_screenshot_mobile.png)
+![main page screenshot desktop](wireframes/main_page_screenshot_desktop.png)
+![main page screenshot mobile](wireframes/main_page_screenshot_mobile.png)
 
 #### User Dashboard
-![alt user dashboard screenshot desktop](wireframes/user_dashboard_screenshot_desktop.png)
-![alt user dashboard screenshot mobile](wireframes/user_dashboard_screenshot_mobile.png)
+![user dashboard screenshot desktop](wireframes/user_dashboard_screenshot_desktop.png)
+![user dashboard screenshot mobile](wireframes/user_dashboard_screenshot_mobile.png)
 
 <div id="technologies"></div>
 
